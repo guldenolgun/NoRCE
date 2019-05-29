@@ -1,7 +1,7 @@
 Package: NoRCE
 Type: Package
 Title: NoRCE: Noncoding RNA Sets Cis Annotation and Enrichment
-Version: 0.99.2
+Version: 0.99.3
 Authors@R: c(person("Gulden", "Olgun", email = "gulden@cs.bilkent.edu.tr", role = c("aut", "cre")))
 Description: While some regulatory non-coding RNAs (ncRNAs) have been found to play critical roles in biological processes, most remain functionally uncharacterized. This lack of functional annotations presents a challenge when an interesting set of ncRNAs set needs to be placed in a functional context. It is known that transcripts located close-by on the genome are often regulated together and this spatial proximity hints at a functional association. Based on this idea, we present an R package for Non-coding RNA sets Cis Enrichment Tool (NoRCE). NoRCE performs enrichment analysis for a given set of ncRNAs based on the set of coding genes located proximally to the input ncRNAs based on other biological evidence such as the topologically associating domain (TAD) regions, co-expression, miRNA target information. NoRCE repository includes several data files, such as cell line specific TAD regions, TCGA expression data and users can provide custom data files. Results can be obtained in a tabular format or viewed as in graphs. NoRCE is currently available for several species: human, mouse, rat, zebrafish, fruit fly, worm and yeast. 
 License: MIT + file LICENSE
