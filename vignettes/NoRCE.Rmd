@@ -182,7 +182,6 @@ Specific biotype of RNA have different characteristics. Biotype information of e
 
 ```{r Biotype filtering, eval=FALSE, echo=TRUE}
 #Load differentially expressed non-coding genes 
-data("brain_disorder_ncRNA")
 
 biotypes <- c('lincRNA','antisense')
 

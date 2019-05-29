@@ -244,7 +244,7 @@ topEnrichment <- function(mrnaObject, type, n) {
 #' createNetwork(ncGO,n=2)
 #'}
 #'
-#' @importFrom igraph cluster_optimal degree graph_from_data_frame layout_with_fr norm_coords V E
+#' @importFrom igraph cluster_optimal degree graph_from_data_frame layout_with_fr norm_coords V E V<- E<-
 #' @importFrom grDevices adjustcolor colorRampPalette
 #' @importFrom graphics plot
 #' @importFrom ggplot2 aes element_text geom_point ggplot labs theme theme_bw
