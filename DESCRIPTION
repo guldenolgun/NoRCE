@@ -18,5 +18,5 @@ Suggests:
     rmarkdown,
     testthat
 VignetteBuilder: knitr
-biocViews: GeneSetEnrichment, miRNA, NetworkEnrichment, GeneTarget
+biocViews: ReproducibleResearch, DiseaseModel, OrganismData
 LazyData: true
