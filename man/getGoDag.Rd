@@ -28,9 +28,13 @@ Plot and save the GO term DAG of the top n enrichments in terms of p-values or a
 }
 \examples{
 
-ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA, hg='hg19', near=TRUE, genetype = 'Ensembl_gene', pAdjust = "none")
+subsetGene <- brain_disorder_ncRNA[1:100,]
 
-getGoDag(ncGO, type='pvalue', n=5, imageFormat = 'png', filename = 'dagFile.png')
-
+\dontrun{
+ncGO <- geneGOEnricher(gene = subsetGene, hg='hg19', near=TRUE,
+                       genetype = 'Ensembl_gene', pAdjust = "none")
+getGoDag(ncGO, type='pvalue', n=5, imageFormat = 'png',
+         filename = 'dagFile.png')
+}
 
 }

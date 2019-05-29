@@ -91,13 +91,13 @@ Given gene regions that fall in the given upstream and downstream region of mRNA
 
 regionNC <-  readbed(dm_file = ncRegion,isText = FALSE)
 
-regionGO<-geneRegionGOEnricher(region = regionNC, hg= 'hg38', near = TRUE)
-
 \dontrun{
-getGoDag(mrnaObject = regionGO, type = 'pvalue', n =3, filename = 'gonetwork.png',
+ regionGO<-geneRegionGOEnricher(region = regionNC, hg= 'hg19', near = TRUE)
+
+ getGoDag(mrnaObject = regionGO, type = 'pvalue', n =3, filename = 'gonetwork.png',
          imageFormat = 'png')
 
-createNetwork(mrnaObject = regionGO,type = 'padjust',n = 3)
+ createNetwork(mrnaObject = regionGO,type = 'padjust',n = 3)
 }
 
 }

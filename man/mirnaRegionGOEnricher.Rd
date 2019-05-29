@@ -90,7 +90,9 @@ GO enrichments of the microRNA regions with mRNAs that fall in the given upstrea
 }
 \examples{
 regionNC <-  readbed(dm_file = ncRegion,isText = FALSE)
-a<- mirnaRegionGOEnricher(region = regionNC, hg = 'hg19', near = TRUE)
 
+\dontrun{
+a<- mirnaRegionGOEnricher(region = regionNC, hg = 'hg19', near = TRUE)
+}
 
 }

@@ -20,12 +20,14 @@ Shows reactome diagram marked with an enriched genes in a browser
 Display the enriched Reactome diagram of the given Reactome pathway id. This function is specific to only one pathway id and identifies the enriched genes in the diagram.
 }
 \examples{
+subsetSet = brain_mirna[50:100,]
 
-ncRNAPathway<-mirnaPathwayEnricher(gene = brain_mirna, hg='hg19',
-               target = TRUE, min=5, pathwayType = 'reactome',  pAdjust = "none")
+\dontrun{
+ncRNAPathway<-mirnaPathwayEnricher(gene = subsetSet, hg='hg19',
+                    near=TRUE, pathwayType = 'reactome',  pAdjust = "none")
 getReactomeDiagram(mrnaObject = ncRNAPathway, pathway = ncRNAPathway@ID[1],
                    imageFormat = 'svg')
 
-
+}
 
 }

@@ -27,9 +27,11 @@ Reactome pathway enrichment results
 Reactome pathway enrichment
 }
 \examples{
+data(breastmRNA)
 
+\dontrun{
 br_enr<-reactomeEnrichment(genes = breastmRNA,hg='hg19')
-
 getReactomeDiagram(mrnaObject = br_enr, pathway = br_enr@ID[1], imageFormat = 'svg')
+}
 
 }

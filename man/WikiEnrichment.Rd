@@ -28,6 +28,8 @@ WikiPathways Enrichment
 }
 \examples{
 
-br_enr<-WikiEnrichment(genes = breastmRNA,hg='hg19')
-
+geneInterest <- breastmRNA[1:100,]
+\dontrun{
+br_enr<-WikiEnrichment(genes = geneInterest,hg='hg19')
+}
 }

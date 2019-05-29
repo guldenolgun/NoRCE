@@ -25,10 +25,12 @@ Network
 Create interaction network for top n enriched GO term:mRNA interaction. Nodes are GO term and mRNA, edges are interactions between them. Each GO-term is annotated and enriched with the mRNAs provided from the input list.
 }
 \examples{
+subsetGene <- brain_disorder_ncRNA[1:100,]
 
-ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA, hg='hg19', near=TRUE, genetype = 'Ensembl_gene',  pAdjust = "none")
-
+\dontrun{
+ncGO <- geneGOEnricher(gene = subsetGene, hg='hg19', near=TRUE,
+                       genetype = 'Ensembl_gene',  pAdjust = "none")
 createNetwork(ncGO,n=2)
-
+}
 
 }

@@ -89,11 +89,10 @@ MiRNA GO term enrichment object for the given input
 GO term enrichments of the microRNA genes with mRNAs that fall in the given upstream/downstream regions of the microRNA genes
 }
 \examples{
-
-
-miGO <-mirnaGOEnricher(gene=brain_mirna,hg='hg19',near = TRUE,target = FALSE, pAdjust = "none")
+subsetGene <- brain_mirna[1:100,]
 
 \dontrun{
+miGO <-mirnaGOEnricher(gene=subsetGene,hg='hg19',near = TRUE,target = FALSE, pAdjust = "none")
 miGO <-mirnaGOEnricher(gene=brain_mirna,hg='hg19',near = TRUE,target = TRUE)
 
 miGO <-mirnaGOEnricher(gene=brain_mirna,hg='hg19',near = TRUE,target = FALSE,

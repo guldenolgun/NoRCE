@@ -13,12 +13,13 @@
 #' @importFrom KEGGREST keggGet
 #'
 #' @examples
+#' subsetGene <- breastmRNA[1:100,]
 #'
-#' br_enr<-KeggEnrichment(genes = breastmRNA,hg='hg19')
-#'
+#' \dontrun{
+#' br_enr<-KeggEnrichment(genes = subsetGene,hg='hg19')
 #' getKeggDiagram(mrnaObject = br_enr,pathway ="hsa04060" ,hg='hg19')
 #'
-#'
+#'}
 #' @export
 #'
 KeggEnrichment <-
@@ -132,10 +133,12 @@ KeggEnrichment <-
 #' @importFrom reactome.db reactomePATHID2EXTID reactomePATHID2NAME
 #'
 #' @examples
+#' data(breastmRNA)
 #'
-#' br_enr<-reactomeEnrichment(genes = breastmRNA,hg='hg19')
-#'
+#' \dontrun{
+#'br_enr<-reactomeEnrichment(genes = breastmRNA,hg='hg19')
 #' getReactomeDiagram(mrnaObject = br_enr, pathway = br_enr@ID[1], imageFormat = 'svg')
+#' }
 #'
 #' @export
 reactomeEnrichment <-
@@ -354,8 +357,10 @@ WikiPathwayDB <- function(hg) {
 #'
 #' @examples
 #'
-#' br_enr<-WikiEnrichment(genes = breastmRNA,hg='hg19')
-#'
+#' geneInterest <- breastmRNA[1:100,]
+#' \dontrun{
+#' br_enr<-WikiEnrichment(genes = geneInterest,hg='hg19')
+#'}
 #' @export
 WikiEnrichment <- function(genes,
                            hg,

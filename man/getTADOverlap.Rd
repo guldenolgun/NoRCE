@@ -31,7 +31,8 @@ For given region of interest, overlapped genes in the TAD regions are found. Res
 \examples{
 
 regionNC <-  readbed(dm_file = ncRegion,isText = FALSE)
-
-r<-getTADOverlap(bedfile = regionNC,TAD = tad_hg38, hg = 'hg38',cellline = 'HUVEC')
+\dontrun{
+r<-getTADOverlap(bedfile = regionNC,TAD = tad_hg38, hg = 'hg19',cellline = 'HUVEC')
+}
 
 }

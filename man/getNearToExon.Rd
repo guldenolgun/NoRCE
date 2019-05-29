@@ -24,6 +24,8 @@ Get only those neighbouring genes that fall within exon region
 \examples{
 
 regionNC <-  readbed(dm_file = ncRegion,isText = FALSE)
+\dontrun{
+r<-getNearToExon(bedfile = regionNC,upstream = 1000, downstream = 2000,hg = 'hg19')
+}
 
-r<-getNearToExon(bedfile = regionNC,upstream = 1000, downstream = 2000,hg = 'hg38')
 }

@@ -17,8 +17,8 @@
 #'
 #' @importFrom DBI dbConnect
 #' @importFrom RSQLite SQLite
-#' @importFrom dplyr select tbl filter mutate collect
-#' @importFrom tidyr gather
+#' @importFrom dplyr select tbl filter mutate collect arrange count
+#' @import tidyr
 #'
 #' @export
 corrbased <- function(mirnagene,
@@ -129,8 +129,9 @@ getmiRNACount <- function(mirnagene, cancer, databaseFile) {
 #' @examples
 #'
 #' #Assume that mirnanorce and mrnanorce are custom patient by gene data
+#' \dontrun{
 #' a<-calculateCorr(exp1 = mirna, exp2 = mrna )
-#'
+#'}
 #'
 #' @export
 calculateCorr <-

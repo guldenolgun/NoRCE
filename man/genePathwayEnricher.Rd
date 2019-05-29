@@ -89,11 +89,12 @@ Pathway enrichment object for the given input
 Given genes that fall in the given upstream and downstream region of mRNAs of interest, pathway enrichment analysis is carried out
 }
 \examples{
-
+subsetGene <- brain_disorder_ncRNA[1:100,]
+\dontrun{
 #Pathway enrichment based on the gen sets that falls into the TAD regions
-ncRNAPathway<-genePathwayEnricher(gene = brain_disorder_ncRNA, hg='hg19', isTADSearch = TRUE,TAD = tad_hg19,
+ncRNAPathway<-genePathwayEnricher(gene = subsetGene , hg='hg19', isTADSearch = TRUE,TAD = tad_hg19,
                                   genetype = 'Ensembl_gene', min=2)
-
+}
 
 
 }

@@ -21,7 +21,7 @@ Convert gene ids according to the gene type
 }
 \examples{
 
-convGene <-convertGeneID(genetype = "mirna", genelist = brain_mirna,hg = 'hg19')
+convGene <-convertGeneID(genetype = "mirna", genelist = brain_mirna[1:100,],hg = 'hg19')
 
 
 }

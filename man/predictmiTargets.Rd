@@ -21,7 +21,7 @@ Predict the miRNA targets for the miRNA or mRNA genes, which is specified with t
 }
 \examples{
 
-a<- predictmiTargets(gene = brain_mirna, hg = 'hg19', type = "mirna")
+a<- predictmiTargets(gene = brain_mirna[1:100,], hg = 'hg19', type = "mirna")
 
 
 }

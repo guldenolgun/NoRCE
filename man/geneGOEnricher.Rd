@@ -91,14 +91,18 @@ GO term enrichment object for the given input
 Given genes that fall in a given upstream and downstream region of mRNAs of interest, GO term enrichment analysis is carried out
 }
 \examples{
-
-ncGO<-geneGOEnricher(gene = brain_disorder_ncRNA, hg='hg19', near=TRUE, genetype = 'Ensembl_gene',
-                     searchRegion = "exon", slim = FALSE, pAdjust = "none")
-writeEnrichment(mrnaObject = ncGO, file='enrichment.txt')
-getGoDag(mrnaObject = ncGO,filename = 'Dag.png', imageFormat = 'png', type = 'pvalue', n = 10)
+subsetGene <- brain_disorder_ncRNA[1:100,]
 
 \dontrun{
-#' ncGO<-geneGOEnricher(gene = brain_disorder_ncRNA, hg='hg19', near=TRUE, genetype = 'Ensembl_gene',
+ncGO<-geneGOEnricher(gene = subsetGene, hg='hg19', near=TRUE, genetype = 'Ensembl_gene',
+                     searchRegion = "exon", slim = FALSE, pAdjust = "none")
+
+writeEnrichment(mrnaObject = ncGO, file='enrichment.txt')
+
+getGoDag(mrnaObject = ncGO,filename = 'Dag.png', imageFormat = 'png', type = 'pvalue', n = 3)
+
+ncGO<-geneGOEnricher(gene = brain_disorder_ncRNA, hg='hg19', near=TRUE,
+                     genetype = 'Ensembl_gene',
                      searchRegion = "exon", slim = FALSE, isTADSearch = TRUE,
                      TAD = tad_custom, cancer = 'GBMLGG', express = TRUE,
                      minAbsCor = 0.3,databaseFile = database, isUnionCorGene = TRUE)

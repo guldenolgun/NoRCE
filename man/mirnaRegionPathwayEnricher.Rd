@@ -91,7 +91,8 @@ Pathway enrichments of the microRNA regions with mRNAs that fall in the given up
 \examples{
 
 regionNC <-  readbed(dm_file = ncRegion,isText = FALSE)
+\dontrun{
 a<- mirnaRegionGOEnricher(region = regionNC, hg = 'hg19', near = TRUE)
-
+}
 
 }

@@ -89,7 +89,8 @@ Given gene regions that fall in the given upstream and downstream region of mRNA
 \examples{
 
 regionNC <-  readbed(dm_file = ncRegion,isText = FALSE)
-ncPath<-geneRegionPathwayEnricher(region = regionNC, hg = 'hg38', near = TRUE, upstream = 20000,
+\dontrun{
+ncPath<-geneRegionPathwayEnricher(region = regionNC, hg = 'hg38', near = TRUE, upstream =1000,
                                  downstream = 0, pathwayType = 'kegg')
-
+}
 }

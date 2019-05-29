@@ -14,6 +14,7 @@ options(readr.num_columns = 0)
 #'
 #' #txt formatted data
 #' data("ncRegion")
+#' \dontrun{
 #'
 #' #Write data to a txt file
 #' write.table(ncRegion,paste("ncRegion.txt"),sep = '\t',row.names = FALSE,col.names = FALSE)
@@ -24,7 +25,7 @@ options(readr.num_columns = 0)
 #' #Directly convert data frame to bed format
 #' regionNC <- readbed(dm_file = ncRegion,isText = FALSE)
 #'
-#'
+#' }
 #' @export
 readbed <- function(dm_file, isText=TRUE) {
   if (missing(dm_file)) {
@@ -211,10 +212,11 @@ assembly <- function(hg) {
 #' @examples
 #'
 #' regionNC <-  readbed(dm_file = ncRegion,isText = FALSE)
+#'  \dontrun{
 #'
-#' neighbour <- getUCSC(bedfile = regionNC, upstream = 1000, downstream = 1000,hg = 'hg38')
+#' neighbour <- getUCSC(bedfile = regionNC, upstream = 1000, downstream = 1000,hg = 'hg19')
 #'
-#'
+#'}
 #'@export
 getUCSC <-
   function(bedfile, upstream, downstream, hg) {
@@ -261,9 +263,10 @@ getUCSC <-
 #' @examples
 #'
 #' regionNC <-  readbed(dm_file = ncRegion,isText = FALSE)
+#' \dontrun{
+#' r<-getNearToExon(bedfile = regionNC,upstream = 1000, downstream = 2000,hg = 'hg19')
+#' }
 #'
-#' r<-getNearToExon(bedfile = regionNC,upstream = 1000, downstream = 2000,hg = 'hg38')
-
 #' @export
 getNearToExon <-
   function(bedfile, upstream, downstream, hg) {
@@ -307,8 +310,10 @@ getNearToExon <-
 #'
 #' regionNC <-  readbed(dm_file = ncRegion,isText = FALSE)
 #'
-#' r<-getNearToExon(bedfile = regionNC,upstream = 1000, downstream = 2000,hg = 'hg38')
+#' \dontrun{
 #'
+#' r<-getNearToExon(bedfile = regionNC,upstream = 1000, downstream = 2000,hg = 'hg19')
+#'}
 #'
 #' @importFrom GenomicFeatures as.list intronsByTranscript
 #'
@@ -360,8 +365,9 @@ getNearToIntron <-
 #' @examples
 #'
 #' regionNC <-  readbed(dm_file = ncRegion,isText = FALSE)
-#'
-#' r<-getTADOverlap(bedfile = regionNC,TAD = tad_hg38, hg = 'hg38',cellline = 'HUVEC')
+#' \dontrun{
+#' r<-getTADOverlap(bedfile = regionNC,TAD = tad_hg38, hg = 'hg19',cellline = 'HUVEC')
+#' }
 #'
 #' @export
 getTADOverlap <-
@@ -416,7 +422,7 @@ getTADOverlap <-
 #'
 #' @examples
 #'
-#' convGene <-convertGeneID(genetype = "mirna", genelist = brain_mirna,hg = 'hg19')
+#' convGene <-convertGeneID(genetype = "mirna", genelist = brain_mirna[1:100,],hg = 'hg19')
 #'
 #'
 #' @export

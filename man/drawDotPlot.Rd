@@ -21,11 +21,13 @@ Draw dot plot of the enrichment object
 }
 \examples{
 
-data(brain_disorder_ncRNA)
+subsetGene <- brain_disorder_ncRNA[1:100,]
 
-ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA, hg='hg19', near=TRUE, genetype = 'Ensembl_gene', pAdjust = "none")
+\dontrun{
+ncGO <- geneGOEnricher(gene = subsetGene, hg='hg19', near=TRUE,
+                       genetype = 'Ensembl_gene', pAdjust = "none")
 drawDotPlot(mrnaObject = ncGO,n=20)
 drawDotPlot(mrnaObject = ncGO, n=20,type = "pvalue")
-
+}
 
 }

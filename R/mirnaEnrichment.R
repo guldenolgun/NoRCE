@@ -40,11 +40,10 @@ options(readr.num_columns = 0)
 #' @return MiRNA GO term enrichment object for the given input
 #'
 #' @examples
-#'
-#'
-#' miGO <-mirnaGOEnricher(gene=brain_mirna,hg='hg19',near = TRUE,target = FALSE, pAdjust = "none")
+#' subsetGene <- brain_mirna[1:100,]
 #'
 #'\dontrun{
+#'miGO <-mirnaGOEnricher(gene=subsetGene,hg='hg19',near = TRUE,target = FALSE, pAdjust = "none")
 #' miGO <-mirnaGOEnricher(gene=brain_mirna,hg='hg19',near = TRUE,target = TRUE)
 #'
 #' miGO <-mirnaGOEnricher(gene=brain_mirna,hg='hg19',near = TRUE,target = FALSE,
@@ -318,9 +317,12 @@ mirnaGOEnricher <-
 #' @return MiRNA pathway enrichment object for the given input
 #'
 #' @examples
-#' miPath <- mirnaPathwayEnricher(gene = brain_mirna,hg = 'hg19',near = TRUE,
-#'                                pathwayType = 'wiki', pAdjust = "none")
+#' subsetGene <- brain_mirna[1:100,]
 #'
+#' \dontrun{
+#' miPath <- mirnaPathwayEnricher(gene = subsetGene,hg = 'hg19',near = TRUE,
+#'                                pAdjust = "none")
+#' }
 #'
 #'
 #' @export
@@ -617,8 +619,10 @@ mirnaPathwayEnricher <-
 #'
 #'@examples
 #' regionNC <-  readbed(dm_file = ncRegion,isText = FALSE)
-#' a<- mirnaRegionGOEnricher(region = regionNC, hg = 'hg19', near = TRUE)
 #'
+#' \dontrun{
+#' a<- mirnaRegionGOEnricher(region = regionNC, hg = 'hg19', near = TRUE)
+#' }
 #'
 #' @export
 mirnaRegionGOEnricher <-
@@ -865,8 +869,9 @@ mirnaRegionGOEnricher <-
 #' @examples
 #'
 #' regionNC <-  readbed(dm_file = ncRegion,isText = FALSE)
+#' \dontrun{
 #' a<- mirnaRegionGOEnricher(region = regionNC, hg = 'hg19', near = TRUE)
-#'
+#' }
 #'
 #' @export
 mirnaRegionPathwayEnricher <-
@@ -1113,7 +1118,7 @@ mirnaRegionPathwayEnricher <-
 #'
 #' @examples
 #'
-#' a<- predictmiTargets(gene = brain_mirna, hg = 'hg19', type = "mirna")
+#' a<- predictmiTargets(gene = brain_mirna[1:100,], hg = 'hg19', type = "mirna")
 #'
 #'
 #' @export

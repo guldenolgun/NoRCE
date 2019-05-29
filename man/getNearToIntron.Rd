@@ -25,7 +25,9 @@ Get only those neighbouring genes that fall within intron region
 
 regionNC <-  readbed(dm_file = ncRegion,isText = FALSE)
 
-r<-getNearToExon(bedfile = regionNC,upstream = 1000, downstream = 2000,hg = 'hg38')
+\dontrun{
 
+r<-getNearToExon(bedfile = regionNC,upstream = 1000, downstream = 2000,hg = 'hg19')
+}
 
 }

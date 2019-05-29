@@ -42,12 +42,13 @@ setClass(
 #' @return GO enrichment results
 #'
 #' @examples
-#'
-#' breastEnr <- goEnrichment(genes = breastmRNA,hg = 'hg19',GOtype = 'MF')
+#' subsetGene <- breastmRNA[1:100,]
+#' \dontrun{
+#' breastEnr <- goEnrichment(genes = subsetGene,hg = 'hg19',GOtype = 'MF')
 #'
 #' #Enriched genes with Generic GO-term
-#' breastEnr <- goEnrichment(genes = breastmRNA,hg = 'hg19',GOtype = 'MF', slim = TRUE,min = 3)
-#'
+#' breastEnr <- goEnrichment(genes = subsetGene,hg = 'hg19',GOtype = 'MF', slim = TRUE,min = 3)
+#' }
 #' @importFrom stats chisq.test cor cor.test fisher.test na.omit p.adjust pbinom phyper reorder setNames var
 #'
 #' @export

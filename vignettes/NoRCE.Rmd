@@ -59,10 +59,10 @@ library(NoRCE)
 ncGO<-geneGOEnricher(gene = brain_disorder_ncRNA, hg='hg19', near=TRUE, genetype = 'Ensembl_gene')
 
 #GO enrichment results based on mRNAs that any region falls into the upstream and downstream of the input miRNA genes
-mirGO<-mirnaGOEnricher(gene = brain_mirna, hg='hg19', near=TRUE,downstream = 20000, upstream = 500, searchRegion = "all")
+mirGO<-mirnaGOEnricher(gene = brain_mirna, hg='hg19', near=TRUE,downstream = 1000, upstream = 500, searchRegion = "all")
 ```
 
-Moreover, [NoRCE](https://github.com/guldenolgun) can convert .txt file or data frame to a .bed formatted file to make it available for region based analysis.
+Moreover, [NoRCE](https://github.com/guldenolgun/NoRCE) can convert .txt file or data frame to a .bed formatted file to make it available for region based analysis.
 
 ```{r Convert txt file to bed formatted data, eval=TRUE}
 #txt formatted data
@@ -105,10 +105,10 @@ Gene annotation based on topologically associating domain regions are conducted 
 
 ```{r, Enrichment based on TAD, eval=TRUE}
 #Intersection of the nearest genes of the input gene set, the potential target set and overlap of the genes that are in TAD regions and the input list is carries out for enrichment analysis
-mirGO<-mirnaGOEnricher(gene = brain_mirna, hg='hg19', near=TRUE, target=TRUE, isTADSearch = TRUE)
+mirGO<-mirnaGOEnricher(gene = brain_mirna[1:100,], hg='hg19', near=TRUE, target=TRUE, isTADSearch = TRUE)
 
 #Only genes that are targeted by the input list is put through the enrichment analysis
-mirGO<-mirnaGOEnricher(gene = brain_mirna, hg='hg19', near=FALSE, target=FALSE, isTADSearch = TRUE)
+mirGO<-mirnaGOEnricher(gene = brain_mirna[1:100,], hg='hg19', near=FALSE, target=FALSE, isTADSearch = TRUE)
 
 ```
 
@@ -119,7 +119,7 @@ Cell-lines are controlled by the `cellline` parameter. Cell-lines can be listed 
 a<-listTAD(TADName = tad_hg19)
 
 #Intersection of the nearest genes of the input gene set, the potential target set and overlap of the genes that are in TAD regions for A549, AdrenalGland cell-line and the input list is carries out for enrichment analysis
-mirGO<-mirnaGOEnricher(gene = brain_mirna, hg='hg19', near=TRUE, target=TRUE, isTADSearch = TRUE, TAD = tad_hg19, cellline = c('A549', 'AdrenalGland'))
+mirGO<-mirnaGOEnricher(gene = brain_mirna, hg='hg19', near=TRUE, isTADSearch = TRUE, TAD = tad_hg19, cellline = c('A549', 'AdrenalGland'),pAdjust = "none")
 
 ```
 
@@ -133,7 +133,7 @@ cus_TAD<-system.file("extdata", "DER-18_TAD_adultbrain.txt", package = "NoRCE")
 #Convert TAD regions to bed format
 tad_custom <- readbed(cus_TAD, isText = TRUE)
 
-ncGO<-geneGOEnricher(gene = brain_disorder_ncRNA, hg='hg19', near=TRUE, genetype = 'Ensembl_gene', searchRegion = "exon", slim = FALSE, isTADSearch = TRUE, TAD = tad_custom)
+ncGO<-geneGOEnricher(gene = brain_disorder_ncRNA[1:100,], hg='hg19', near=TRUE, genetype = 'Ensembl_gene', searchRegion = "exon", slim = FALSE, isTADSearch = TRUE, TAD = tad_custom, pAdjust = "none")
 
 ```
 
@@ -151,7 +151,7 @@ Two custom defined expression data can be utilized to augment or filter the codi
 nc4 <- mirnaGOEnricher(gene = brain_mirna, hg = 'hg19',target=TRUE, express = TRUE, exp1 = brain_mirnathres, exp2 = brainmrna,label1 = brain_mirnagene, label2 = brainmrna_genes, isCustomExp = TRUE, minAbsCor = 0.3)
 
 ```
-```{r, Enrichment based on correlation analysis without headers, eval=TRUE}
+```{r, Enrichment based on correlation analysis without headers, eval=FALSE}
 nc1 <- mirnaGOEnricher(gene = brain_mirna, hg = 'hg19',target=TRUE, express = TRUE, exp1 = mirna, exp2 = mrna, isCustomExp = TRUE, minAbsCor = 0.1)
 ```
 
@@ -161,7 +161,7 @@ As in GO enrichment analysis, pathway enrichment analysis can be performed based
 
 ```{r, Pathway gene enrichment, eval=TRUE}
 #Pathway enrichment based on the gen sets that falls into the TAD regions
-ncRNAPathway<-genePathwayEnricher(gene = brain_disorder_ncRNA[1:500,], hg='hg19', pathwayType = 'kegg', isTADSearch = TRUE,TAD = tad_hg19, genetype = 'Ensembl_gene', min=2)
+ncRNAPathway<-genePathwayEnricher(gene = brain_disorder_ncRNA[1:100,], hg='hg19', pathwayType = 'kegg', isTADSearch = TRUE,TAD = tad_hg19, genetype = 'Ensembl_gene', min=2,pAdjust = "none")
 ```
 ```{r, Pathway enrichment using custom database, eval=FALSE}
 #Pathway enrichment using custom database
@@ -178,7 +178,7 @@ a <-mirnaPathwayEnricher(gene = brain_mirna, hg = "hg19", near = TRUE, gmtName =
 
 # Pre-processing Steps
 ## Filter ncRNA Genes Based on Biotype Subsets
-Specific biotype of RNA have different characteristics. Biotype information of each gene is provided in [GENCODE](https://www.gencodegenes.org/pages/biotypes.html) as a .GTF format for human and mouse genomes. `filterBiotype` in [NoRCE](https://github.com/guldenolgun) extracts the genes according to the given biotypes and curates the input list accordingly. 
+Specific biotype of RNA have different characteristics. Biotype information of each gene is provided in [GENCODE](https://www.gencodegenes.org/pages/biotypes.html) as a .GTF format for human and mouse genomes. `filterBiotype` in [NoRCE](https://github.com/guldenolgun/NoRCE) extracts the genes according to the given biotypes and curates the input list accordingly. 
 
 ```{r Biotype filtering, eval=FALSE, echo=TRUE}
 #Load differentially expressed non-coding genes 
@@ -228,7 +228,7 @@ corr_miRNAEnrichment<-mirnaGOEnricher(gene=breast_corr$mirna_base,hg='hg38',near
 ### Co-expression Analysis in Custom Expression Data
 Correlation coefficient values between two custom expression data can be calculated and possible interactions can be identified with a predefined threshold filtering in NoRCE. `calculateCorr` function takes two custom data and calculate the correlation between two genes by using correlation method that is defined by the `corrMethod` parameter. It curates the genes based on the cut-offs of the p-value, correlation value and p-Adjusted-value.
 
-```{r Custom correlation analysis, eval=TRUE, echo=TRUE}
+```{r Custom correlation analysis, eval=FALSE, echo=TRUE}
 #Assume that mirnanorce and mrnanorce are custom patient by gene data
 
 dataCor <- calculateCorr(exp1 =  mirna, exp2 = mrna)
@@ -241,7 +241,7 @@ Results can be finalized in a tabular format or with relevant graphs. Some plots
 ### Tabular Format
 Information about the enrichment result can be written down in a tabular format as a txt file. Results are sorted according to the p-value or p-adjusted-value and all of the enrichment results or user defined number of top enrichment can be written down. This function is suitable for both GO and pathway enrichment.
 ```{r Write tabular format of the results, eval=TRUE}
-ncGO<-geneGOEnricher(gene = brain_disorder_ncRNA, hg='hg19', near=TRUE, genetype = 'Ensembl_gene', searchRegion = "exon", slim = FALSE, pAdjust = "none")
+ncGO<-geneGOEnricher(gene = brain_disorder_ncRNA[1:100,], hg='hg19', near=TRUE, genetype = 'Ensembl_gene', searchRegion = "exon", slim = FALSE, pAdjust = "none")
 writeEnrichment(mrnaObject = ncGO, fileName = 'enrichment.txt', sept = '\t',type = 'pvalue')
 
 #Top 10 enrichment results are written
@@ -255,7 +255,7 @@ Dot plot for the given number of top enrichments can be utilized for further ana
 ```{r, Draw dot plot for the GO enrichment, eval=TRUE, echo=TRUE}
 ncGO<-geneGOEnricher(gene = brain_disorder_ncRNA, hg='hg19', near=TRUE, genetype = 'Ensembl_gene', searchRegion = "exon", slim = FALSE, pAdjust = "none")
 
-drawDotPlot(mrnaObject = ncGO, type = 'pvalue', n = 20)
+drawDotPlot(mrnaObject = ncGO, type = 'pvalue', n = 5)
 ```
 <center> ![image](dot.png){width=800px} </center>
 
@@ -264,7 +264,7 @@ Relationship between top enriched GO-terms and mRNA genes are shown in an undire
 ```{r GO:mRNA network, eval=TRUE, echo=TRUE}
 ncGO<-geneGOEnricher(gene = brain_disorder_ncRNA, hg='hg19', near=TRUE, genetype = 'Ensembl_gene', searchRegion = "exon", slim = FALSE, pAdjust = "none")
 
-createNetwork(mrnaObject = ncGO, type = 'pvalue', n =3)
+createNetwork(mrnaObject = ncGO, type = 'pvalue', n =2)
 
 createNetwork(mrnaObject = ncGO, type = 'pvalue', n = 3, isNonCode = FALSE,takeID = TRUE)
 ```
@@ -311,7 +311,7 @@ getReactomeDiagram(mrnaObject = miPath, pathway = miPath@ID[1], imageFormat = 'p
 
 
 # Citation 
-If you use [NoRCE](https://github.com/guldenolgun) , please cite.
+If you use [NoRCE](https://github.com/guldenolgun/NoRCE) , please cite.
 
 
 

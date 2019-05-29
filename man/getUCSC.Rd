@@ -24,8 +24,9 @@ When downstream = 0 / upstream = 0, function converts bed formated regions to HU
 \examples{
 
 regionNC <-  readbed(dm_file = ncRegion,isText = FALSE)
+ \dontrun{
 
-neighbour <- getUCSC(bedfile = regionNC, upstream = 1000, downstream = 1000,hg = 'hg38')
+neighbour <- getUCSC(bedfile = regionNC, upstream = 1000, downstream = 1000,hg = 'hg19')
 
-
+}
 }

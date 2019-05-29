@@ -39,14 +39,18 @@
 #'
 #'
 #' @examples
-#'
-#' ncGO<-geneGOEnricher(gene = brain_disorder_ncRNA, hg='hg19', near=TRUE, genetype = 'Ensembl_gene',
-#'                      searchRegion = "exon", slim = FALSE, pAdjust = "none")
-#' writeEnrichment(mrnaObject = ncGO, file='enrichment.txt')
-#' getGoDag(mrnaObject = ncGO,filename = 'Dag.png', imageFormat = 'png', type = 'pvalue', n = 10)
+#' subsetGene <- brain_disorder_ncRNA[1:100,]
 #'
 #'\dontrun{
-#'#' ncGO<-geneGOEnricher(gene = brain_disorder_ncRNA, hg='hg19', near=TRUE, genetype = 'Ensembl_gene',
+#' ncGO<-geneGOEnricher(gene = subsetGene, hg='hg19', near=TRUE, genetype = 'Ensembl_gene',
+#'                      searchRegion = "exon", slim = FALSE, pAdjust = "none")
+#'
+#' writeEnrichment(mrnaObject = ncGO, file='enrichment.txt')
+#'
+#' getGoDag(mrnaObject = ncGO,filename = 'Dag.png', imageFormat = 'png', type = 'pvalue', n = 3)
+#'
+#' ncGO<-geneGOEnricher(gene = brain_disorder_ncRNA, hg='hg19', near=TRUE,
+#'                      genetype = 'Ensembl_gene',
 #'                      searchRegion = "exon", slim = FALSE, isTADSearch = TRUE,
 #'                      TAD = tad_custom, cancer = 'GBMLGG', express = TRUE,
 #'                      minAbsCor = 0.3,databaseFile = database, isUnionCorGene = TRUE)
@@ -277,11 +281,12 @@ geneGOEnricher <-
 #' @return Pathway enrichment object for the given input
 #'
 #' @examples
-#'
+#' subsetGene <- brain_disorder_ncRNA[1:100,]
+#' \dontrun{
 #' #Pathway enrichment based on the gen sets that falls into the TAD regions
-#' ncRNAPathway<-genePathwayEnricher(gene = brain_disorder_ncRNA, hg='hg19', isTADSearch = TRUE,TAD = tad_hg19,
+#' ncRNAPathway<-genePathwayEnricher(gene = subsetGene , hg='hg19', isTADSearch = TRUE,TAD = tad_hg19,
 #'                                   genetype = 'Ensembl_gene', min=2)
-#'
+#' }
 #'
 #'
 #' @export
@@ -538,13 +543,13 @@ genePathwayEnricher <-
 #'
 #' regionNC <-  readbed(dm_file = ncRegion,isText = FALSE)
 #'
-#' regionGO<-geneRegionGOEnricher(region = regionNC, hg= 'hg38', near = TRUE)
-#'
 #' \dontrun{
-#' getGoDag(mrnaObject = regionGO, type = 'pvalue', n =3, filename = 'gonetwork.png',
+#'  regionGO<-geneRegionGOEnricher(region = regionNC, hg= 'hg19', near = TRUE)
+#'
+#'  getGoDag(mrnaObject = regionGO, type = 'pvalue', n =3, filename = 'gonetwork.png',
 #'          imageFormat = 'png')
 #'
-#' createNetwork(mrnaObject = regionGO,type = 'padjust',n = 3)
+#'  createNetwork(mrnaObject = regionGO,type = 'padjust',n = 3)
 #' }
 #'
 #' @export
@@ -752,9 +757,10 @@ geneRegionGOEnricher <-
 #' @examples
 #'
 #' regionNC <-  readbed(dm_file = ncRegion,isText = FALSE)
-#' ncPath<-geneRegionPathwayEnricher(region = regionNC, hg = 'hg38', near = TRUE, upstream = 20000,
+#' \dontrun{
+#' ncPath<-geneRegionPathwayEnricher(region = regionNC, hg = 'hg38', near = TRUE, upstream =1000,
 #'                                  downstream = 0, pathwayType = 'kegg')
-#'
+#'}
 #' @export
 geneRegionPathwayEnricher <-
   function(region,

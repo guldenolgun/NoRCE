@@ -21,6 +21,7 @@ Convert txt file or data frame to bed format. First three columns should be chr 
 
 #txt formatted data
 data("ncRegion")
+\dontrun{
 
 #Write data to a txt file
 write.table(ncRegion,paste("ncRegion.txt"),sep = '\\t',row.names = FALSE,col.names = FALSE)
@@ -31,5 +32,5 @@ regionNC <-readbed("ncRegion.txt")
 #Directly convert data frame to bed format
 regionNC <- readbed(dm_file = ncRegion,isText = FALSE)
 
-
+}
 }

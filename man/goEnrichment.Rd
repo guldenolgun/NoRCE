@@ -38,10 +38,11 @@ GO enrichment results
 Perform enrichment analysis of the given genes
 }
 \examples{
-
-breastEnr <- goEnrichment(genes = breastmRNA,hg = 'hg19',GOtype = 'MF')
+subsetGene <- breastmRNA[1:100,]
+\dontrun{
+breastEnr <- goEnrichment(genes = subsetGene,hg = 'hg19',GOtype = 'MF')
 
 #Enriched genes with Generic GO-term
-breastEnr <- goEnrichment(genes = breastmRNA,hg = 'hg19',GOtype = 'MF', slim = TRUE,min = 3)
-
+breastEnr <- goEnrichment(genes = subsetGene,hg = 'hg19',GOtype = 'MF', slim = TRUE,min = 3)
+}
 }

@@ -11,12 +11,14 @@
 #'
 #' @examples
 #'
-#' data(brain_disorder_ncRNA)
+#' subsetGene <- brain_disorder_ncRNA[1:100,]
 #'
-#' ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA, hg='hg19', near=TRUE, genetype = 'Ensembl_gene', pAdjust = "none")
+#' \dontrun{
+#' ncGO <- geneGOEnricher(gene = subsetGene, hg='hg19', near=TRUE,
+#'                        genetype = 'Ensembl_gene', pAdjust = "none")
 #' drawDotPlot(mrnaObject = ncGO,n=20)
 #' drawDotPlot(mrnaObject = ncGO, n=20,type = "pvalue")
-#'
+#'}
 #'
 #' @export
 drawDotPlot <- function(mrnaObject, type = "pAdjust", n) {
@@ -81,12 +83,15 @@ drawDotPlot <- function(mrnaObject, type = "pAdjust", n) {
 #'
 #' data(brain_disorder_ncRNA)
 #'
-#' ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA, hg='hg19', near=TRUE, genetype = 'Ensembl_gene', pAdjust = "none")
 #'
+#'\dontrun{
+#' ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA[1:100,],
+#'                        hg='hg19', near=TRUE, genetype = 'Ensembl_gene',
+#'                        pAdjust = "none")
 #' writeEnrichment(mrnaObject=ncGO, fileName = "test.txt")
 #' writeEnrichment(mrnaObject=ncGO, fileName = "test.txt", n=4)
 #' writeEnrichment(mrnaObject=ncGO,fileName = "test.txt", type = "pvalue",n=4)
-#'
+#'}
 #'
 #' @export
 writeEnrichment <-
@@ -125,10 +130,12 @@ writeEnrichment <-
 #'
 #' data(brain_disorder_ncRNA)
 #'
-#' ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA, hg='hg19', near=TRUE, genetype = 'Ensembl_gene', pAdjust = "none")
-#'
+#'\dontrun{
+#' ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA[1:100,],
+#'                        hg='hg19', near=TRUE, genetype = 'Ensembl_gene',
+#'                        pAdjust = "none")
 #' topGO<-topEnrichment(mrnaObject = ncGO, type = "pvalue", n = 5)
-#'
+#'}
 #'
 #' @export
 topEnrichment <- function(mrnaObject, type, n) {
@@ -229,13 +236,15 @@ topEnrichment <- function(mrnaObject, type, n) {
 #' @return Network
 #'
 #'@examples
+#' subsetGene <- brain_disorder_ncRNA[1:100,]
 #'
-#' ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA, hg='hg19', near=TRUE, genetype = 'Ensembl_gene',  pAdjust = "none")
-#'
+#'\dontrun{
+#' ncGO <- geneGOEnricher(gene = subsetGene, hg='hg19', near=TRUE,
+#'                        genetype = 'Ensembl_gene',  pAdjust = "none")
 #' createNetwork(ncGO,n=2)
+#'}
 #'
-#'
-#' @importFrom igraph cluster_optimal degree  graph_from_data_frame layout_with_fr norm_coords
+#' @importFrom igraph cluster_optimal degree graph_from_data_frame layout_with_fr norm_coords V E
 #' @importFrom grDevices adjustcolor colorRampPalette
 #' @importFrom graphics plot
 #' @importFrom ggplot2 aes element_text geom_point ggplot labs theme theme_bw
@@ -369,10 +378,14 @@ createNetwork <-
 #'
 #' @examples
 #'
-#' ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA, hg='hg19', near=TRUE, genetype = 'Ensembl_gene', pAdjust = "none")
+#' subsetGene <- brain_disorder_ncRNA[1:100,]
 #'
-#' getGoDag(ncGO, type='pvalue', n=5, imageFormat = 'png', filename = 'dagFile.png')
-#'
+#'\dontrun{
+#' ncGO <- geneGOEnricher(gene = subsetGene, hg='hg19', near=TRUE,
+#'                        genetype = 'Ensembl_gene', pAdjust = "none")
+#' getGoDag(ncGO, type='pvalue', n=5, imageFormat = 'png',
+#'          filename = 'dagFile.png')
+#'}
 #'
 #' @importFrom RCurl postForm
 #' @importFrom png readPNG writePNG
@@ -471,10 +484,13 @@ getGoDag <-
 #' @return Shows kegg diagram marked with an enriched genes in a browser
 #' @examples
 #'
-#' ncRNAPathway<-mirnaPathwayEnricher(gene = brain_mirna[1:100,], hg='hg19',target = TRUE,  pAdjust = "none")
+#' subsetGene = brain_mirna[200:400,]
+#'
+#' \dontrun{
+#' ncRNAPathway<-mirnaPathwayEnricher(gene = subsetGene, hg='hg19',near=TRUE,  pAdjust = "none")
 #'
 #' getKeggDiagram(mrnaObject = ncRNAPathway, hg = 'hg19',pathway = ncRNAPathway@ID[1])
-#'
+#'}
 #' @export
 #'
 getKeggDiagram <- function(mrnaObject, pathway, hg) {
@@ -521,13 +537,15 @@ getKeggDiagram <- function(mrnaObject, pathway, hg) {
 #' @return Shows reactome diagram marked with an enriched genes in a browser
 #'
 #' @examples
+#' subsetSet = brain_mirna[50:100,]
 #'
-#' ncRNAPathway<-mirnaPathwayEnricher(gene = brain_mirna, hg='hg19',
-#'                target = TRUE, min=5, pathwayType = 'reactome',  pAdjust = "none")
+#'\dontrun{
+#' ncRNAPathway<-mirnaPathwayEnricher(gene = subsetSet, hg='hg19',
+#'                     near=TRUE, pathwayType = 'reactome',  pAdjust = "none")
 #' getReactomeDiagram(mrnaObject = ncRNAPathway, pathway = ncRNAPathway@ID[1],
 #'                    imageFormat = 'svg')
 #'
-#'
+#'}
 #'
 #'@export
 getReactomeDiagram <- function(mrnaObject, pathway, imageFormat) {

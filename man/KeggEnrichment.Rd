@@ -27,10 +27,11 @@ KEGG pathway enrichment results
 KEGG pathway enrichment
 }
 \examples{
+subsetGene <- breastmRNA[1:100,]
 
-br_enr<-KeggEnrichment(genes = breastmRNA,hg='hg19')
-
+\dontrun{
+br_enr<-KeggEnrichment(genes = subsetGene,hg='hg19')
 getKeggDiagram(mrnaObject = br_enr,pathway ="hsa04060" ,hg='hg19')
 
-
+}
 }

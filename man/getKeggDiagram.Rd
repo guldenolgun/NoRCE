@@ -21,8 +21,11 @@ Display the enriched KEGG diagram of the KEGG pathway. This function is specific
 }
 \examples{
 
-ncRNAPathway<-mirnaPathwayEnricher(gene = brain_mirna[1:100,], hg='hg19',target = TRUE,  pAdjust = "none")
+subsetGene = brain_mirna[200:400,]
+
+\dontrun{
+ncRNAPathway<-mirnaPathwayEnricher(gene = subsetGene, hg='hg19',near=TRUE,  pAdjust = "none")
 
 getKeggDiagram(mrnaObject = ncRNAPathway, hg = 'hg19',pathway = ncRNAPathway@ID[1])
-
+}
 }
