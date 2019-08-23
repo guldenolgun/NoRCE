@@ -2,12 +2,15 @@
 % Please edit documentation in R/biotypeOperations.R
 \name{filterBiotype}
 \alias{filterBiotype}
-\title{Extract the genes that have user provided biotypes. This method is useful when input gene list is mixed or when research of the interest is only focused on specific group of genes.}
+\title{Extract the genes that have user provided biotypes. This method is useful 
+when input gene list is mixed or when research of the interest is only 
+focused on specific group of genes.}
 \usage{
 filterBiotype(gtfFile, biotypes)
 }
 \arguments{
-\item{gtfFile}{Input gtf file for the genes provided by the extractBiotype function}
+\item{gtfFile}{Input gtf file for the genes provided by the extractBiotype
+function}
 
 \item{biotypes}{Selected biotypes for the genes}
 }
@@ -15,7 +18,9 @@ filterBiotype(gtfFile, biotypes)
 Table format of genes with a given biotypes
 }
 \description{
-Extract the genes that have user provided biotypes. This method is useful when input gene list is mixed or when research of the interest is only focused on specific group of genes.
+Extract the genes that have user provided biotypes. This method is useful 
+when input gene list is mixed or when research of the interest is only 
+focused on specific group of genes.
 }
 \examples{
 \dontrun{
@@ -23,7 +28,8 @@ Extract the genes that have user provided biotypes. This method is useful when i
 biotypes <- c('lincRNA','antisense')
 lncGenes <-filterBiotype(gtfFile = "filePath//gtf", biotypes = biotypes)
 
-a<-geneGOEnrichment(gene = unique(lncGenes), hg = "hg19", genetype = "Ensembl_gene")
+a<-geneGOEnrichment(gene = unique(lncGenes), org_assembly = "hg19",
+                    genetype = "Ensembl_gene")
 }
 
 }

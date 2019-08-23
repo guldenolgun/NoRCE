@@ -4,7 +4,8 @@
 \alias{getNearToExon}
 \title{Get only those neighbouring genes that fall within exon region}
 \usage{
-getNearToExon(bedfile, upstream, downstream, hg)
+getNearToExon(bedfile, upstream, downstream, org_assembly = c("hg19",
+  "hg38", "mm10", "dre10", "rn6", "dm6", "ce11", "sc3"))
 }
 \arguments{
 \item{bedfile}{Input bed formated file}
@@ -13,7 +14,10 @@ getNearToExon(bedfile, upstream, downstream, hg)
 
 \item{downstream}{Maximum downstream distance from the transcription end position}
 
-\item{hg}{genomee assembly of interest for the analysis. Possible assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat, "dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and "hg38" for human}
+\item{org_assembly}{genomee assembly of interest for the analysis. Possible 
+assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat, 
+"dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and
+"hg38" for human}
 }
 \value{
 genes
@@ -24,8 +28,9 @@ Get only those neighbouring genes that fall within exon region
 \examples{
 
 regionNC <-  readbed(dm_file = ncRegion,isText = FALSE)
-\dontrun{
-r<-getNearToExon(bedfile = regionNC,upstream = 1000, downstream = 2000,hg = 'hg19')
-}
+r<-getNearToExon(bedfile = regionNC,
+                 upstream = 1000,
+                 downstream = 2000,
+                 org_assembly = 'hg19')
 
 }

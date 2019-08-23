@@ -3,7 +3,8 @@
 \docType{data}
 \name{breastmRNA}
 \alias{breastmRNA}
-\title{Protein coding genes that are differentially expressed in TCGA breast cancer RNAseq data.}
+\title{Protein coding genes that are differentially expressed in TCGA
+breast cancer RNAseq data.}
 \format{Not Available}
 \source{
 \url{https://portal.gdc.cancer.gov/}
@@ -12,7 +13,8 @@
 breastmRNA
 }
 \description{
-Protein coding genes that are differentially expressed in TCGA breast cancer RNAseq data.
+Protein coding genes that are differentially expressed in TCGA
+breast cancer RNAseq data.
 }
 \examples{
 data(breastmRNA)

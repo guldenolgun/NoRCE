@@ -2,32 +2,34 @@
 % Please edit documentation in R/plot.R
 \name{topEnrichment}
 \alias{topEnrichment}
-\title{Number of top enrichment results of the pathway or GO terms for the given object and the order type - p-value or adjusted p-value.}
+\title{Number of top enrichment results of the pathway or GO terms for the given
+object and the order type - p-value or adjusted p-value.}
 \usage{
 topEnrichment(mrnaObject, type, n)
 }
 \arguments{
 \item{mrnaObject}{Object of the enrichment result}
 
-\item{type}{Draw the dot plot according to the p-value or adjusted p-value ("pvalue", "pAdjust")}
+\item{type}{Draw the dot plot according to the p-value or adjusted p-value
+("pvalue", "pAdjust")}
 
-\item{n}{Number of GO terms or pathways, that ordered by type and has least number of top p-value}
+\item{n}{Number of GO terms or pathways, that ordered by type and has
+least number of top p-value}
 }
 \value{
 Give top n enrichment results
 }
 \description{
-Number of top enrichment results of the pathway or GO terms for the given object and the order type - p-value or adjusted p-value.
+Number of top enrichment results of the pathway or GO terms for the given
+object and the order type - p-value or adjusted p-value.
 }
 \examples{
 
 data(brain_disorder_ncRNA)
 
-\dontrun{
 ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA[1:100,],
-                       hg='hg19', near=TRUE, genetype = 'Ensembl_gene',
+                       org_assembly='hg19', near=TRUE, genetype = 'Ensembl_gene',
                        pAdjust = "none")
 topGO<-topEnrichment(mrnaObject = ncGO, type = "pvalue", n = 5)
-}
 
 }

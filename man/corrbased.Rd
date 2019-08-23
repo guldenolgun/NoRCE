@@ -2,16 +2,22 @@
 % Please edit documentation in R/expressionBased.R
 \name{corrbased}
 \alias{corrbased}
-\title{Pearson correlation coefficient value of the miRNA genes between miRNA:mRNA for a given correlation cut-off and cancer.}
+\title{Pearson correlation coefficient value of the miRNA genes between miRNA:mRNA
+for a given correlation cut-off and cancer.}
 \usage{
 corrbased(mirnagene, cancer, minAbsCor, databaseFile)
 }
 \arguments{
 \item{mirnagene}{Data frame of the miRNA genes in mature format}
 
-\item{cancer}{Name of the TCGA project code such as 'BRCA' that is analyzed for miRNA-mRNA correlation. Possible cancer types ACC, BLCA, BRCA, CESC, CHOL, COAD, COADREAD, DLBC, ESCA, GBMLGG, HNSC, KICH, KIPAN, KIRC, KIRP, LGG, LIHC, LUAD, LUSC, OV, PAAD, PCPG, PRAD, READ, SARC, SKCM, STAD, STES, TGCT, THCA, THYM, UCEC, UCS, UVM}
+\item{cancer}{Name of the TCGA project code such as 'BRCA' that is analyzed
+for miRNA-mRNA correlation. Possible cancer types ACC, BLCA, BRCA, 
+CESC, CHOL, COAD, COADREAD, DLBC, ESCA, GBMLGG, HNSC, KICH, KIPAN, 
+KIRC, KIRP, LGG, LIHC, LUAD, LUSC, OV, PAAD, PCPG, PRAD, READ, SARC, 
+SKCM, STAD, STES, TGCT, THCA, THYM, UCEC, UCS, UVM}
 
-\item{minAbsCor}{Cut-off value for the Pearson correlation coefficient of the miRNA-mRNA}
+\item{minAbsCor}{Cut-off value for the Pearson correlation coefficient of 
+the miRNA-mRNA}
 
 \item{databaseFile}{Path of the miRcancer.db file}
 }
@@ -19,13 +25,15 @@ corrbased(mirnagene, cancer, minAbsCor, databaseFile)
 Data frame of the miRNA-mRNA correlation result
 }
 \description{
-Pearson correlation coefficient value of the miRNA genes between miRNA:mRNA for a given correlation cut-off and cancer.
+Pearson correlation coefficient value of the miRNA genes between miRNA:mRNA
+for a given correlation cut-off and cancer.
 }
 \examples{
 
 database<- "filePath//miRCancer.db"
 \dontrun{
-brcaCorr<- corrbased(mirnagene = NoRCE::brain_mirna, cancer = 'BRCA', minAbsCor = 0.3, database)
+brcaCorr<- corrbased(mirnagene = NoRCE::brain_mirna, cancer = 'BRCA',
+                    minAbsCor = 0.3, database)
 }
 
 }

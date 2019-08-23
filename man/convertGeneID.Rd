@@ -4,14 +4,22 @@
 \alias{convertGeneID}
 \title{Convert gene ids according to the gene type}
 \usage{
-convertGeneID(genetype, genelist, hg)
+convertGeneID(genetype = c("Entrez", "mirna", "Ensembl_gene",
+  "Ensembl_trans", "NCBI"), genelist, org_assembly = c("hg19", "hg38",
+  "mm10", "dre10", "rn6", "dm6", "ce11", "sc3"))
 }
 \arguments{
-\item{genetype}{Type of the input gene list. Possible values are "Entrez", "mirna", "Ensembl_gene", "Ensembl_trans", "NCBI". For HUGO gene symbol "NCBI" value, for Entrez gene id "Entrez", for mirbase id "mirna" is used.}
+\item{genetype}{Type of the input gene list. Possible values are "Entrez",
+"mirna", "Ensembl_gene", "Ensembl_trans", "NCBI". For HUGO gene symbol
+"NCBI" value, for Entrez gene id "Entrez", for mirbase id "mirna" is 
+used.}
 
 \item{genelist}{Input gene list}
 
-\item{hg}{Genome assembly of interest for the analysis. Possible assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat, "dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and "hg38" for human}
+\item{org_assembly}{Genome assembly of interest for the analysis. Possible 
+assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat,
+"dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and 
+"hg38" for human}
 }
 \value{
 GRange object of the given input
@@ -21,7 +29,9 @@ Convert gene ids according to the gene type
 }
 \examples{
 
-convGene <-convertGeneID(genetype = "mirna", genelist = brain_mirna[1:100,],hg = 'hg19')
+convGene <-convertGeneID(genetype = "mirna",
+                         genelist = brain_mirna[1:30,],
+                         org_assembly = 'hg19')
 
 
 }

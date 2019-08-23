@@ -2,7 +2,9 @@
 % Please edit documentation in R/plot.R
 \name{getReactomeDiagram}
 \alias{getReactomeDiagram}
-\title{Display the enriched Reactome diagram of the given Reactome pathway id. This function is specific to only one pathway id and identifies the enriched genes in the diagram.}
+\title{Display the enriched Reactome diagram of the given Reactome pathway id.
+This function is specific to only one pathway id and identifies the enriched
+ genes in the diagram.}
 \usage{
 getReactomeDiagram(mrnaObject, pathway, imageFormat)
 }
@@ -11,23 +13,28 @@ getReactomeDiagram(mrnaObject, pathway, imageFormat)
 
 \item{pathway}{Reactome pathway term}
 
-\item{imageFormat}{Image format of the diagram. Possible image formats are 'png', 'svg'}
+\item{imageFormat}{Image format of the diagram. Possible image formats are
+'png', 'svg'}
 }
 \value{
 Shows reactome diagram marked with an enriched genes in a browser
 }
 \description{
-Display the enriched Reactome diagram of the given Reactome pathway id. This function is specific to only one pathway id and identifies the enriched genes in the diagram.
+Display the enriched Reactome diagram of the given Reactome pathway id.
+This function is specific to only one pathway id and identifies the enriched
+ genes in the diagram.
 }
 \examples{
-subsetSet = brain_mirna[50:100,]
+subsetSet = brain_mirna[60:90,]
 
-\dontrun{
-ncRNAPathway<-mirnaPathwayEnricher(gene = subsetSet, hg='hg19',
-                    near=TRUE, pathwayType = 'reactome',  pAdjust = "none")
-getReactomeDiagram(mrnaObject = ncRNAPathway, pathway = ncRNAPathway@ID[1],
+ncRNAPathway<-mirnaPathwayEnricher(gene = subsetSet,
+                                   org_assembly='hg19',
+                                   near=TRUE,
+                                   pathwayType = 'reactome',
+                                   pAdjust = "none")
+getReactomeDiagram(mrnaObject = ncRNAPathway,
+                   pathway = ncRNAPathway@ID[1],
                    imageFormat = 'svg')
 
-}
 
 }

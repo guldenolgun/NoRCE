@@ -28,73 +28,98 @@ setClass(
 #' Perform enrichment analysis of the given genes
 #'
 #' @param genes Set of input genes. Supported format HUGO.
-#' @param hg Genome assembly of interest for the analysis. Possible assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat, "dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and "hg38" for human
-#' @param GOtype Hierarchical category of the GO ontology. Possible values are "BP"(default), "CC", "MF".
+#' @param org_assembly Genome assembly of interest for the analysis. Possible
+#'      assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat,
+#'      "dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and 
+#'      "hg38" for human
+#' @param GOtype Hierarchical category of the GO ontology. Possible values are
+#'      "BP"(default), "CC", "MF".
 #' @param pCut Threshold value for the pvalue. Default value is 0.05
-#' @param pAdjCut Cutoff value for the adjusted p-values using one of given method. Default value is 0.05.
-#' @param pAdjust Methods of the adjusted p-values. Possible methods are "bonferroni", "holm", "BH"(default)
-#' @param min Minimum number of gene that are required for enrichment. By default, it is set to 5
-#' @param enrichTest Types of enrichment methods to perform enrichment analysis. Possible values are "hyper"(default), "binom", "fisher", "chi".
-#' @param slim Boolean value stating whether set of annotation should be performed for high level GO terms (GO slim)
-#' @param backG The set of genes that tested against to the input(background gene)
-#' @param backGType Type of the background gene. If miRNA gene set is used for background gene, backGType should be set to the 'mirna'
+#' @param pAdjCut Cutoff value for the adjusted p-values using one of given 
+#'      method. Default value is 0.05.
+#' @param pAdjust Methods of the adjusted p-values. Possible methods are 
+#'      "bonferroni", "holm", "BH"(default)
+#' @param min Minimum number of gene that are required for enrichment. By
+#'       default, it is set to 5
+#' @param enrichTest Types of enrichment methods to perform enrichment 
+#'       analysis. Possible values are "hyper"(default), "binom", "fisher", 
+#'       "chi".
+#' @param backG The set of genes that tested against to the input 
+#'       (background gene)
+#' @param backGType Type of the background gene. If miRNA gene set is used for
+#'        background gene, backGType should be set to the 'mirna'
 #'
 #' @return GO enrichment results
 #'
 #' @examples
-#' subsetGene <- breastmRNA[1:100,]
-#' \dontrun{
-#' breastEnr <- goEnrichment(genes = subsetGene,hg = 'hg19',GOtype = 'MF')
+#' subsetGene <- breastmRNA[1:30,]
+#' breastEnr <- goEnrichment(genes = subsetGene,
+#'                           org_assembly = 'hg19',
+#'                           GOtype = 'MF', 
+#'                           min = 2)
 #'
-#' #Enriched genes with Generic GO-term
-#' breastEnr <- goEnrichment(genes = subsetGene,hg = 'hg19',GOtype = 'MF', slim = TRUE,min = 3)
-#' }
-#' @importFrom stats chisq.test cor cor.test fisher.test na.omit p.adjust pbinom phyper reorder setNames var
+#' @importFrom stats chisq.test cor cor.test fisher.test na.omit p.adjust 
+#' @importFrom stats pbinom phyper reorder setNames var
 #'
 #' @export
 goEnrichment <-
   function(genes,
-           hg,
-           GOtype = "BP",
+           org_assembly= c("hg19",
+                           "hg38",
+                           "mm10",
+                           "dre10",
+                           "rn6",
+                           "dm6",
+                           "ce11",
+                           "sc3"),
+           GOtype = c("BP", "CC", "MF"),
            pCut = 0.05,
            pAdjCut = 0.05,
-           pAdjust = "BH",
+           pAdjust = c("holm", 
+                       "hochberg", 
+                       "hommel", 
+                       "bonferroni", 
+                       "BH", 
+                       "BY",
+                       "fdr", 
+                       "none"),
            min = 5,
            backG = '',
            backGType = 'pc_gene',
-           enrichTest = "hyper",
-           slim = FALSE) {
-    if (missing(hg)) {
+           enrichTest = c("hyper","binom", "fisher", "chi")) {
+    if (missing(org_assembly)) {
       message(
-        "Genome assembly version is missing. Possible assemblies are 'mm10' for mouse, 'dre10' for zebrafish, 'rn6' for rat, 'dm6' for fruit fly, 'ce11' for worm, 'hg19' and 'hg38' for human."
+        "Genome assembly version is missing."
       )
-      assembly(hg)
+      assembly(org_assembly)
     }
     if (missing(genes)) {
       message("Genes are missing. Expected input: FOXP2 SOX4 HOXC6")
     }
-    annot <- unique(annotate(genes, GOtype, hg, slim = slim))
+  #  annot <- unique(annotate(genes, GOtype, org_assembly))
+    goData <- annotate(genes, GOtype, org_assembly)
+    annot <- goData[[2]]
     uniqueGO <- annot$GOID[!duplicated(annot$GOID)]
 
 
     gofreq <- as.data.frame(table(annot$GOID))
     notGene <-
       getBackGenes(
-        backgroundGene = backG,
+        backgroundGene = backG,all =  goData[[1]],
         GOtype = GOtype,
         gofreq = gofreq,
-        hg = hg,
+        org_assembly = org_assembly,
         type = backGType
       )
 
-    if (dim(gofreq)[1] > dim(notGene)[1]) {
+    if (nrow(gofreq) > nrow(notGene)) {
       gofreq <- gofreq[gofreq$Var1 %in% notGene$Var1, ]
     }
 
     freq<-merge(gofreq,notGene, by = "Var1")
     found <- freq$Freq.x
     if (backG == '')
-      geneSize = length(unique(go$X2))
+      geneSize = length(unique(goData[[1]]$Gene))
     else
       geneSize = length(unique(backG))
 
@@ -129,11 +154,11 @@ goEnrichment <-
 
     GeneRatio <-
       apply(data.frame(found, n), 1, function(x)
-        paste(x[1], "/", x[2], sep = "", collapse = ""))
+        file.path(x[1], x[2]))
 
     BgRatio <-
       apply(data.frame(M, geneSize), 1, function(x)
-        paste(x[1], "/", x[2], sep = "", collapse = ""))
+        file.path(x[1], x[2]))
 
     enrich <-
       which (pvalues <= pCut & pAdjust1 <= pAdjCut & found >= min)
@@ -142,15 +167,17 @@ goEnrichment <-
     bgratio <- BgRatio[enrich]
     padj <- pAdjust1[enrich]
     pval <- pvalues[enrich]
-    r <- annot[annot$GOID %in% goT, 1:2]
+    r <- annot[annot$GOID %in% goT, seq_len(2)]
 
     enric <- list()
-    for (i in 1:length(goT))
+    for (i in seq_along(goT))
     {
       if (length(which(goT[i] == r$GOID)) > 0)
       {
         enric <-
-          c(enric, setNames(list(as.character(r[which(goT[i] == r$GOID), ]$Gene)), paste(goT[i])))
+          c(enric, 
+            setNames(list(as.character(r[which(goT[i] == r$GOID),]$Gene)), 
+                     paste(goT[i])))
       }
     }
     goTe <-
@@ -171,13 +198,20 @@ goEnrichment <-
   }
 
 getBackGenes <-
-  function(backgroundGene,
-           GOtype,
+  function(backgroundGene,all,
+           GOtype = c("BP", "CC", "MF"),
            gofreq,
-           hg,
+           org_assembly = c("hg19",
+                            "hg38",
+                            "mm10",
+                            "dre10",
+                            "rn6",
+                            "dm6",
+                            "ce11",
+                            "sc3"),
            type = 'pc_gene') {
     if (backgroundGene == '') {
-      bckfreq <- as.data.frame(table(go$X1))
+      bckfreq <- as.data.frame(table(all$GOID))
     }
     else{
       backgroundGene = as.data.frame(backgroundGene)
@@ -185,16 +219,17 @@ getBackGenes <-
 
       if (type == 'mirna') {
         a <-
-          as.data.frame(gsub(paste(c("-3p", "-5p"), collapse = "|"), "", backgroundGene$bg))
+          as.data.frame(
+            gsub(paste(c("-3p", "-5p"), collapse = "|"), "", backgroundGene$bg))
         colnames(a) <- 'gene'
         geneTargetLoc <-
           convertGeneID(genetype = "mirna",
                         genelist = a$gene,
-                        hg = hg)
-        backgroundGene <- getUCSC(geneTargetLoc, 10000, 10000, hg)
+                        org_assembly = org_assembly)
+        backgroundGene <- getUCSC(geneTargetLoc, 10000, 10000, org_assembly)
         colnames(backgroundGene) = 'bg'
       }
-      annot <- unique(annotate(backgroundGene$bg, GOtype, hg))
+      annot <- unique(annotate(backgroundGene$bg, GOtype, org_assembly))
       uniqueGO <- annot$GOID[!duplicated(annot$GOID)]
 
       bckfreq <- as.data.frame(table(annot$GOID))

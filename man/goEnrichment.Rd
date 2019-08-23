@@ -4,32 +4,44 @@
 \alias{goEnrichment}
 \title{Perform enrichment analysis of the given genes}
 \usage{
-goEnrichment(genes, hg, GOtype = "BP", pCut = 0.05, pAdjCut = 0.05,
-  pAdjust = "BH", min = 5, backG = "", backGType = "pc_gene",
-  enrichTest = "hyper", slim = FALSE)
+goEnrichment(genes, org_assembly = c("hg19", "hg38", "mm10", "dre10",
+  "rn6", "dm6", "ce11", "sc3"), GOtype = c("BP", "CC", "MF"),
+  pCut = 0.05, pAdjCut = 0.05, pAdjust = c("holm", "hochberg",
+  "hommel", "bonferroni", "BH", "BY", "fdr", "none"), min = 5,
+  backG = "", backGType = "pc_gene", enrichTest = c("hyper", "binom",
+  "fisher", "chi"))
 }
 \arguments{
 \item{genes}{Set of input genes. Supported format HUGO.}
 
-\item{hg}{Genome assembly of interest for the analysis. Possible assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat, "dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and "hg38" for human}
+\item{org_assembly}{Genome assembly of interest for the analysis. Possible
+assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat,
+"dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and 
+"hg38" for human}
 
-\item{GOtype}{Hierarchical category of the GO ontology. Possible values are "BP"(default), "CC", "MF".}
+\item{GOtype}{Hierarchical category of the GO ontology. Possible values are
+"BP"(default), "CC", "MF".}
 
 \item{pCut}{Threshold value for the pvalue. Default value is 0.05}
 
-\item{pAdjCut}{Cutoff value for the adjusted p-values using one of given method. Default value is 0.05.}
+\item{pAdjCut}{Cutoff value for the adjusted p-values using one of given 
+method. Default value is 0.05.}
 
-\item{pAdjust}{Methods of the adjusted p-values. Possible methods are "bonferroni", "holm", "BH"(default)}
+\item{pAdjust}{Methods of the adjusted p-values. Possible methods are 
+"bonferroni", "holm", "BH"(default)}
 
-\item{min}{Minimum number of gene that are required for enrichment. By default, it is set to 5}
+\item{min}{Minimum number of gene that are required for enrichment. By
+default, it is set to 5}
 
-\item{backG}{The set of genes that tested against to the input(background gene)}
+\item{backG}{The set of genes that tested against to the input 
+(background gene)}
 
-\item{backGType}{Type of the background gene. If miRNA gene set is used for background gene, backGType should be set to the 'mirna'}
+\item{backGType}{Type of the background gene. If miRNA gene set is used for
+background gene, backGType should be set to the 'mirna'}
 
-\item{enrichTest}{Types of enrichment methods to perform enrichment analysis. Possible values are "hyper"(default), "binom", "fisher", "chi".}
-
-\item{slim}{Boolean value stating whether set of annotation should be performed for high level GO terms (GO slim)}
+\item{enrichTest}{Types of enrichment methods to perform enrichment 
+analysis. Possible values are "hyper"(default), "binom", "fisher", 
+"chi".}
 }
 \value{
 GO enrichment results
@@ -38,11 +50,10 @@ GO enrichment results
 Perform enrichment analysis of the given genes
 }
 \examples{
-subsetGene <- breastmRNA[1:100,]
-\dontrun{
-breastEnr <- goEnrichment(genes = subsetGene,hg = 'hg19',GOtype = 'MF')
+subsetGene <- breastmRNA[1:30,]
+breastEnr <- goEnrichment(genes = subsetGene,
+                          org_assembly = 'hg19',
+                          GOtype = 'MF', 
+                          min = 2)
 
-#Enriched genes with Generic GO-term
-breastEnr <- goEnrichment(genes = subsetGene,hg = 'hg19',GOtype = 'MF', slim = TRUE,min = 3)
-}
 }
