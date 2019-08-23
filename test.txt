@@ -1,2 +1,0 @@
-"ID"	"Term"	"Pvalue"	"PAdjust"	"GeneRatio"	"BackGroundRatio"	"EnrichGeneNumber"	"GeneList"	"ncGeneList"
-"GO:0000122"	"negative regulation of transcription by RNA polymerase II"	0.0164212036327986	0.0164212036327986	"5/38"	"809/20409"	5	"SREBF2 ZEB2 SPEN ZFHX2 TCP10L"	"ENSG00000157306 ENSG00000176824 ENSG00000179743 ENSG00000184068 ENSG00000186842"
