@@ -9,12 +9,14 @@ getmiRNACount(mirnagene, cancer, databaseFile)
 \arguments{
 \item{mirnagene}{Data frame of the mature format}
 
-\item{cancer}{Name of the TCGA project code such as 'BRCA' that is analyzed for miRNA-mRNA correlation}
+\item{cancer}{Name of the TCGA project code such as 'BRCA' that is 
+analyzed for miRNA-mRNA correlation}
 
 \item{databaseFile}{Path of miRcancer.db file}
 }
 \value{
-Data frame of the raw read count of the given miRNA genes for different patients
+Data frame of the raw read count of the given miRNA genes
+      for different patients
 }
 \description{
 Get TCGA miRNAseq expression of miRNA genes for the given cancer
@@ -23,7 +25,8 @@ Get TCGA miRNAseq expression of miRNA genes for the given cancer
 
 database<- "filePath//miRCancer.db"
 \dontrun{
-brcaCorr<- getmiRNACount(mirnagene = brain_mirna, cancer = 'BRCA', databaseFile = database)
+brcaCorr<- getmiRNACount(mirnagene = brain_mirna, 
+cancer = 'BRCA', databaseFile = database)
 }
 
 }

@@ -2,7 +2,10 @@
 % Please edit documentation in R/plot.R
 \name{createNetwork}
 \alias{createNetwork}
-\title{Create interaction network for top n enriched GO term:mRNA interaction. Nodes are GO term and mRNA, edges are interactions between them. Each GO-term is annotated and enriched with the mRNAs provided from the input list.}
+\title{Create interaction network for top n enriched GO term:mRNA interaction.
+Nodes are GO term and mRNA, edges are interactions between them. Each
+GO-term is annotated and enriched with the mRNAs provided from the input
+list.}
 \usage{
 createNetwork(mrnaObject, type = "pvalue", n, isNonCode = FALSE,
   takeID = FALSE)
@@ -10,27 +13,40 @@ createNetwork(mrnaObject, type = "pvalue", n, isNonCode = FALSE,
 \arguments{
 \item{mrnaObject}{Output of enrichment results}
 
-\item{type}{Sort in terms of p-values or FDR. Possible values "pvalue", "padjust"}
+\item{type}{Sort in terms of p-values or FDR. Possible values
+"pvalue", "padjust"}
 
 \item{n}{Number of top enrichments}
 
-\item{isNonCode}{Boolean value that checks whether node of the network is GO-term\& coding or GO-term\& noncoding genes. By default, it is FALSE so node of the network is GO-term\& coding gene. Otherwise, nodes are  GO-term\& noncoding genes.}
+\item{isNonCode}{Boolean value that checks whether node of the network is
+GO-term\& coding or GO-term\& noncoding genes. By default, it is FALSE
+so node of the network is GO-term\& coding gene. Otherwise, nodes are
+GO-term\& noncoding genes.}
 
-\item{takeID}{Boolean value that checks the name decision of the GO/pathway node, GO-term/pathway-term or GO ID-pathway ID. If it is true, name of the GO/pathway node will be GO ID/pathway ID will be used, otherwise, name of the GO/pathway node is GO-term. By default, it is FALSE. It is suggested to used when the GO-term is two long or the GO-term is missing for the custom enrichment database.}
+\item{takeID}{Boolean value that checks the name decision of the GO/pathway
+node, GO-term/pathway-term or GO ID-pathway ID. If it is true, name of
+the GO/pathway node will be GO ID/pathway ID will be used, otherwise,
+name of the GO/pathway node is GO-term. By default, it is FALSE. It is
+suggested to used when the GO-term is two long or the GO-term is
+missing for the custom enrichment database.}
 }
 \value{
 Network
 }
 \description{
-Create interaction network for top n enriched GO term:mRNA interaction. Nodes are GO term and mRNA, edges are interactions between them. Each GO-term is annotated and enriched with the mRNAs provided from the input list.
+Create interaction network for top n enriched GO term:mRNA interaction.
+Nodes are GO term and mRNA, edges are interactions between them. Each
+GO-term is annotated and enriched with the mRNAs provided from the input
+list.
 }
 \examples{
-subsetGene <- brain_disorder_ncRNA[1:100,]
+subsetGene <- brain_disorder_ncRNA[1:50,]
 
-\dontrun{
-ncGO <- geneGOEnricher(gene = subsetGene, hg='hg19', near=TRUE,
-                       genetype = 'Ensembl_gene',  pAdjust = "none")
+ncGO <- geneGOEnricher(gene = subsetGene,
+                       org_assembly='hg19',
+                       near=TRUE,
+                       genetype = 'Ensembl_gene',
+                       pAdjust = "none")
 createNetwork(ncGO,n=2)
-}
 
 }

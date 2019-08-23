@@ -4,21 +4,29 @@
 \alias{KeggEnrichment}
 \title{KEGG pathway enrichment}
 \usage{
-KeggEnrichment(genes, hg, pCut = 0.05, pAdjCut = 0.05,
-  pAdjust = "BH", min = 5)
+KeggEnrichment(genes, org_assembly = c("hg19", "hg38", "mm10", "dre10",
+  "rn6", "dm6", "ce11", "sc3"), pCut = 0.05, pAdjCut = 0.05,
+  pAdjust = c("holm", "hochberg", "hommel", "bonferroni", "BH", "BY",
+  "fdr", "none"), min = 5)
 }
 \arguments{
 \item{genes}{Input genes}
 
-\item{hg}{Genome assembly of interest for the analysis. Possible assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat, "dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and "hg38" for human}
+\item{org_assembly}{Genome assembly of interest for the analysis. Possible 
+assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat, 
+"dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and 
+"hg38" for human}
 
 \item{pCut}{Threshold value for the pvalue. Default value is 0.05}
 
-\item{pAdjCut}{Cutoff value for the adjusted p-values using one of given method. Default value is 0.05.}
+\item{pAdjCut}{Cutoff value for the adjusted p-values using one of given 
+method. Default value is 0.05.}
 
-\item{pAdjust}{Methods of the adjusted p-values. Possible methods are "bonferroni", "holm", "BH"(default)}
+\item{pAdjust}{Methods of the adjusted p-values. Possible methods are 
+"holm", "hochberg", "hommel", "bonferroni", "BH", "BY","fdr", "none"}
 
-\item{min}{Minimum number of genes that are required for enrichment. By default, it is set to 5.}
+\item{min}{Minimum number of genes that are required for enrichment. 
+By default, it is set to 5.}
 }
 \value{
 KEGG pathway enrichment results
@@ -27,11 +35,9 @@ KEGG pathway enrichment results
 KEGG pathway enrichment
 }
 \examples{
-subsetGene <- breastmRNA[1:100,]
+subsetGene <- breastmRNA[1:30,]
 
-\dontrun{
-br_enr<-KeggEnrichment(genes = subsetGene,hg='hg19')
-getKeggDiagram(mrnaObject = br_enr,pathway ="hsa04060" ,hg='hg19')
+br_enr<-KeggEnrichment(genes = subsetGene,
+                       org_assembly='hg19')
 
-}
 }

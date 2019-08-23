@@ -14,9 +14,11 @@ writeEnrichment(mrnaObject, fileName, sept = "\\t", type = "pAdjust",
 
 \item{sept}{File separator, by default, it is tab('\\t')}
 
-\item{type}{Draw the dot plot according to the p-value or adjusted p-value ("pvalue", "pAdjust"). Default value is "pAdjust".}
+\item{type}{Draw the dot plot according to the p-value or adjusted
+p-value ("pvalue", "pAdjust"). Default value is "pAdjust".}
 
-\item{n}{Number of GO terms or pathways, that ordered by type and has least number of top p-value}
+\item{n}{Number of GO terms or pathways, that ordered by type and has least
+number of top p-value}
 }
 \value{
 Text file of the enrichment results in a tabular format
@@ -26,16 +28,11 @@ Write the tabular form of the pathway or GO term enrichment results
 }
 \examples{
 
-data(brain_disorder_ncRNA)
-
-
-\dontrun{
-ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA[1:100,],
-                       hg='hg19', near=TRUE, genetype = 'Ensembl_gene',
+ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA[1:50,],
+                       org_assembly='hg19',
+                       near=TRUE,
+                       genetype = 'Ensembl_gene',
                        pAdjust = "none")
-writeEnrichment(mrnaObject=ncGO, fileName = "test.txt")
-writeEnrichment(mrnaObject=ncGO, fileName = "test.txt", n=4)
-writeEnrichment(mrnaObject=ncGO,fileName = "test.txt", type = "pvalue",n=4)
-}
+writeEnrichment(mrnaObject=ncGO,fileName = "test.txt", type = "pvalue",n=2)
 
 }

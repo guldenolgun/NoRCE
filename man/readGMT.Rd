@@ -9,17 +9,13 @@ readGMT(gmtName, isSymbol = FALSE)
 \arguments{
 \item{gmtName}{Custom pathway gmt file}
 
-\item{isSymbol}{Boolean variable that hold the gene format of the gmt file. If it is set as TRUE, gene format of the gmt file should be symbol. Otherwise, gene format should be ENTREZ ID. By default, it is FALSE.}
+\item{isSymbol}{Boolean variable that hold the gene format of the gmt file. 
+If it is set as TRUE, gene format of the gmt file should be symbol. 
+Otherwise, gene format should be ENTREZ ID. By default, it is FALSE.}
 }
 \value{
 return gmt file
 }
 \description{
 Import gmt formatted pathway file to the NoRCE
-}
-\examples{
-\dontrun{
-gmtFile <- readGMT(gmtName = wp.gmt)
-}
-
 }

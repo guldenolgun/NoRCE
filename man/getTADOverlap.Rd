@@ -2,23 +2,35 @@
 % Please edit documentation in R/getNearest.R
 \name{getTADOverlap}
 \alias{getTADOverlap}
-\title{For given region of interest, overlapped genes in the TAD regions are found. Results can be filtered according to the available cell lines.}
+\title{For given region of interest, overlapped genes in the TAD regions are found.
+Results can be filtered according to the available cell lines.}
 \usage{
-getTADOverlap(bedfile, hg, TAD = NoRCE::tad_hg19, near = FALSE,
-  upstream = 10000, downstream = 10000, cellline = "all")
+getTADOverlap(bedfile, org_assembly = c("hg19", "hg38", "mm10", "dre10",
+  "rn6", "dm6", "ce11", "sc3"), TAD = c(NoRCE::tad_hg19, NoRCE::tad_dmel,
+  NoRCE::tad_hg38, NoRCE::tad_mm10), near = FALSE, upstream = 10000,
+  downstream = 10000, cellline = "all")
 }
 \arguments{
 \item{bedfile}{Region of interest}
 
-\item{hg}{Genome assembly of interest for the analysis. Possible assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat, "dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and "hg38" for human}
+\item{org_assembly}{Genome assembly of interest for the analysis. Possible 
+assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat, 
+"dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and 
+"hg38" for human}
 
-\item{TAD}{TAD genomic regions for the species. Predefined TAD regions or any new TAD regions can be used for the analysis. TAD regions must be formated as GRanges object. Predefined TAD regions are \'tad_hg19\', \'tad_hg38\', \'tad_mm10\', \'tad_dmel\' for hg19, hg38, mm9 and dm6 assembly, respectively.}
+\item{TAD}{TAD genomic regions for the species. Predefined TAD regions or 
+any new TAD regions can be used for the analysis. TAD regions must be
+formated as GRanges object. Predefined TAD regions are 'tad_hg19', 
+'tad_hg38', 'tad_mm10', 'tad_dmel' for hg19, hg38, mm9 and dm6 
+assembly, respectively.}
 
-\item{near}{Boolean value presents whether cis-neighbourhood should be considered in the analysis}
+\item{near}{Boolean value presents whether cis-neighbourhood should be 
+considered in the analysis}
 
 \item{upstream}{Holds upstream distance from the transcription start position}
 
-\item{downstream}{Holds downstream distance from the transcription end position}
+\item{downstream}{Holds downstream distance from the transcription end 
+position}
 
 \item{cellline}{Cell lines for TAD regions.}
 }
@@ -26,13 +38,15 @@ getTADOverlap(bedfile, hg, TAD = NoRCE::tad_hg19, near = FALSE,
 List of protein coding genes that falls into the TAD regions
 }
 \description{
-For given region of interest, overlapped genes in the TAD regions are found. Results can be filtered according to the available cell lines.
+For given region of interest, overlapped genes in the TAD regions are found.
+Results can be filtered according to the available cell lines.
 }
 \examples{
 
 regionNC <-  readbed(dm_file = ncRegion,isText = FALSE)
-\dontrun{
-r<-getTADOverlap(bedfile = regionNC,TAD = tad_hg38, hg = 'hg19',cellline = 'HUVEC')
-}
+r<-getTADOverlap(bedfile = regionNC,
+                 TAD = tad_hg38,
+                 org_assembly = 'hg19',
+                 cellline = 'HUVEC')
 
 }

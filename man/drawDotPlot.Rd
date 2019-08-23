@@ -9,9 +9,11 @@ drawDotPlot(mrnaObject, type = "pAdjust", n)
 \arguments{
 \item{mrnaObject}{Object of the enrichment result}
 
-\item{type}{Draw the dot plot according to the p-value or adjusted p-value ("pvalue", "pAdjust")}
+\item{type}{Draw the dot plot according to the p-value or adjusted p-value
+("pvalue", "pAdjust")}
 
-\item{n}{Number of GO terms or pathways, that ordered by type and has least number of top p-value}
+\item{n}{Number of GO terms or pathways, that ordered by type and has
+least number of top p-value}
 }
 \value{
 Dot plot of the top n enrichment results
@@ -21,13 +23,12 @@ Draw dot plot of the enrichment object
 }
 \examples{
 
-subsetGene <- brain_disorder_ncRNA[1:100,]
+subsetGene <- brain_disorder_ncRNA[1:50,]
 
-\dontrun{
-ncGO <- geneGOEnricher(gene = subsetGene, hg='hg19', near=TRUE,
-                       genetype = 'Ensembl_gene', pAdjust = "none")
-drawDotPlot(mrnaObject = ncGO,n=20)
-drawDotPlot(mrnaObject = ncGO, n=20,type = "pvalue")
-}
+ncGO <- geneGOEnricher(gene = subsetGene,
+                       org_assembly='hg19',
+                       near=TRUE,
+                       genetype = 'Ensembl_gene',
+                       pAdjust = "none")
 
 }

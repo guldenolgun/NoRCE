@@ -2,30 +2,41 @@
 % Please edit documentation in R/plot.R
 \name{getKeggDiagram}
 \alias{getKeggDiagram}
-\title{Display the enriched KEGG diagram of the KEGG pathway. This function is specific to only one KEGG pathway id and identifies the enriched genes in the diagram.}
+\title{Display the enriched KEGG diagram of the KEGG pathway. This function is
+specific to only one KEGG pathway id and identifies the enriched genes
+in the diagram.}
 \usage{
-getKeggDiagram(mrnaObject, pathway, hg)
+getKeggDiagram(mrnaObject, pathway, org_assembly = c("hg19", "hg38",
+  "mm10", "dre10", "rn6", "dm6", "ce11", "sc3"))
 }
 \arguments{
 \item{mrnaObject}{Output of enrichment results}
 
 \item{pathway}{Kegg pathway term such as 'hsa04010'}
 
-\item{hg}{Genome assembly of interest for the analysis. Possible assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat, "dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and "hg38" for human}
+\item{org_assembly}{Genome assembly of interest for the analysis.
+Possible assemblies are "mm10" for mouse, "dre10" for zebrafish,
+"rn6" for rat, "dm6" for fruit fly, "ce11" for worm, "sc3" for yeast,
+"hg19" and "hg38" for human}
 }
 \value{
 Shows kegg diagram marked with an enriched genes in a browser
 }
 \description{
-Display the enriched KEGG diagram of the KEGG pathway. This function is specific to only one KEGG pathway id and identifies the enriched genes in the diagram.
+Display the enriched KEGG diagram of the KEGG pathway. This function is
+specific to only one KEGG pathway id and identifies the enriched genes
+in the diagram.
 }
 \examples{
 
 subsetGene = brain_mirna[200:400,]
 
-\dontrun{
-ncRNAPathway<-mirnaPathwayEnricher(gene = subsetGene, hg='hg19',near=TRUE,  pAdjust = "none")
+ncRNAPathway<-mirnaPathwayEnricher(gene = subsetGene,
+                                   org_assembly='hg19',
+                                   near=TRUE,
+                                   pAdjust = "none")
 
-getKeggDiagram(mrnaObject = ncRNAPathway, hg = 'hg19',pathway = ncRNAPathway@ID[1])
-}
+getKeggDiagram(mrnaObject = ncRNAPathway,
+               org_assembly = 'hg19',
+               pathway = ncRNAPathway@ID[1])
 }

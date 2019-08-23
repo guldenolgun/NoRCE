@@ -2,7 +2,8 @@
 % Please edit documentation in R/plot.R
 \name{getGoDag}
 \alias{getGoDag}
-\title{Plot and save the GO term DAG of the top n enrichments in terms of p-values or adjusted p-values with an user provided format}
+\title{Plot and save the GO term DAG of the top n enrichments in terms of p-values
+or adjusted p-values with an user provided format}
 \usage{
 getGoDag(mrnaObject, type, n, filename, imageFormat, p_range = seq(0,
   0.05, by = 0.001))
@@ -10,7 +11,8 @@ getGoDag(mrnaObject, type, n, filename, imageFormat, p_range = seq(0,
 \arguments{
 \item{mrnaObject}{Output of enrichment results}
 
-\item{type}{Sort in terms of p-values or FDR. possible values "pvalue", "padjust"}
+\item{type}{Sort in terms of p-values or FDR. possible values "pvalue",
+"padjust"}
 
 \item{n}{Number of top enrichments}
 
@@ -18,23 +20,13 @@ getGoDag(mrnaObject, type, n, filename, imageFormat, p_range = seq(0,
 
 \item{imageFormat}{Image format of the DAG. possible values "png" or "svg"}
 
-\item{p_range}{Break points for the p-values or FDR. By default [0.05, 0.001, 0.0005, 0.0001, 0.00005,0.00001,0] is used}
+\item{p_range}{Break points for the p-values or FDR. By default
+[0.05, 0.001, 0.0005, 0.0001, 0.00005,0.00001,0] is used}
 }
 \value{
 Saves image file in a given format
 }
 \description{
-Plot and save the GO term DAG of the top n enrichments in terms of p-values or adjusted p-values with an user provided format
-}
-\examples{
-
-subsetGene <- brain_disorder_ncRNA[1:100,]
-
-\dontrun{
-ncGO <- geneGOEnricher(gene = subsetGene, hg='hg19', near=TRUE,
-                       genetype = 'Ensembl_gene', pAdjust = "none")
-getGoDag(ncGO, type='pvalue', n=5, imageFormat = 'png',
-         filename = 'dagFile.png')
-}
-
+Plot and save the GO term DAG of the top n enrichments in terms of p-values
+or adjusted p-values with an user provided format
 }

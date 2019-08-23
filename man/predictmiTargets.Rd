@@ -2,26 +2,35 @@
 % Please edit documentation in R/mirnaEnrichment.R
 \name{predictmiTargets}
 \alias{predictmiTargets}
-\title{Predict the miRNA targets for the miRNA or mRNA genes, which is specified with type parameter}
+\title{Predict the miRNA targets for the miRNA or mRNA genes, which is specified 
+with type parameter}
 \usage{
-predictmiTargets(gene, type, hg)
+predictmiTargets(gene, type, org_assembly)
 }
 \arguments{
-\item{gene}{Data frame of miRNA or mRNA gene. Formats should be NCBI gene name, ENSEMBL gene or transcript id, and mirna}
+\item{gene}{Data frame of miRNA or mRNA gene. Formats should be NCBI gene 
+name, ENSEMBL gene or transcript id, and mirna}
 
-\item{type}{Format of the gene, it should be "NCBI" for NCBI gene name, "Ensembl_gene" for ENSEMBL gene id, "Ensembl_trans" for Ensembl transcript id and "mirna" for miRNA gene}
+\item{type}{Format of the gene, it should be "NCBI" for NCBI gene name, 
+"Ensembl_gene" for ENSEMBL gene id, "Ensembl_trans" for Ensembl 
+transcript id and "mirna" for miRNA gene}
 
-\item{hg}{Analyzed genome assembly. Possible assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat, "dm6" for fruit fly, "ce11" for worm, "hg19" and "hg38" for human}
+\item{org_assembly}{Analyzed genome assembly. Possible assemblies are 
+"mm10" for mouse, "dre10" for zebrafish, "rn6" for rat, "dm6" for 
+fruit fly, "ce11" for worm, "hg19" and "hg38" for human}
 }
 \value{
 miRNA:mRNA target sets of the given genes
 }
 \description{
-Predict the miRNA targets for the miRNA or mRNA genes, which is specified with type parameter
+Predict the miRNA targets for the miRNA or mRNA genes, which is specified 
+with type parameter
 }
 \examples{
 
-a<- predictmiTargets(gene = brain_mirna[1:100,], hg = 'hg19', type = "mirna")
+a<- predictmiTargets(gene = brain_mirna[1:100,], 
+                     org_assembly = 'hg19', 
+                     type = "mirna")
 
 
 }

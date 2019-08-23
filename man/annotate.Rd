@@ -4,27 +4,22 @@
 \alias{annotate}
 \title{Annotate the set of genes with the GO terms for a given species and assembly}
 \usage{
-annotate(genes, GOtype, hg, slim = FALSE)
+annotate(genes, GOtype = c("BP", "CC", "MF"), org_assembly = c("hg19",
+  "hg38", "mm10", "dre10", "rn6", "dm6", "ce11", "sc3"))
 }
 \arguments{
 \item{genes}{List of mRNA genes. Supported format for genes is Hugo.}
 
-\item{GOtype}{Hierarchical category of the GO ontology. Possible values are 'BP', 'CC', 'MF'.}
+\item{GOtype}{Hierarchical category of the GO ontology. Possible
+values are 'BP', 'CC', 'MF'.}
 
-\item{hg}{Genome assembly of interest. Possible assemblies are 'mm10' for mouse, 'dre10' for zebrafish, 'rn6' for rat, 'dm6' for fruit fly, 'ce11' for worm, 'hg19' and 'hg38' for human}
-
-\item{slim}{Boolean value stating whether set of annotation should be performed for high level GO terms (GO slim)}
+\item{org_assembly}{Genome assembly of interest. Possible assemblies are
+'mm10' for mouse, 'dre10' for zebrafish, 'rn6' for rat, 'dm6' for fruit
+fly, 'ce11' for worm, 'hg19' and 'hg38' for human}
 }
 \value{
 data frame of the GO term annotation of the genes
 }
 \description{
 Annotate the set of genes with the GO terms for a given species and assembly
-}
-\examples{
-\dontrun{
-FOXP2annot<-annotate(genes = 'FOXP2', GOtype = 'BP', hg = 'hg19')
-write.table(FOXP2annot,'foxp2.txt',row.names=FALSE)
-}
-
 }
