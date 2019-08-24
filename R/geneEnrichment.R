@@ -162,33 +162,25 @@ geneGOEnricher <-
                     org_assembly = org_assembly)
 
     if (near) {
-      if (searchRegion == 'all') {
-        nearGene <-
-          getUCSC(
-            bedfile = geneLoc,
-            upstream = upstream,
-            downstream = downstream,
-            org_assembly = org_assembly
-          )
-      }
-      else if (searchRegion == 'exon') {
-        nearGene <-
-          getNearToExon(
-            bedfile = geneLoc,
-            upstream = upstream,
-            downstream = downstream,
-            org_assembly = org_assembly
-          )
-      }
-      else if (searchRegion == 'intron') {
-        nearGene <-
-          getNearToIntron(
-            bedfile = geneLoc,
-            upstream = upstream,
-            downstream = downstream,
-            org_assembly = org_assembly
-          )
-      }
+      ifelse(searchRegion == 'all', nearGene <-
+               getUCSC(
+                 bedfile = geneLoc,
+                 upstream = upstream,
+                 downstream = downstream,
+                 org_assembly = org_assembly
+               ), ifelse(searchRegion == 'exon',nearGene <-
+                           getNearToExon(
+                             bedfile = geneLoc,
+                             upstream = upstream,
+                             downstream = downstream,
+                             org_assembly = org_assembly
+                           ),  nearGene <-
+                           getNearToIntron(
+                             bedfile = geneLoc,
+                             upstream = upstream,
+                             downstream = downstream,
+                             org_assembly = org_assembly
+                           )))
     }
     else{
       nearGene <-
@@ -461,30 +453,25 @@ genePathwayEnricher <-
                     org_assembly = org_assembly)
 
     if (near) {
-      if (searchRegion == 'all')
-        nearGene <-
-          getUCSC(
-            bedfile = geneLoc,
-            upstream = upstream,
-            downstream = downstream,
-            org_assembly = org_assembly
-          )
-      if (searchRegion == 'exon')
-        nearGene <-
-          getNearToExon(
-            bedfile = geneLoc,
-            upstream = upstream,
-            downstream = downstream,
-            org_assembly = org_assembly
-          )
-      if (searchRegion == 'intron')
-        nearGene <-
-          getNearToIntron(
-            bedfile = geneLoc,
-            upstream = upstream,
-            downstream = downstream,
-            org_assembly = org_assembly
-          )
+      ifelse(searchRegion == 'all', nearGene <-
+               getUCSC(
+                 bedfile = geneLoc,
+                 upstream = upstream,
+                 downstream = downstream,
+                 org_assembly = org_assembly
+               ), ifelse(searchRegion == 'exon',nearGene <-
+                           getNearToExon(
+                             bedfile = geneLoc,
+                             upstream = upstream,
+                             downstream = downstream,
+                             org_assembly = org_assembly
+                           ),  nearGene <-
+                           getNearToIntron(
+                             bedfile = geneLoc,
+                             upstream = upstream,
+                             downstream = downstream,
+                             org_assembly = org_assembly
+                           )))
     }
     else{
       nearGene <-
@@ -768,30 +755,25 @@ geneRegionGOEnricher <-
       assembly(org_assembly)
     }
     if (near) {
-      if (searchRegion == 'all')
-        nearGene <-
-          getUCSC(
-            bedfile = region,
-            upstream = upstream,
-            downstream = downstream,
-            org_assembly = org_assembly
-          )
-      if (searchRegion == 'exon')
-        nearGene <-
-          getNearToExon(
-            bedfile = region,
-            upstream = upstream,
-            downstream = downstream,
-            org_assembly = org_assembly
-          )
-      if (searchRegion == 'intron')
-        nearGene <-
-          getNearToIntron(
-            bedfile = region,
-            upstream = upstream,
-            downstream = downstream,
-            org_assembly = org_assembly
-          )
+      ifelse(searchRegion == 'all', nearGene <-
+               getUCSC(
+                 bedfile = region,
+                 upstream = upstream,
+                 downstream = downstream,
+                 org_assembly = org_assembly
+               ), ifelse(searchRegion == 'exon',nearGene <-
+                           getNearToExon(
+                             bedfile = region,
+                             upstream = upstream,
+                             downstream = downstream,
+                             org_assembly = org_assembly
+                           ),  nearGene <-
+                           getNearToIntron(
+                             bedfile = region,
+                             upstream = upstream,
+                             downstream = downstream,
+                             org_assembly = org_assembly
+                           )))
     }
     else{
       nearGene <-
@@ -1031,30 +1013,25 @@ geneRegionPathwayEnricher <-
     }
 
     if (near) {
-      if (searchRegion == 'all')
-        nearGene <-
-          getUCSC(
-            bedfile = region,
-            upstream = upstream,
-            downstream = downstream,
-            org_assembly = org_assembly
-          )
-      if (searchRegion == 'exon')
-        nearGene <-
-          getNearToExon(
-            bedfile = region,
-            upstream = upstream,
-            downstream = downstream,
-            org_assembly = org_assembly
-          )
-      if (searchRegion == 'intron')
-        nearGene <-
-          getNearToIntron(
-            bedfile = region,
-            upstream = upstream,
-            downstream = downstream,
-            org_assembly = org_assembly
-          )
+      ifelse(searchRegion == 'all', nearGene <-
+               getUCSC(
+                 bedfile = region,
+                 upstream = upstream,
+                 downstream = downstream,
+                 org_assembly = org_assembly
+               ), ifelse(searchRegion == 'exon',nearGene <-
+                           getNearToExon(
+                             bedfile = region,
+                             upstream = upstream,
+                             downstream = downstream,
+                             org_assembly = org_assembly
+                           ),  nearGene <-
+                           getNearToIntron(
+                             bedfile = region,
+                             upstream = upstream,
+                             downstream = downstream,
+                             org_assembly = org_assembly
+                           )))
     }
     else{
       nearGene <-

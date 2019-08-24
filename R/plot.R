@@ -565,7 +565,7 @@ getKeggDiagram <-
 #' @return Shows reactome diagram marked with an enriched genes in a browser
 #'
 #' @examples
-#' subsetSet = brain_mirna[60:90,]
+#' subsetSet = brain_mirna[0:60,]
 #'
 #' ncRNAPathway<-mirnaPathwayEnricher(gene = subsetSet,
 #'                                    org_assembly='hg19',
