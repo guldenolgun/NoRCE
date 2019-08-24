@@ -51,6 +51,15 @@ readbed <- function(dm_file, isText = TRUE) {
 }
 
 #' @importFrom biomaRt getBM useEnsembl useMart
+#' @importFrom rtracklayer browserSession genome getTable ucscTableQuery
+#' @import TxDb.Hsapiens.UCSC.hg19.knownGene
+#' @import TxDb.Hsapiens.UCSC.hg38.knownGene
+#' @import TxDb.Mmusculus.UCSC.mm10.knownGene
+#' @import TxDb.Drerio.UCSC.danRer10.refGene
+#' @import TxDb.Rnorvegicus.UCSC.rn6.refGene
+#' @import TxDb.Dmelanogaster.UCSC.dm6.ensGene
+#' @import TxDb.Celegans.UCSC.ce11.refGene
+#' 
 assembly <- function(org_assembly = c("hg19",
                                       "hg38",
                                       "mm10",
@@ -777,6 +786,9 @@ listTAD <- function(TADName) {
 
 
 #' Check the package availability for the given assembly
+#' 
+#' @importFrom utils installed.packages
+#' 
 packageCheck <- function(pkg)
 {
   notInstalled <- pkg[!(pkg %in% installed.packages()[, "Package"])]

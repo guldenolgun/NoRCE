@@ -11,14 +11,14 @@ convertGeneID(genetype = c("Entrez", "mirna", "Ensembl_gene",
 \arguments{
 \item{genetype}{Type of the input gene list. Possible values are "Entrez",
 "mirna", "Ensembl_gene", "Ensembl_trans", "NCBI". For HUGO gene symbol
-"NCBI" value, for Entrez gene id "Entrez", for mirbase id "mirna" is 
+"NCBI" value, for Entrez gene id "Entrez", for mirbase id "mirna" is
 used.}
 
 \item{genelist}{Input gene list}
 
-\item{org_assembly}{Genome assembly of interest for the analysis. Possible 
+\item{org_assembly}{Genome assembly of interest for the analysis. Possible
 assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat,
-"dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and 
+"dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and
 "hg38" for human}
 }
 \value{

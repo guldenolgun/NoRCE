@@ -22,9 +22,8 @@ Get the biotype of the non-coding genes. It is suitable for the
 GENCODE gtf files
 }
 \examples{
-\dontrun{
-
 gtfFile="\\\\pathTotheGTFFile\\\\Homo_sapiens.GRCh38.93.chr.gtf.zip"
+\dontrun{
 gtf <- extractBiotype(gtfFile = gtfFile)
 }
 

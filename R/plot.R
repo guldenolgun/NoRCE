@@ -8,7 +8,7 @@
 #'
 #' @return Dot plot of the top n enrichment results
 #' @importFrom ggplot2 ggplot
-#'
+#' @import AnnotateDbi
 #'
 #'
 #' @examples

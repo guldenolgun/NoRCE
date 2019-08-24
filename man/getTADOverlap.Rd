@@ -13,23 +13,24 @@ getTADOverlap(bedfile, org_assembly = c("hg19", "hg38", "mm10", "dre10",
 \arguments{
 \item{bedfile}{Region of interest}
 
-\item{org_assembly}{Genome assembly of interest for the analysis. Possible 
-assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat, 
-"dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and 
+\item{org_assembly}{Genome assembly of interest for the analysis. Possible
+assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat,
+"dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and
 "hg38" for human}
 
-\item{TAD}{TAD genomic regions for the species. Predefined TAD regions or 
+\item{TAD}{TAD genomic regions for the species. Predefined TAD regions or
 any new TAD regions can be used for the analysis. TAD regions must be
-formated as GRanges object. Predefined TAD regions are 'tad_hg19', 
-'tad_hg38', 'tad_mm10', 'tad_dmel' for hg19, hg38, mm9 and dm6 
+formated as GRanges object. Predefined TAD regions are 'tad_hg19',
+'tad_hg38', 'tad_mm10', 'tad_dmel' for hg19, hg38, mm9 and dm6
 assembly, respectively.}
 
-\item{near}{Boolean value presents whether cis-neighbourhood should be 
+\item{near}{Boolean value presents whether cis-neighbourhood should be
 considered in the analysis}
 
-\item{upstream}{Holds upstream distance from the transcription start position}
+\item{upstream}{Holds upstream distance from the transcription start 
+position}
 
-\item{downstream}{Holds downstream distance from the transcription end 
+\item{downstream}{Holds downstream distance from the transcription end
 position}
 
 \item{cellline}{Cell lines for TAD regions.}

@@ -12,20 +12,20 @@ KeggEnrichment(genes, org_assembly = c("hg19", "hg38", "mm10", "dre10",
 \arguments{
 \item{genes}{Input genes}
 
-\item{org_assembly}{Genome assembly of interest for the analysis. Possible 
-assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat, 
-"dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and 
+\item{org_assembly}{Genome assembly of interest for the analysis. Possible
+assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat,
+"dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and
 "hg38" for human}
 
 \item{pCut}{Threshold value for the pvalue. Default value is 0.05}
 
-\item{pAdjCut}{Cutoff value for the adjusted p-values using one of given 
+\item{pAdjCut}{Cutoff value for the adjusted p-values using one of given
 method. Default value is 0.05.}
 
-\item{pAdjust}{Methods of the adjusted p-values. Possible methods are 
+\item{pAdjust}{Methods of the adjusted p-values. Possible methods are
 "holm", "hochberg", "hommel", "bonferroni", "BH", "BY","fdr", "none"}
 
-\item{min}{Minimum number of genes that are required for enrichment. 
+\item{min}{Minimum number of genes that are required for enrichment.
 By default, it is set to 5.}
 }
 \value{

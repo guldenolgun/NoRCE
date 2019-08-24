@@ -9,8 +9,8 @@ readGMT(gmtName, isSymbol = FALSE)
 \arguments{
 \item{gmtName}{Custom pathway gmt file}
 
-\item{isSymbol}{Boolean variable that hold the gene format of the gmt file. 
-If it is set as TRUE, gene format of the gmt file should be symbol. 
+\item{isSymbol}{Boolean variable that hold the gene format of the gmt file.
+If it is set as TRUE, gene format of the gmt file should be symbol.
 Otherwise, gene format should be ENTREZ ID. By default, it is FALSE.}
 }
 \value{

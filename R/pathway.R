@@ -253,6 +253,13 @@ reactomeEnrichment <-
     )
   }
 
+#' @import org.Hs.eg.db
+#' @import org.Mm.eg.db
+#' @import org.Dr.eg.db
+#' @import org.Rn.eg.db
+#' @import org.Ce.eg.db
+#' @import org.Sc.sgd.db
+#' @import org.Dm.eg.db
 reactomePathwayDB <- function(org_assembly = c("hg19",
                                                "hg38",
                                                "mm10",
@@ -307,6 +314,14 @@ reactomePathwayDB <- function(org_assembly = c("hg19",
   return(path)
 }
 
+#' @import org.Hs.eg.db
+#' @import org.Mm.eg.db
+#' @import org.Dr.eg.db
+#' @import org.Rn.eg.db
+#' @import org.Ce.eg.db
+#' @import org.Sc.sgd.db
+#' @import org.Dm.eg.db
+#' @importFrom AnnotationDbi mappedkeys
 keggPathwayDB <- function(org_assembly = c("hg19",
                                            "hg38",
                                            "mm10",
