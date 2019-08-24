@@ -25,7 +25,7 @@ This function is specific to only one pathway id and identifies the enriched
  genes in the diagram.
 }
 \examples{
-subsetSet = brain_mirna[60:90,]
+subsetSet = brain_mirna[0:60,]
 
 ncRNAPathway<-mirnaPathwayEnricher(gene = subsetSet,
                                    org_assembly='hg19',

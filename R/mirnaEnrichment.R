@@ -4,87 +4,87 @@ options(readr.num_columns = 0)
 #' GO term enrichments of the microRNA genes with mRNAs that fall in the given
 #' upstream/downstream regions of the microRNA genes
 #'
-#' @param gene Input microRNA gene. It supports both pre-miRNA and mature 
+#' @param gene Input microRNA gene. It supports both pre-miRNA and mature
 #'     miRNA, however, when target prediction is performed (target= TRUE),
 #'     miRNA genes should be mature.
-#' @param org_assembly Genome assembly of interest for the analysis. Possible 
-#'     assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat, 
+#' @param org_assembly Genome assembly of interest for the analysis. Possible
+#'     assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat,
 #'     "dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and "hg38"
 #'     for human
 #' @param upstream Upstream distance from the transcription start position
 #' @param downstream Downstream distance from the transcription end position
-#' @param searchRegion Search space of the cis-region. Possible values are 
+#' @param searchRegion Search space of the cis-region. Possible values are
 #'     "all", "exon", "intron"
-#' @param GOtype Hierarchical category of the GO ontology. Possible values 
+#' @param GOtype Hierarchical category of the GO ontology. Possible values
 #'     are "BP", "CC", "MF"
 #' @param pCut Threshold value for the pvalue. Default value is 0.05
-#' @param pAdjCut Cutoff value for the adjusted p-values using one of given 
+#' @param pAdjCut Cutoff value for the adjusted p-values using one of given
 #'     method. Default value is 0.05.
-#' @param pAdjust Methods of the adjusted p-values. Possible methods are 
+#' @param pAdjust Methods of the adjusted p-values. Possible methods are
 #'     "holm", "hochberg", "hommel", "bonferroni", "BH", "BY","fdr", "none"
-#' @param min Minimum number of genes that are required for enrichment. By 
+#' @param min Minimum number of genes that are required for enrichment. By
 #'     default, this value is set to 5.
-#' @param near Boolean value presents whether cis-neighbourhood should be 
+#' @param near Boolean value presents whether cis-neighbourhood should be
 #'     considered in the analysis
 #' @param target Boolean value shows whether miRNA target prediction should
 #'     be performed
 #' @param backGenes The set of genes that tested against to the input
-#' @param isTADSearch Boolean value that shows whether TAD analysis is 
+#' @param isTADSearch Boolean value that shows whether TAD analysis is
 #'     performed. This value has to be TRUE for TAD analysis.
-#' @param TAD TAD genomic regions for the species. Predefined TAD regions or 
-#'     any new TAD regions can be used for the analysis. TAD regions must be 
-#'     formated as GRanges object. Predefined TAD regions are 'tad_hg19', 
+#' @param TAD TAD genomic regions for the species. Predefined TAD regions or
+#'     any new TAD regions can be used for the analysis. TAD regions must be
+#'     formated as GRanges object. Predefined TAD regions are 'tad_hg19',
 #'     'tad_hg38', 'tad_mm10', 'tad_dmel' for hg19, hg38, mm9 and dm6 assembly,
 #'     respectively.
 #' @param cellline Cell lines for TAD regions.
-#' @param backGType Type of the background gene. If miRNA gene set is used for 
+#' @param backGType Type of the background gene. If miRNA gene set is used for
 #'     background gene, backGType should be set to the 'mirna'
-#' @param express Boolean variable whether co-expression analysis is performed. 
+#' @param express Boolean variable whether co-expression analysis is performed.
 #'     If this option is set to TRUE, co-expression analysis will be performed.
-#' @param isCustomExp Boolean variable whether co-expression analysis with 
-#'     custom data will be performed. When this option is set, exp1 and exp2 
+#' @param isCustomExp Boolean variable whether co-expression analysis with
+#'     custom data will be performed. When this option is set, exp1 and exp2
 #'     parameters must be defined.
 #' @param cancer Defines the name of the TCGA project code such as 'BRCA' for
 #'     correlation analysis. Possible cancer types ACC, BLCA, BRCA, CESC, CHOL,
-#'     COAD, COADREAD, DLBC, ESCA, GBMLGG, HNSC, KICH, KIPAN, KIRC, KIRP, LGG, 
-#'     LIHC, LUAD, LUSC, OV, PAAD, PCPG, PRAD, READ, SARC, SKCM, STAD, STES, 
+#'     COAD, COADREAD, DLBC, ESCA, GBMLGG, HNSC, KICH, KIPAN, KIRC, KIRP, LGG,
+#'     LIHC, LUAD, LUSC, OV, PAAD, PCPG, PRAD, READ, SARC, SKCM, STAD, STES,
 #'     TGCT, THCA, THYM, UCEC, UCS, UVM
-#' @param exp1 Custom expression data matrix. Columns must be genes and rows 
-#'     must be patients. If gene names are provided as header, no need to 
+#' @param exp1 Custom expression data matrix. Columns must be genes and rows
+#'     must be patients. If gene names are provided as header, no need to
 #'     redefine the headers(labels) of the expression data.
-#' @param exp2 Custom expression data matrix. Columns must be genes and rows 
-#'     must be patients. If gene names are provided as header, no need to 
+#' @param exp2 Custom expression data matrix. Columns must be genes and rows
+#'     must be patients. If gene names are provided as header, no need to
 #'     redefine the headers(labels) of the expression data.
-#' @param label1 Gene names of the custom exp1 expression data. If it is not 
+#' @param label1 Gene names of the custom exp1 expression data. If it is not
 #'     provided, column name of the exp1 data will be taken.
-#' @param label2 Gene names of the custom exp2 expression data. If it is not 
+#' @param label2 Gene names of the custom exp2 expression data. If it is not
 #'     provided, column name of the exp2 data will be taken.
-#' @param corrMethod Correlation coeffient method that will be used for 
+#' @param corrMethod Correlation coeffient method that will be used for
 #'     evaluation. Possible values are "pearson", "kendall", "spearman"
-#' @param varCutoff Variance cutt off that genes have less variance than this 
+#' @param varCutoff Variance cutt off that genes have less variance than this
 #'     value will be trimmed
 #' @param pcut P-value cut off for the correlation values
 #' @param alternate Holds the alternative hypothesis and "two.sided", "greater"
 #'     or "less" are the possible values.
-#' @param conf Confidence level for the returned confidence interval. It is 
-#'     only used for the Pearson correlation coefficient if there are at 
+#' @param conf Confidence level for the returned confidence interval. It is
+#'     only used for the Pearson correlation coefficient if there are at
 #'     least 4 complete pairs of observations.
 #' @param minAbsCor Cut-off value for the Pearson correlation coefficient of
 #'     the miRNA-mRNA
 #' @param databaseFile Path of miRcancer.db file
-#' @param isUnionCorGene Boolean value that shows whether union of the output 
-#'     of the co-expression analysis and the other analysis should be 
+#' @param isUnionCorGene Boolean value that shows whether union of the output
+#'     of the co-expression analysis and the other analysis should be
 #'     considered
 #'
 #' @return MiRNA GO term enrichment object for the given input
 #'
 #' @examples
 #' subsetGene <- brain_mirna[1:30,]
-#' 
+#'
 #' miGO <-mirnaGOEnricher(gene=subsetGene,
 #'                        org_assembly='hg19',
 #'                        near = TRUE,
-#'                        target = FALSE, 
+#'                        target = FALSE,
 #'                        pAdjust = "none")
 #' @export mirnaGOEnricher
 mirnaGOEnricher <-
@@ -99,17 +99,17 @@ mirnaGOEnricher <-
                             "sc3"),
            upstream = 10000,
            downstream = 10000,
-           searchRegion = c('all',"exon","intron"),
+           searchRegion = c('all', "exon", "intron"),
            GOtype = c("BP", "CC", "MF"),
            pCut = 0.05,
            pAdjCut = 0.05,
-           pAdjust = c("holm", 
-                       "hochberg", 
-                       "hommel", 
-                       "bonferroni", 
-                       "BH", 
+           pAdjust = c("holm",
+                       "hochberg",
+                       "hommel",
+                       "bonferroni",
+                       "BH",
                        "BY",
-                       "fdr", 
+                       "fdr",
                        "none"),
            near = FALSE,
            target = FALSE,
@@ -126,33 +126,32 @@ mirnaGOEnricher <-
            exp2,
            label1 = '',
            label2 = '',
-           corrMethod = c("pearson","kendall", "spearman"),
+           corrMethod = c("pearson", "kendall", "spearman"),
            varCutoff = 0.0025,
            minAbsCor = 0.3,
            pcut = 0.05,
-           alternate = c('greater',"two.sided", "less"),
+           alternate = c('greater', "two.sided", "less"),
            isUnionCorGene = FALSE,
            conf = 0.95,
            databaseFile = '') {
     if (missing(gene)) {
       message("Gene is missing.")
     }
-
+    
     if (missing(org_assembly)) {
-      message(
-        "Assembly version is missing."
-      )
+      message("Assembly version is missing.")
     }
-    if(!is.data.frame(gene) & !is.character(gene) & !is.factor(gene))
+    if (!is.data.frame(gene) &
+        !is.character(gene) & !is.factor(gene))
       message("Type of the gene should be data.frame or character")
     
     if (class(pkg.env$mart)[1] != "Mart") {
       assembly(org_assembly)
     }
-
+    
     gene <- as.data.frame(gene)
     colnames(gene) <- c("genes")
-
+    
     if (target) {
       targetResult <- predictmiTargets(gene = gene$genes,
                                        type = "mirna",
@@ -163,35 +162,40 @@ mirnaGOEnricher <-
         return(NULL)
       }
       targetResult <- unique(targetResult)
-
+      
       geneTargetLoc <-
         convertGeneID(genetype = "Ensembl_gene",
                       genelist = targetResult[, 3],
                       org_assembly = org_assembly)
     }
-
+    
     a <-
-      as.data.frame(gsub(paste(c("-3p", "-5p"), collapse = "|"), "", 
+      as.data.frame(gsub(paste(c("-3p", "-5p"), collapse = "|"), "",
                          gene$genes))
     colnames(a) <- 'genes'
     a <- unique(rbind(a, gene$genes))
     geneLoc <-
-      convertGeneID(genetype = "mirna",
-                    genelist = a$genes,
-                    org_assembly = org_assembly)
-
-
+      convertGeneID(
+        genetype = "mirna",
+        genelist = a$genes,
+        org_assembly = org_assembly
+      )
+    
+    
     if (near) {
-      if (searchRegion == 'all')
+      ifelse(
+        searchRegion == 'all',
         miNearGene_temp <-
-          getUCSC(geneLoc, upstream, downstream, org_assembly)
-      if (searchRegion == 'exon')
-        miNearGene_temp <-
-          getNearToExon(geneLoc, upstream, downstream, org_assembly)
-      if (searchRegion == 'intron')
-        miNearGene_temp <-
-          getNearToIntron(geneLoc, upstream, downstream, org_assembly)
-
+          getUCSC(geneLoc, upstream, downstream, org_assembly),
+        ifelse(
+          searchRegion == 'exon',
+          miNearGene_temp <-
+            getNearToExon(geneLoc, upstream, downstream, org_assembly),
+          miNearGene_temp <-
+            getNearToIntron(geneLoc, upstream, downstream, org_assembly)
+        )
+      )
+      
       geneLoc_temp <-
         convertGeneID(genetype = "NCBI",
                       genelist = miNearGene_temp,
@@ -211,7 +215,7 @@ mirnaGOEnricher <-
         miNearGene <- miNearGene_temp
       }
     }
-
+    
     else{
       if (target) {
         miNearGene <- targetResult[, 2]
@@ -220,7 +224,7 @@ mirnaGOEnricher <-
         miNearGene <- gene
       }
     }
-
+    
     if (isTADSearch) {
       tadGene <-
         getTADOverlap(
@@ -238,7 +242,7 @@ mirnaGOEnricher <-
       else
         miNearGene <- tadGene
     }
-
+    
     if (express) {
       if (!isCustomExp) {
         nearG <- corrbased(
@@ -248,7 +252,7 @@ mirnaGOEnricher <-
           databaseFile = databaseFile
         )
         d <- nearG[which(a$genes %in% nearG$mirna_base),]
-
+        
         if (!isUnionCorGene)
           miNearGene <- intersect(unlist(miNearGene), d$feature)
         else
@@ -268,7 +272,7 @@ mirnaGOEnricher <-
           conf = conf
         )
         tt <-
-          lapply(seq_len(nrow(a)), function(x) 
+          lapply(seq_len(nrow(a)), function(x)
             unlist(which(
               nearG$firstExp %in% tolower(a$genes[x])
             )))
@@ -324,81 +328,81 @@ mirnaGOEnricher <-
 #' Pathway enrichments of the microRNA genes with mRNAs that fall in the given
 #' upstream/downstream regions of the microRNA genes
 #'
-#' @param gene Input microRNA gene. It supports both pre-miRNA and mature miRNA, 
-#'     however, when target prediction is performed(target= TRUE), miRNA genes 
+#' @param gene Input microRNA gene. It supports both pre-miRNA and mature miRNA,
+#'     however, when target prediction is performed(target= TRUE), miRNA genes
 #'     should be mature.
 #' @param org_assembly Genome assembly of interest for the analysis. Possible
 #'     assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat,
-#'     "dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and 
+#'     "dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and
 #'     "hg38" for human
 #' @param upstream Upstream distance from the transcription start position
 #' @param downstream Downstream distance from the transcription end position
-#' @param searchRegion Search space of the cis-region. Possible values are 
+#' @param searchRegion Search space of the cis-region. Possible values are
 #'     "all", "exon", "intron"
 #' @param pCut Threshold value for the pvalue. Default value for pCut is 0.05
-#' @param pAdjCut Cutoff value for the adjusted p-values using one of given 
+#' @param pAdjCut Cutoff value for the adjusted p-values using one of given
 #'     method. Default value is 0.05.
-#' @param pAdjust Methods of the adjusted p-values. Possible methods are "holm", 
+#' @param pAdjust Methods of the adjusted p-values. Possible methods are "holm",
 #'     "hochberg", "hommel", "bonferroni", "BH", "BY","fdr", "none"
-#' @param min Minimum number of genes that are required for enrichment. By 
+#' @param min Minimum number of genes that are required for enrichment. By
 #'     default, it is set to 5
-#' @param pathwayType Pathway database for enrichment. Possible values are 
-#'     'reactome' for Reactome, 'kegg' for KEGG, 'wiki' for WikiPathways, 
+#' @param pathwayType Pathway database for enrichment. Possible values are
+#'     'reactome' for Reactome, 'kegg' for KEGG, 'wiki' for WikiPathways,
 #'     'other' for custom database
-#' @param near Boolean value presents whether cis-neighbourhood should be 
+#' @param near Boolean value presents whether cis-neighbourhood should be
 #'     considered in the analysis
-#' @param target Boolean value shows whether miRNA target prediction should 
+#' @param target Boolean value shows whether miRNA target prediction should
 #'     be performed
-#' @param isTADSearch Boolean value that shows whether TAD analysis is 
+#' @param isTADSearch Boolean value that shows whether TAD analysis is
 #'     performed. This value has to be TRUE for TAD analysis.
 #' @param TAD TAD genomic regions for the species. Predefined TAD regions or
-#'     any new TAD regions can be used for the analysis. TAD regions must be 
-#'     formated as GRanges object. Predefined TAD regions are 'tad_hg19', 
-#'     'tad_hg38', 'tad_mm10', 'tad_dmel' for hg19, hg38, mm9 and dm6 
+#'     any new TAD regions can be used for the analysis. TAD regions must be
+#'     formated as GRanges object. Predefined TAD regions are 'tad_hg19',
+#'     'tad_hg38', 'tad_mm10', 'tad_dmel' for hg19, hg38, mm9 and dm6
 #'     assembly, respectively.
 #' @param cellline Cell lines for TAD regions.
 #' @param gmtName Custom pathway gmt file
-#' @param isSymbol Boolean variable that hold the gene format of the gmt file. 
-#'      If it is set as TRUE, gene format of the gmt file should be symbol. 
+#' @param isSymbol Boolean variable that hold the gene format of the gmt file.
+#'      If it is set as TRUE, gene format of the gmt file should be symbol.
 #'      Otherwise, gene format should be ENTREZ ID. By default, it is FALSE.
 #' @param express Boolean variable whether co-expression analysis is performed.
-#'      If this option is set to TRUE, co-expression analysis will be 
+#'      If this option is set to TRUE, co-expression analysis will be
 #'      performed.
-#' @param isCustomExp Boolean variable whether co-expression analysis with 
-#'      custom data will be performed. When this option is set, exp1 and exp2 
+#' @param isCustomExp Boolean variable whether co-expression analysis with
+#'      custom data will be performed. When this option is set, exp1 and exp2
 #'      parameters must be defined.
-#' @param cancer Defines the name of the TCGA project code such as 'BRCA' for 
-#'      correlation analysis. Possible cancer types ACC, BLCA, BRCA, CESC, 
-#'      CHOL, COAD, COADREAD, DLBC, ESCA, GBMLGG, HNSC, KICH, KIPAN, KIRC, 
+#' @param cancer Defines the name of the TCGA project code such as 'BRCA' for
+#'      correlation analysis. Possible cancer types ACC, BLCA, BRCA, CESC,
+#'      CHOL, COAD, COADREAD, DLBC, ESCA, GBMLGG, HNSC, KICH, KIPAN, KIRC,
 #'      KIRP, LGG, LIHC, LUAD, LUSC, OV, PAAD, PCPG, PRAD, READ, SARC, SKCM,
 #'      STAD, STES, TGCT, THCA, THYM, UCEC, UCS, UVM
-#' @param exp1 Custom expression data matrix. Columns must be genes and rows 
-#'      must be patients. If gene names are provided as header, no need to 
+#' @param exp1 Custom expression data matrix. Columns must be genes and rows
+#'      must be patients. If gene names are provided as header, no need to
 #'      redefine the headers(labels) of the expression data.
-#' @param exp2 Custom expression data matrix. Columns must be genes and rows 
-#'      must be patients. If gene names are provided as header, no need to 
+#' @param exp2 Custom expression data matrix. Columns must be genes and rows
+#'      must be patients. If gene names are provided as header, no need to
 #'      redefine the headers(labels) of the expression data.
-#' @param label1 Gene names of the custom exp1 expression data. If it is not 
+#' @param label1 Gene names of the custom exp1 expression data. If it is not
 #'      provided, column name of the exp1 data will be taken.
-#' @param label2 Gene names of the custom exp2 expression data. If it is not 
+#' @param label2 Gene names of the custom exp2 expression data. If it is not
 #'      provided, column name of the exp2 data will be taken.
-#' @param corrMethod Correlation coeffient method that will be used for 
+#' @param corrMethod Correlation coeffient method that will be used for
 #'      evaluation. Possible values are "pearson", "kendall", "spearman"
-#' @param varCutoff Variance cutt off that genes have less variance than this 
+#' @param varCutoff Variance cutt off that genes have less variance than this
 #'      value will be trimmed
 #' @param pcut P-value cut off for the correlation values
 #' @param alternate Holds the alternative hypothesis and "two.sided", "greater"
 #'      or "less" are the possible values.
-#' @param conf Confidence level for the returned confidence interval. It is 
+#' @param conf Confidence level for the returned confidence interval. It is
 #'      only used for the Pearson correlation coefficient if there are at least
 #'      4 complete pairs of observations.
-#' @param minAbsCor Cut-off value for the Pearson correlation coefficient of 
+#' @param minAbsCor Cut-off value for the Pearson correlation coefficient of
 #'      the miRNA-mRNA
 #' @param databaseFile Path of miRcancer.db file
-#' @param isUnionCorGene Boolean value that shows whether union of the output 
-#'      of the co-expression analysis and the other analysis should be 
+#' @param isUnionCorGene Boolean value that shows whether union of the output
+#'      of the co-expression analysis and the other analysis should be
 #'      considered
-#' @param isGeneEnrich Boolean value whether gene enrichment should be 
+#' @param isGeneEnrich Boolean value whether gene enrichment should be
 #'      performed
 #'
 #' @return MiRNA pathway enrichment object for the given input
@@ -424,19 +428,19 @@ mirnaPathwayEnricher <-
                             "sc3"),
            upstream = 10000,
            downstream = 10000,
-           searchRegion = c('all',"exon","intron"),
+           searchRegion = c('all', "exon", "intron"),
            pCut = 0.05,
            pAdjCut = 0.05,
-           pAdjust = c("holm", 
-                       "hochberg", 
-                       "hommel", 
-                       "bonferroni", 
-                       "BH", 
+           pAdjust = c("holm",
+                       "hochberg",
+                       "hommel",
+                       "bonferroni",
+                       "BH",
                        "BY",
-                       "fdr", 
+                       "fdr",
                        "none"),
            min = 5,
-           pathwayType = c('kegg', 'reactome','wiki','other'),
+           pathwayType = c('kegg', 'reactome', 'wiki', 'other'),
            near = FALSE,
            target = FALSE,
            isTADSearch = FALSE,
@@ -451,32 +455,32 @@ mirnaPathwayEnricher <-
            exp2,
            label1 = '',
            label2 = '',
-           corrMethod = c("pearson","kendall", "spearman"),
+           corrMethod = c("pearson", "kendall", "spearman"),
            varCutoff = 0.0025,
            minAbsCor = 0.3,
            pcut = 0.05,
-           alternate = c('greater',"two.sided", "less"),
+           alternate = c('greater', "two.sided", "less"),
            isUnionCorGene = FALSE,
            conf = 0.95,
-           databaseFile,isGeneEnrich = FALSE) {
+           databaseFile,
+           isGeneEnrich = FALSE) {
     if (missing(gene)) {
       message("Gene is missing.")
     }
     if (missing(org_assembly)) {
-      message(
-        "Assembly version is missing."
-      )
+      message("Assembly version is missing.")
     }
     if (class(pkg.env$mart)[1] != "Mart") {
       assembly(org_assembly)
     }
     
-    if(!is.data.frame(gene) & !is.character(gene) & !is.factor(gene))
+    if (!is.data.frame(gene) &
+        !is.character(gene) & !is.factor(gene))
       message("Type of the gene should be data.frame or character")
     
     gene <- as.data.frame(gene)
     colnames(gene) <- c("genes")
-
+    
     if (target) {
       targetResult <- predictmiTargets(gene = gene$genes,
                                        type = "mirna",
@@ -486,37 +490,42 @@ mirnaPathwayEnricher <-
         message("There is no target!")
         return(NULL)
       }
-
+      
       targetResult <- unique(targetResult)
-
+      
       geneTargetLoc <-
         convertGeneID(genetype = "Ensembl_trans",
                       genelist = targetResult,
                       org_assembly = org_assembly)
     }
-
+    
     a <-
-      as.data.frame(gsub(paste(c("-3p", "-5p"), collapse = "|"), "", 
+      as.data.frame(gsub(paste(c("-3p", "-5p"), collapse = "|"), "",
                          gene$genes))
     colnames(a) <- 'genes'
     a <- unique(rbind(a, gene$genes))
     geneLoc <-
-      convertGeneID(genetype = "mirna",
-                    genelist = a$genes,
-                    org_assembly = org_assembly)
-
-
+      convertGeneID(
+        genetype = "mirna",
+        genelist = a$genes,
+        org_assembly = org_assembly
+      )
+    
+    
     if (near) {
-      if (searchRegion == 'all')
+      ifelse(
+        searchRegion == 'all',
         miNearGene_temp <-
-          getUCSC(geneLoc, upstream, downstream, org_assembly)
-      if (searchRegion == 'exon')
-        miNearGene_temp <-
-          getNearToExon(geneLoc, upstream, downstream, org_assembly)
-      if (searchRegion == 'intron')
-        miNearGene_temp <-
-          getNearToIntron(geneLoc, upstream, downstream, org_assembly)
-
+          getUCSC(geneLoc, upstream, downstream, org_assembly),
+        ifelse(
+          searchRegion == 'exon',
+          miNearGene_temp <-
+            getNearToExon(geneLoc, upstream, downstream, org_assembly),
+          miNearGene_temp <-
+            getNearToIntron(geneLoc, upstream, downstream, org_assembly)
+        )
+      )
+      
       geneLoc_temp <-
         convertGeneID(genetype = "NCBI",
                       genelist = miNearGene_temp,
@@ -536,7 +545,7 @@ mirnaPathwayEnricher <-
         miNearGene <- miNearGene_temp
       }
     }
-
+    
     else{
       if (target) {
         miNearGene <- targetResult[, 2]
@@ -545,7 +554,7 @@ mirnaPathwayEnricher <-
         miNearGene <- gene
       }
     }
-
+    
     if (isTADSearch) {
       tadGene <-
         getTADOverlap(
@@ -563,7 +572,7 @@ mirnaPathwayEnricher <-
       else
         miNearGene <- tadGene
     }
-
+    
     if (express) {
       if (!isCustomExp) {
         nearG <- corrbased(
@@ -573,7 +582,7 @@ mirnaPathwayEnricher <-
           databaseFile = databaseFile
         )
         d <- nearG[which(a$genes %in% nearG$mirna_base),]
-
+        
         if (!isUnionCorGene)
           miNearGene <- intersect(unlist(miNearGene), d$feature)
         else
@@ -593,7 +602,7 @@ mirnaPathwayEnricher <-
           conf = conf
         )
         tt <-
-          lapply(seq_len(nrow(a)), function(x) 
+          lapply(seq_len(nrow(a)), function(x)
             unlist(which(
               nearG$firstExp %in% tolower(a$genes[x])
             )))
@@ -660,7 +669,8 @@ mirnaPathwayEnricher <-
           pAdjCut = pAdjCut,
           pAdjust = pAdjust,
           isSymbol = isSymbol,
-          min = min, isGeneEnrich = isGeneEnrich
+          min = min,
+          isGeneEnrich = isGeneEnrich
         )
       }
       if (length(miEnrich@Term) > 0)
@@ -675,93 +685,93 @@ mirnaPathwayEnricher <-
             inGeneType = 'mirna'
           )
       }
-
+      
       return(miEnrich)
     }
   }
 
 
-#' GO enrichments of the microRNA regions with mRNAs that fall in the given 
+#' GO enrichments of the microRNA regions with mRNAs that fall in the given
 #' upstream/downstream regions of the microRNA genes
 #'
 #' @param region MiRNA region in a bed format
-#' @param org_assembly Genome assembly of interest for the analysis. Possible 
-#'      assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat, 
-#'      "dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and 
+#' @param org_assembly Genome assembly of interest for the analysis. Possible
+#'      assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat,
+#'      "dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and
 #'      "hg38" for human
 #' @param upstream Upstream distance from the transcription start position
 #' @param downstream Downstream distance from the transcription end position
-#' @param searchRegion Search space of the cis-region. Possible values are 
+#' @param searchRegion Search space of the cis-region. Possible values are
 #'      "all", "exon", "intron"
 #' @param GOtype Hierarchical category of the GO ontology. Possible values are
 #'      "BP", "CC", "MF"
 #' @param pCut Threshold value for the pvalue. Default value for pCut is 0.05
-#' @param pAdjCut Cutoff value for the adjusted p-values using one of given 
+#' @param pAdjCut Cutoff value for the adjusted p-values using one of given
 #'      method. Default value is 0.05.
-#' @param pAdjust Methods of the adjusted p-values. Possible methods are 
+#' @param pAdjust Methods of the adjusted p-values. Possible methods are
 #'      "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none"
-#' @param min Minimum number of genes that are required for enrichment. By 
+#' @param min Minimum number of genes that are required for enrichment. By
 #'      default, it is set to 5.
 #' @param backG The set of genes that tested against to the input
-#' @param near Boolean value presents whether cis-neighbourhood should be 
+#' @param near Boolean value presents whether cis-neighbourhood should be
 #'      considered in the analysis
 #' @param target Boolean value shows whether miRNA target prediction should
 #'      be performed
-#' @param isTADSearch Boolean value that shows whether TAD analysis is 
+#' @param isTADSearch Boolean value that shows whether TAD analysis is
 #'      performed. This value has to be TRUE for TAD analysis.
-#' @param TAD TAD genomic regions for the species. Predefined TAD regions or 
-#'      any new TAD regions can be used for the analysis. TAD regions must be 
-#'      formated as GRanges object. Predefined TAD regions are 'tad_hg19', 
-#'      'tad_hg38', 'tad_mm10', 'tad_dmel' for hg19, hg38, mm9 and dm6 
+#' @param TAD TAD genomic regions for the species. Predefined TAD regions or
+#'      any new TAD regions can be used for the analysis. TAD regions must be
+#'      formated as GRanges object. Predefined TAD regions are 'tad_hg19',
+#'      'tad_hg38', 'tad_mm10', 'tad_dmel' for hg19, hg38, mm9 and dm6
 #'      assembly, respectively.
 #' @param cellline Cell lines for TAD regions.
-#' @param backGType Type of the background gene. If miRNA gene set is used for 
+#' @param backGType Type of the background gene. If miRNA gene set is used for
 #'      background gene, backGType should be set to the 'mirna'
-#' @param express Boolean variable whether co-expression analysis is performed. 
-#'      If this option is set to TRUE, co-expression analysis will be 
+#' @param express Boolean variable whether co-expression analysis is performed.
+#'      If this option is set to TRUE, co-expression analysis will be
 #'      performed.
-#' @param isCustomExp Boolean variable whether co-expression analysis with 
-#'      custom data will be performed. When this option is set, exp1 and exp2 
+#' @param isCustomExp Boolean variable whether co-expression analysis with
+#'      custom data will be performed. When this option is set, exp1 and exp2
 #'      parameters must be defined.
-#' @param cancer Defines the name of the TCGA project code such as 'BRCA' for 
-#'      correlation analysis. Possible cancer types ACC, BLCA, BRCA, CESC, 
-#'      CHOL, COAD, COADREAD, DLBC, ESCA, GBMLGG, HNSC, KICH, KIPAN, KIRC, 
+#' @param cancer Defines the name of the TCGA project code such as 'BRCA' for
+#'      correlation analysis. Possible cancer types ACC, BLCA, BRCA, CESC,
+#'      CHOL, COAD, COADREAD, DLBC, ESCA, GBMLGG, HNSC, KICH, KIPAN, KIRC,
 #'      KIRP, LGG, LIHC, LUAD, LUSC, OV, PAAD, PCPG, PRAD, READ, SARC, SKCM,
 #'      STAD, STES, TGCT, THCA, THYM, UCEC, UCS, UVM
-#' @param exp1 Custom expression data matrix. Columns must be genes and rows 
-#'      must be patients. If gene names are provided as header, no need to 
+#' @param exp1 Custom expression data matrix. Columns must be genes and rows
+#'      must be patients. If gene names are provided as header, no need to
 #'      redefine the headers(labels) of the expression data.
-#' @param exp2 Custom expression data matrix. Columns must be genes and rows 
-#'      must be patients. If gene names are provided as header, no need to 
+#' @param exp2 Custom expression data matrix. Columns must be genes and rows
+#'      must be patients. If gene names are provided as header, no need to
 #'      redefine the headers(labels) of the expression data.
-#' @param label1 Gene names of the custom exp1 expression data. If it is not 
+#' @param label1 Gene names of the custom exp1 expression data. If it is not
 #'      provided, column name of the exp1 data will be taken.
-#' @param label2 Gene names of the custom exp2 expression data. If it is not 
+#' @param label2 Gene names of the custom exp2 expression data. If it is not
 #'      provided, column name of the exp2 data will be taken.
-#' @param corrMethod Correlation coeffient method that will be used for 
+#' @param corrMethod Correlation coeffient method that will be used for
 #'      evaluation. Possible values are "pearson", "kendall", "spearman"
-#' @param varCutoff Variance cutt off that genes have less variance than this 
+#' @param varCutoff Variance cutt off that genes have less variance than this
 #'      value will be trimmed
 #' @param pcut P-value cut off for the correlation values
-#' @param alternate Holds the alternative hypothesis and "two.sided", "greater" 
+#' @param alternate Holds the alternative hypothesis and "two.sided", "greater"
 #'      or "less" are the possible values.
-#' @param conf Confidence level for the returned confidence interval. It is only 
-#'      used for the Pearson correlation coefficient if there are at least 4 
+#' @param conf Confidence level for the returned confidence interval. It is only
+#'      used for the Pearson correlation coefficient if there are at least 4
 #'      complete pairs of observations.
-#' @param minAbsCor Cut-off value for the Pearson correlation coefficient of 
+#' @param minAbsCor Cut-off value for the Pearson correlation coefficient of
 #'      the miRNA-mRNA
 #' @param databaseFile Path of miRcancer.db file
 #' @param isUnionCorGene Boolean value that shows whether union of the output
-#'      of the co-expression analysis and the other analysis should be 
+#'      of the co-expression analysis and the other analysis should be
 #'      considered
-#'      
+#'
 #' @return MiRNA GO enrichment object for the given input
 #'
 #'@examples
 #' regionNC <-  readbed(dm_file = ncRegion,isText = FALSE)
 #'
-#' a<- mirnaRegionGOEnricher(region = regionNC, 
-#'                           org_assembly = 'hg19', 
+#' a<- mirnaRegionGOEnricher(region = regionNC,
+#'                           org_assembly = 'hg19',
 #'                           near = TRUE)
 #'
 #' @export
@@ -777,17 +787,17 @@ mirnaRegionGOEnricher <-
                             "sc3"),
            upstream = 10000,
            downstream = 10000,
-           searchRegion = c('all',"exon","intron"),
+           searchRegion = c('all', "exon", "intron"),
            GOtype = c("BP", "CC", "MF"),
            pCut = 0.05,
            pAdjCut = 0.05,
-           pAdjust = c("holm", 
-                       "hochberg", 
-                       "hommel", 
-                       "bonferroni", 
-                       "BH", 
+           pAdjust = c("holm",
+                       "hochberg",
+                       "hommel",
+                       "bonferroni",
+                       "BH",
                        "BY",
-                       "fdr", 
+                       "fdr",
                        "none"),
            near = FALSE,
            target = FALSE,
@@ -804,27 +814,25 @@ mirnaRegionGOEnricher <-
            exp2,
            label1 = '',
            label2 = '',
-           corrMethod = c("pearson","kendall", "spearman"),
+           corrMethod = c("pearson", "kendall", "spearman"),
            varCutoff = 0.0025,
            minAbsCor = 0.3,
            pcut = 0.05,
-           alternate = c('greater',"two.sided", "less"),
+           alternate = c('greater', "two.sided", "less"),
            isUnionCorGene = FALSE,
            conf = 0.95,
            databaseFile) {
     if (missing(region)) {
       message("Region of interest is missing.")
     }
-
+    
     if (missing(org_assembly)) {
-      message(
-        "Assembly version is missing."
-      )
+      message("Assembly version is missing.")
     }
     if (class(pkg.env$mart)[1] != "Mart") {
       assembly(org_assembly)
     }
-
+    
     if (target) {
       genes <-
         getUCSC(
@@ -842,28 +850,31 @@ mirnaRegionGOEnricher <-
         return(NULL)
       }
       targetResult <- unique(targetResult)
-
+      
       geneTargetLoc <-
         convertGeneID(genetype = "Ensembl_trans",
                       genelist = targetResult,
                       org_assembly = org_assembly)
-
+      
     }
     if (near) {
-      if (searchRegion == 'all')
-        miNearGene_temp <- getUCSC(region, upstream, downstream, org_assembly)
-      if (searchRegion == 'exon')
+      ifelse(
+        searchRegion == 'all',
         miNearGene_temp <-
-          getNearToExon(region, upstream, downstream, org_assembly)
-      if (searchRegion == 'intron')
-        miNearGene_temp <-
-          getNearToIntron(region, upstream, downstream, org_assembly)
-
+          getUCSC(region, upstream, downstream, org_assembly),
+        ifelse(
+          searchRegion == 'exon',
+          miNearGene_temp <-
+            getNearToExon(region, upstream, downstream, org_assembly),
+          miNearGene_temp <-
+            getNearToIntron(region, upstream, downstream, org_assembly)
+        )
+      )
       geneLoc_temp <-
         convertGeneID(genetype = "NCBI",
                       genelist = miNearGene_temp,
                       org_assembly = org_assembly)
-
+      
       if (target) {
         geneL <- findOverlapPairs(geneLoc_temp, geneTargetLoc)
         geneLo <- pintersect(geneL, ignore.strand = TRUE)
@@ -893,8 +904,8 @@ mirnaRegionGOEnricher <-
           )
       }
     }
-
-
+    
+    
     if (isTADSearch) {
       tadGene <-
         getTADOverlap(
@@ -912,7 +923,7 @@ mirnaRegionGOEnricher <-
       else
         miNearGene <- tadGene
     }
-
+    
     if (express) {
       if (!isCustomExp) {
         nearG <-
@@ -973,7 +984,7 @@ mirnaRegionGOEnricher <-
           backGType = backGType,
           min = min
         )
-
+      
       return(miEnrich)
     }
   }
@@ -983,77 +994,77 @@ mirnaRegionGOEnricher <-
 #'
 #' @param region MiRNA region in a bed format
 #' @param org_assembly Genome assembly of interest for the analysis. Possible
-#'      assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat, 
-#'      "dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and 
+#'      assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat,
+#'      "dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and
 #'      "hg38" for human
 #' @param upstream Upstream distance from the transcription start position
 #' @param downstream Downstream distance from the transcription end position
-#' @param searchRegion Search space of the cis-region. Possible values are 
+#' @param searchRegion Search space of the cis-region. Possible values are
 #'      "all", "exon", "intron"
 #' @param pCut Threshold value for the pvalue. Default value is 0.05
-#' @param pAdjCut Cutoff value for the adjusted p-values using one of given 
+#' @param pAdjCut Cutoff value for the adjusted p-values using one of given
 #'      method. Default value is 0.05.
-#' @param pAdjust Methods of the adjusted p-values. Possible methods are 
+#' @param pAdjust Methods of the adjusted p-values. Possible methods are
 #'      "holm", "hochberg", "hommel", "bonferroni", "BH", "BY","fdr", "none"
-#' @param min Minimum number of genes that are required for enrichment. By 
+#' @param min Minimum number of genes that are required for enrichment. By
 #'      default, it is set to 5.
-#' @param pathwayType Pathway database for enrichment. Possible values are 
-#'      'reactome' for Reactome, 'kegg' for KEGG, 'wiki' for WikiPathways, 
+#' @param pathwayType Pathway database for enrichment. Possible values are
+#'      'reactome' for Reactome, 'kegg' for KEGG, 'wiki' for WikiPathways,
 #'      'other' for custom database
-#' @param near Boolean value presents whether cis-neighbourhood should be 
+#' @param near Boolean value presents whether cis-neighbourhood should be
 #'      considered in the analysis
 #' @param target Boolean value shows whether miRNA target prediction should be
 #'       performed
-#' @param isTADSearch Boolean value that shows whether TAD analysis is 
+#' @param isTADSearch Boolean value that shows whether TAD analysis is
 #'      performed. This value has to be TRUE for TAD analysis.
-#' @param TAD TAD genomic regions for the species. Predefined TAD regions or 
-#'      any new TAD regions can be used for the analysis. TAD regions must be 
-#'      formated as GRanges object. Predefined TAD regions are 'tad_hg19', 
-#'      'tad_hg38', 'tad_mm10', 'tad_dmel' for hg19, hg38, mm9 and 
+#' @param TAD TAD genomic regions for the species. Predefined TAD regions or
+#'      any new TAD regions can be used for the analysis. TAD regions must be
+#'      formated as GRanges object. Predefined TAD regions are 'tad_hg19',
+#'      'tad_hg38', 'tad_mm10', 'tad_dmel' for hg19, hg38, mm9 and
 #'      dm6 assembly, respectively.
 #' @param cellline Cell lines for TAD regions
 #' @param gmtName Custom pathway gmt file
-#' @param isSymbol Boolean variable that hold the gene format of the gmt file. 
-#'      If it is set as TRUE, gene format of the gmt file should be symbol. 
+#' @param isSymbol Boolean variable that hold the gene format of the gmt file.
+#'      If it is set as TRUE, gene format of the gmt file should be symbol.
 #'      Otherwise, gene format should be ENTREZ ID. By default, it is FALSE.
 #' @param express Boolean variable whether co-expression analysis is performed.
-#'       If this option is set to TRUE, co-expression analysis will be 
+#'       If this option is set to TRUE, co-expression analysis will be
 #'       performed.
-#' @param isCustomExp Boolean variable whether co-expression analysis with 
+#' @param isCustomExp Boolean variable whether co-expression analysis with
 #'      custom data will be performed. When this option is set, exp1 and exp2
 #'      parameters must be defined.
 #' @param cancer Defines the name of the TCGA project code such as 'BRCA' for
-#'      correlation analysis. Possible cancer types ACC, BLCA, BRCA, CESC, 
-#'      CHOL, COAD, COADREAD, DLBC, ESCA, GBMLGG, HNSC, KICH, KIPAN, KIRC, 
-#'      KIRP, LGG, LIHC, LUAD, LUSC, OV, PAAD, PCPG, PRAD, READ, SARC, 
+#'      correlation analysis. Possible cancer types ACC, BLCA, BRCA, CESC,
+#'      CHOL, COAD, COADREAD, DLBC, ESCA, GBMLGG, HNSC, KICH, KIPAN, KIRC,
+#'      KIRP, LGG, LIHC, LUAD, LUSC, OV, PAAD, PCPG, PRAD, READ, SARC,
 #'      SKCM, STAD, STES, TGCT, THCA, THYM, UCEC, UCS, UVM
 #' @param exp1 Custom expression data matrix. Columns must be genes and rows
 #'      must be patients. If gene names are provided as header, no need to
 #'       redefine the headers(labels) of the expression data.
-#' @param exp2 Custom expression data matrix. Columns must be genes and rows 
-#'      must be patients. If gene names are provided as header, no need to 
+#' @param exp2 Custom expression data matrix. Columns must be genes and rows
+#'      must be patients. If gene names are provided as header, no need to
 #'      redefine the headers(labels) of the expression data.
-#' @param label1 Gene names of the custom exp1 expression data. If it is not 
+#' @param label1 Gene names of the custom exp1 expression data. If it is not
 #'      provided, column name of the exp1 data will be taken.
-#' @param label2 Gene names of the custom exp2 expression data. If it is not 
+#' @param label2 Gene names of the custom exp2 expression data. If it is not
 #'      provided, column name of the exp2 data will be taken.
-#' @param corrMethod Correlation coeffient method that will be used for 
+#' @param corrMethod Correlation coeffient method that will be used for
 #'      evaluation. Possible values are "pearson", "kendall", "spearman"
 #' @param varCutoff Variance cutt off that genes have less variance than this
 #'      value will be trimmed
 #' @param pcut P-value cut off for the correlation values
 #' @param alternate Holds the alternative hypothesis and "two.sided", "greater"
 #'       or "less" are the possible values.
-#' @param conf Confidence level for the returned confidence interval. It is 
-#'      only used for the Pearson correlation coefficient if there are at 
+#' @param conf Confidence level for the returned confidence interval. It is
+#'      only used for the Pearson correlation coefficient if there are at
 #'      least 4 complete pairs of observations.
 #' @param minAbsCor Cut-off value for the Pearson correlation coefficient of
 #'       the miRNA-mRNA
 #' @param databaseFile Path of miRcancer.db file
 #' @param isUnionCorGene Boolean value that shows whether union of the output
-#'       of the co-expression analysis and the other analysis should be 
+#'       of the co-expression analysis and the other analysis should be
 #'       considered
-#' @param isGeneEnrich Boolean value whether gene enrichment should be 
+#' @param isGeneEnrich Boolean value whether gene enrichment should be
 #'      performed
 #'
 #' @return miRNA pathway enrichment object for the given input
@@ -1061,9 +1072,9 @@ mirnaRegionGOEnricher <-
 #' @examples
 #'
 #' regionNC <-  readbed(dm_file = ncRegion,isText = FALSE)
-#' 
-#' a<- mirnaRegionGOEnricher(region = regionNC, 
-#'                           org_assembly = 'hg19', 
+#'
+#' a<- mirnaRegionGOEnricher(region = regionNC,
+#'                           org_assembly = 'hg19',
 #'                           near = TRUE)
 #'
 #' @export
@@ -1079,19 +1090,19 @@ mirnaRegionPathwayEnricher <-
                             "sc3"),
            upstream = 10000,
            downstream = 10000,
-           searchRegion = c('all',"exon","intron"),
+           searchRegion = c('all', "exon", "intron"),
            pCut = 0.05,
            pAdjCut = 0.05,
-           pAdjust = c("holm", 
-                       "hochberg", 
-                       "hommel", 
-                       "bonferroni", 
-                       "BH", 
+           pAdjust = c("holm",
+                       "hochberg",
+                       "hommel",
+                       "bonferroni",
+                       "BH",
                        "BY",
-                       "fdr", 
+                       "fdr",
                        "none"),
            min = 5,
-           pathwayType = c('kegg', 'reactome','wiki','other'),
+           pathwayType = c('kegg', 'reactome', 'wiki', 'other'),
            near = FALSE,
            target = FALSE,
            isTADSearch = FALSE,
@@ -1106,28 +1117,27 @@ mirnaRegionPathwayEnricher <-
            exp2,
            label1 = '',
            label2 = '',
-           corrMethod = c("pearson","kendall", "spearman"),
+           corrMethod = c("pearson", "kendall", "spearman"),
            varCutoff = 0.0025,
            minAbsCor = 0.3,
            pcut = 0.05,
-           alternate = c('greater',"two.sided", "less"),
+           alternate = c('greater', "two.sided", "less"),
            isUnionCorGene = FALSE,
            conf = 0.95,
-           databaseFile, isGeneEnrich = FALSE) {
+           databaseFile,
+           isGeneEnrich = FALSE) {
     if (missing(region)) {
       message("Region of interest is missing.")
     }
-
+    
     if (missing(org_assembly)) {
-      message(
-        "Assembly version is missing."
-      )
+      message("Assembly version is missing.")
     }
     
     if (class(pkg.env$mart)[1] != "Mart") {
       assembly(org_assembly)
     }
-
+    
     if (target) {
       genes <-
         getUCSC(
@@ -1145,28 +1155,33 @@ mirnaRegionPathwayEnricher <-
         return(NULL)
       }
       targetResult <- unique(targetResult)
-
+      
       geneTargetLoc <-
         convertGeneID(genetype = "Ensembl_trans",
                       genelist = targetResult,
                       org_assembly = org_assembly)
-
+      
     }
     if (near) {
-      if (searchRegion == 'all')
-        miNearGene_temp <- getUCSC(region, upstream, downstream, org_assembly)
-      if (searchRegion == 'exon')
+      ifelse(
+        searchRegion == 'all',
         miNearGene_temp <-
-          getNearToExon(region, upstream, downstream, org_assembly)
-      if (searchRegion == 'intron')
-        miNearGene_temp <-
-          getNearToIntron(region, upstream, downstream, org_assembly)
-
+          getUCSC(region, upstream, downstream, org_assembly),
+        ifelse(
+          searchRegion == 'exon',
+          miNearGene_temp <-
+            getNearToExon(region, upstream, downstream, org_assembly),
+          miNearGene_temp <-
+            getNearToIntron(region, upstream, downstream, org_assembly)
+        )
+      )
+      
       geneLoc_temp <-
-        convertGeneID(genetype = "NCBI",
+        convertGeneID(genetype
+                      = "NCBI",
                       genelist = miNearGene_temp,
                       org_assembly = org_assembly)
-
+      
       if (target) {
         geneL <- findOverlapPairs(geneLoc_temp, geneTargetLoc)
         geneLo <- pintersect(geneL, ignore.strand = TRUE)
@@ -1196,7 +1211,7 @@ mirnaRegionPathwayEnricher <-
           )
       }
     }
-
+    
     if (isTADSearch) {
       tadGene <-
         getTADOverlap(
@@ -1214,7 +1229,7 @@ mirnaRegionPathwayEnricher <-
       else
         miNearGene <- tadGene
     }
-
+    
     if (express) {
       if (!isCustomExp) {
         nearG <-
@@ -1304,32 +1319,33 @@ mirnaRegionPathwayEnricher <-
           pAdjCut = pAdjCut,
           pAdjust = pAdjust,
           isSymbol = isSymbol,
-          min = min, isGeneEnrich = isGeneEnrich
+          min = min,
+          isGeneEnrich = isGeneEnrich
         )
       }
-
+      
       return(miEnrich)
     }
   }
 
-#' Predict the miRNA targets for the miRNA or mRNA genes, which is specified 
+#' Predict the miRNA targets for the miRNA or mRNA genes, which is specified
 #' with type parameter
 #'
-#' @param gene Data frame of miRNA or mRNA gene. Formats should be NCBI gene 
+#' @param gene Data frame of miRNA or mRNA gene. Formats should be NCBI gene
 #'     name, ENSEMBL gene or transcript id, and mirna
-#' @param type Format of the gene, it should be "NCBI" for NCBI gene name, 
-#'     "Ensembl_gene" for ENSEMBL gene id, "Ensembl_trans" for Ensembl 
+#' @param type Format of the gene, it should be "NCBI" for NCBI gene name,
+#'     "Ensembl_gene" for ENSEMBL gene id, "Ensembl_trans" for Ensembl
 #'     transcript id and "mirna" for miRNA gene
-#' @param org_assembly Analyzed genome assembly. Possible assemblies are 
-#'     "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat, "dm6" for 
+#' @param org_assembly Analyzed genome assembly. Possible assemblies are
+#'     "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat, "dm6" for
 #'     fruit fly, "ce11" for worm, "hg19" and "hg38" for human
 #'
 #' @return miRNA:mRNA target sets of the given genes
 #'
 #' @examples
 #'
-#' a<- predictmiTargets(gene = brain_mirna[1:100,], 
-#'                      org_assembly = 'hg19', 
+#' a<- predictmiTargets(gene = brain_mirna[1:100,],
+#'                      org_assembly = 'hg19',
 #'                      type = "mirna")
 #'
 #'
@@ -1337,19 +1353,15 @@ mirnaRegionPathwayEnricher <-
 predictmiTargets <- function(gene, type, org_assembly)
 {
   if (missing(gene)) {
-    message(
-      "Genes are missing."
-    )
+    message("Genes are missing.")
   }
   if (missing(type)) {
     message("Format of the gene is missing.")
   }
   if (missing(org_assembly)) {
-    message(
-      "Genome assembly version is missing."
-    )
+    message("Genome assembly version is missing.")
   }
-
+  
   if (!exists("targets")) {
     if (org_assembly == 'mm10') {
       targets <- NoRCE::targets_mouse
@@ -1370,14 +1382,14 @@ predictmiTargets <- function(gene, type, org_assembly)
       targets <- NoRCE::targets_human
     }
   }
-
+  
   gene <- as.data.frame(gene)
   colnames(gene) <- c("genes")
-
+  
   if (type == "NCBI") {
     where <- targets[which(tolower(targets$X2) %in% gene$genes), ]
   }
-
+  
   else if (type == "mirna") {
     where <-
       targets[which(tolower(targets$X4) %in% tolower(gene$genes)), ]
@@ -1394,14 +1406,12 @@ predictmiTargets <- function(gene, type, org_assembly)
   else{
     colnames(where) <- c('genesEns', 'genesHugo', 'geneTrans', 'mirna')
     tmp1 <-
-      data.frame(trans = unlist(
-        apply((where[, 3]), 2, strsplit, '[.]'))[2 *
-                                                   (seq_len(nrow(where))) - 1]) 
+      data.frame(trans = unlist(apply((where[, 3]), 2, strsplit, '[.]'))[2 *
+                                                                           (seq_len(nrow(where))) - 1])
     tmp2 <-
-      data.frame(gene = 
-                  unlist(apply((
-                   where[, 1]), 2, strsplit, '[.]'))[2 * 
-                                                   (seq_len(nrow(where))) - 1])
+      data.frame(gene =
+                   unlist(apply((where[, 1]), 2, strsplit, '[.]'))[2 *
+                                                                     (seq_len(nrow(where))) - 1])
     dat <-
       cbind.data.frame(tmp1, where$genesHugo, tmp2, where$mirna)
     return(dat)
