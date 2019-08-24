@@ -142,7 +142,7 @@ geneGOEnricher <-
     if (missing(gene))
       message("Gene is missing?")
 
-    if(!is.data.frame(gene) | is.character(gene))
+    if(!is.data.frame(gene) & !is.character(gene) & !is.factor(gene))
       message("Type of the gene should be data.frame or character")
       
     if (missing(org_assembly))
@@ -441,7 +441,7 @@ genePathwayEnricher <-
     if (missing(gene)) {
       message("Gene is missing?")
     }
-    if(!is.data.frame(gene) | is.character(gene))
+    if(!is.data.frame(gene) & !is.character(gene) & !is.factor(gene))
       message("Type of the gene should be data.frame or character")
     
     if (missing(org_assembly)) {

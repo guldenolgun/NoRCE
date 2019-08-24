@@ -143,7 +143,7 @@ mirnaGOEnricher <-
         "Assembly version is missing."
       )
     }
-    if(!is.data.frame(gene) | is.character(gene))
+    if(!is.data.frame(gene) & !is.character(gene) & !is.factor(gene))
       message("Type of the gene should be data.frame or character")
     
     if (class(pkg.env$mart)[1] != "Mart") {
@@ -471,7 +471,7 @@ mirnaPathwayEnricher <-
       assembly(org_assembly)
     }
     
-    if(!is.data.frame(gene) | is.character(gene))
+    if(!is.data.frame(gene) & !is.character(gene) & !is.factor(gene))
       message("Type of the gene should be data.frame or character")
     
     gene <- as.data.frame(gene)

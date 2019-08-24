@@ -10,12 +10,12 @@ getNearToExon(bedfile, upstream, downstream, org_assembly = c("hg19",
 \arguments{
 \item{bedfile}{Input bed formated file}
 
-\item{upstream}{Maximum upstream distance from the transcription start position}
+\item{upstream}{Maximum upstream distance from the TSS position}
 
-\item{downstream}{Maximum downstream distance from the transcription end position}
+\item{downstream}{Maximum downstream distance from the TES position}
 
-\item{org_assembly}{genomee assembly of interest for the analysis. Possible 
-assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat, 
+\item{org_assembly}{genomee assembly of interest for the analysis. Possible
+assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat,
 "dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and
 "hg38" for human}
 }

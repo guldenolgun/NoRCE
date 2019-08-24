@@ -45,7 +45,8 @@ used.}
 \item{pAdjCut}{Cutoff value for the adjusted p-values using one of given 
 method. Default value is 0.05.}
 
-\item{pAdjust}{Methods of the adjusted p-values.}
+\item{pAdjust}{Methods of the adjusted p-values. Possible values are 
+"holm", "hochberg", "hommel", "bonferroni", "BH", "BY","fdr", "none"}
 
 \item{min}{Minimum number of genes that are required for enrichment. By 
 default, it is set to 5.}

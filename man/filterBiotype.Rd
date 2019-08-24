@@ -23,9 +23,8 @@ when input gene list is mixed or when research of the interest is only
 focused on specific group of genes.
 }
 \examples{
-\dontrun{
-
 biotypes <- c('lincRNA','antisense')
+\dontrun{
 lncGenes <-filterBiotype(gtfFile = "filePath//gtf", biotypes = biotypes)
 
 a<-geneGOEnrichment(gene = unique(lncGenes), org_assembly = "hg19",

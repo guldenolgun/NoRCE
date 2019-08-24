@@ -9,7 +9,8 @@
 #'
 #' @return data frame of the GO term annotation of the genes
 #'
-
+#' @import GO.db
+#' @import org.Hs.eg.db
 #'
 annotate <- function(genes,
                      GOtype = c("BP", "CC", "MF"),

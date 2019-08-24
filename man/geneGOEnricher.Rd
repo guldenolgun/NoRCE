@@ -47,7 +47,8 @@ assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat,
 \item{pAdjCut}{Cutoff value for the adjusted p-values using one of given 
 method. Default value is 0.05.}
 
-\item{pAdjust}{Methods of the adjusted p-values.}
+\item{pAdjust}{Methods of the adjusted p-values. Possible values are
+"holm", "hochberg", "hommel", "bonferroni", "BH", "BY","fdr", "none"}
 
 \item{backG}{The set of genes that tested against to the input 
 (background gene)}
