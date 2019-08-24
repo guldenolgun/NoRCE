@@ -786,6 +786,9 @@ listTAD <- function(TADName) {
 
 
 #' Check the package availability for the given assembly
+#' @param pkg Required packages
+#' 
+#' @return return install packages
 #' 
 #' @importFrom utils installed.packages
 #' 

@@ -6,6 +6,12 @@
 \usage{
 packageCheck(pkg)
 }
+\arguments{
+\item{pkg}{Required packages}
+}
+\value{
+return install packages
+}
 \description{
 Check the package availability for the given assembly
 }

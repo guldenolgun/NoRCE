@@ -34,10 +34,3 @@ KEGG pathway enrichment results
 \description{
 KEGG pathway enrichment
 }
-\examples{
-subsetGene <- breastmRNA[1:30,]
-
-br_enr<-KeggEnrichment(genes = subsetGene,
-                       org_assembly='hg19')
-
-}
