@@ -673,6 +673,8 @@ mirnaPathwayEnricher <-
           isGeneEnrich = isGeneEnrich
         )
       }
+      
+      
       if (length(miEnrich@Term) > 0)
       {
         miEnrich@ncGeneList <-
@@ -1323,6 +1325,52 @@ mirnaRegionPathwayEnricher <-
           isGeneEnrich = isGeneEnrich
         )
       }
+      # ifelse(
+      #   pathwayType == 'kegg',
+      #   miEnrich <-
+      #     KeggEnrichment(
+      #       genes = miNearGene,
+      #       org_assembly = org_assembly,
+      #       pCut = pCut,
+      #       pAdjCut = pAdjCut,
+      #       pAdjust = pAdjust,
+      #       min = min
+      #     ),
+      #   ifelse(
+      #     pathwayType == 'reactome',
+      #     miEnrich <-
+      #       reactomeEnrichment(
+      #         genes = miNearGene,
+      #         org_assembly = org_assembly,
+      #         pCut = pCut,
+      #         pAdjCut = pAdjCut,
+      #         pAdjust = pAdjust,
+      #         min = min
+      #       ),
+      #     ifelse(
+      #       pathwayType == 'wiki',
+      #       miEnrich <- WikiEnrichment(
+      #         org_assembly = org_assembly,
+      #         genes = miNearGene,
+      #         pCut = pCut,
+      #         pAdjCut = pAdjCut,
+      #         pAdjust = pAdjust,
+      #         min = min
+      #       ),
+      #       miEnrich <- pathwayEnrichment(
+      #         genes = miNearGene,
+      #         gmtFile = gmtName,
+      #         org_assembly = org_assembly,
+      #         pCut = pCut,
+      #         pAdjCut = pAdjCut,
+      #         pAdjust = pAdjust,
+      #         isSymbol = isSymbol,
+      #         min = min,
+      #         isGeneEnrich = isGeneEnrich
+      #       )
+      #     )
+      #   )
+      # )
       
       return(miEnrich)
     }
@@ -1363,55 +1411,83 @@ predictmiTargets <- function(gene, type, org_assembly)
   }
   
   if (!exists("targets")) {
-    if (org_assembly == 'mm10') {
-      targets <- NoRCE::targets_mouse
-    }
-    else if (org_assembly == 'dre10') {
-      targets <- NoRCE::targets_zebra
-    }
-    else if (org_assembly == 'ce11') {
-      targets <- NoRCE::targets_worm
-    }
-    else if (org_assembly == 'rn6') {
-      targets <- NoRCE::targets_rat
-    }
-    else if (org_assembly == 'dm6') {
-      targets <- NoRCE::targets_fly
-    }
-    else{
-      targets <- NoRCE::targets_human
-    }
+    # if(org_assembly == 'mm10') {
+    #   targets <- NoRCE::targets_mouse
+    # }
+    # else if (org_assembly == 'dre10') {
+    #   targets <- NoRCE::targets_zebra
+    # }
+    # else if (org_assembly == 'ce11') {
+    #   targets <- NoRCE::targets_worm
+    # }
+    # else if (org_assembly == 'rn6') {
+    #   targets <- NoRCE::targets_rat
+    # }
+    # else if (org_assembly == 'dm6') {
+    #   targets <- NoRCE::targets_fly
+    # }
+    # else{
+    #   targets <- NoRCE::targets_human
+    # }
+    ifelse(
+      org_assembly == 'mm10',
+      targets <- NoRCE::targets_mouse,
+      ifelse(
+        org_assembly == 'dre10',
+        targets <- NoRCE::targets_zebra
+        ,
+        ifelse (
+          org_assembly == 'ce11',
+          targets <- NoRCE::targets_worm,
+          ifelse (
+            org_assembly == 'rn6',
+            targets <- NoRCE::targets_rat
+            ,
+            ifelse (
+              org_assembly == 'dm6',
+              targets <-
+                NoRCE::targets_fly,
+              targets <-
+                NoRCE::targets_human
+            )
+          )
+        )
+      )
+    )
   }
   
   gene <- as.data.frame(gene)
   colnames(gene) <- c("genes")
   
-  if (type == "NCBI") {
-    where <- targets[which(tolower(targets$X2) %in% gene$genes), ]
-  }
-  
-  else if (type == "mirna") {
-    where <-
-      targets[which(tolower(targets$X4) %in% tolower(gene$genes)), ]
-  }
-  else if (type == "Ensembl_gene") {
-    where <- targets[which(tolower(targets$X1) %in% gene$genes), ]
-  }
-  else if (type == "Ensembl_trans") {
-    where <- targets[which(tolower(targets$X3) %in% gene$genes), ]
-  }
+  ifelse(type == "NCBI",
+         where <-
+           targets[which(tolower(targets$X2) %in% gene$genes), ],
+         ifelse (
+           type == "mirna",
+           where <-
+             targets[which(tolower(targets$X4) %in% tolower(gene$genes)), ],
+           ifelse (type == "Ensembl_gene" ,
+                   where <-
+                     targets[which(tolower(targets$X1) %in% gene$genes), ],
+                   where <-
+                     targets[which(tolower(targets$X3) %in% gene$genes), ])
+         ))
   if (nrow(where) == 0) {
     return(NULL)
   }
   else{
     colnames(where) <- c('genesEns', 'genesHugo', 'geneTrans', 'mirna')
     tmp1 <-
-      data.frame(trans = unlist(apply((where[, 3]), 2, strsplit, '[.]'))[2 *
-                                                                           (seq_len(nrow(where))) - 1])
+      data.frame(
+        trans = unlist(
+          apply((where[, 3]), 2, strsplit, '[.]'))[2 *
+                                                   (seq_len(nrow(where))) - 1])
     tmp2 <-
-      data.frame(gene =
-                   unlist(apply((where[, 1]), 2, strsplit, '[.]'))[2 *
-                                                                     (seq_len(nrow(where))) - 1])
+      data.frame(
+        gene =
+           unlist(
+             apply((where[, 1]), 2, strsplit, '[.]'))[2 *
+                                                  (seq_len(nrow(where))) - 1])
     dat <-
       cbind.data.frame(tmp1, where$genesHugo, tmp2, where$mirna)
     return(dat)

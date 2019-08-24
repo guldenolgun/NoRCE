@@ -59,7 +59,7 @@ readbed <- function(dm_file, isText = TRUE) {
 #' @import TxDb.Rnorvegicus.UCSC.rn6.refGene
 #' @import TxDb.Dmelanogaster.UCSC.dm6.ensGene
 #' @import TxDb.Celegans.UCSC.ce11.refGene
-#' 
+#' @importFrom rtracklayer genome<-
 assembly <- function(org_assembly = c("hg19",
                                       "hg38",
                                       "mm10",

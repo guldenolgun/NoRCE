@@ -8,17 +8,8 @@
 #'
 #' @return Dot plot of the top n enrichment results
 #' @importFrom ggplot2 ggplot
+#' @importFrom AnnotationDbi Term
 #'
-#'
-#' @examples
-#'
-#' subsetGene <- brain_disorder_ncRNA[1:50,]
-#'
-#' ncGO <- geneGOEnricher(gene = subsetGene,
-#'                        org_assembly='hg19',
-#'                        near=TRUE,
-#'                        genetype = 'Ensembl_gene',
-#'                        pAdjust = "none")
 #'
 #' @export
 drawDotPlot <- function(mrnaObject, type = "pAdjust", n) {
@@ -173,9 +164,9 @@ topEnrichment <- function(mrnaObject, type, n) {
   ),
   go = unlist(mrnaObject@ncGeneList))
   
-  table <- table[!duplicated(table), ]
+  table <- table[!duplicated(table),]
   
-  table1 <- table1[!duplicated(table1), ]
+  table1 <- table1[!duplicated(table1),]
   
   xy.list <- split(table$go, table$gene)
   xy.list1 <- split(table1$go, table1$gene)
@@ -222,14 +213,10 @@ topEnrichment <- function(mrnaObject, type, n) {
       "ncGeneList"
     )
   
-  if (type == "pvalue") {
-    dd <- dd[order(dd$Pvalue), ]
-  }
-  else{
-    dd <- dd[order(dd$PAdjust), ]
-  }
+  ifelse(type == "pvalue", dd <-
+           dd[order(dd$Pvalue),], dd <- dd[order(dd$PAdjust),])
   
-  return(dd[seq_len(n), ])
+  return(dd[seq_len(n),])
 }
 
 #' Create interaction network for top n enriched GO term:mRNA interaction.
@@ -497,18 +484,6 @@ getGoDag <-
 #'     "hg19" and "hg38" for human
 #'
 #' @return Shows kegg diagram marked with an enriched genes in a browser
-#' @examples
-#'
-#' subsetGene = brain_mirna[200:400,]
-#'
-#' ncRNAPathway<-mirnaPathwayEnricher(gene = subsetGene,
-#'                                    org_assembly='hg19',
-#'                                    near=TRUE,
-#'                                    pAdjust = "none")
-#'
-#' getKeggDiagram(mrnaObject = ncRNAPathway,
-#'                org_assembly = 'hg19',
-#'                pathway = ncRNAPathway@ID[1])
 #' @export
 #'
 getKeggDiagram <-
