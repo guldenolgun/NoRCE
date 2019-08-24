@@ -123,7 +123,7 @@ Two custom defined expression data can be utilized to augment or filter the codi
 As in GO enrichment analysis, pathway enrichment analysis can be performed based on gene neigbourhood, predicted targets, correlation coefficient and/or topological domain analysis. Each parameter is controlled by the related parameters and HUGO, ENSEMBL gene, ENSEMBL transcript gene, ENTREZ ID and miRNA name is supported for the input gene list. Non-coding genes can be annotated and enriched with KEGG, Reactome and Wiki pathways. Moreover, pathway enriched can be performed based on custom GMT file. GMT file supports both gene format of ENTREZ ID, Symbol and it is controlled by the `isSymbol` parameter. `genePathwayEnricher` and `geneRegionPathwayEnricher` functions fulfill the pathway enrichment for the genes and regions expect the miRNA genes and for the miRNA `mirnaPathwayEnricher` and `mirnaRegionPathwayEnricher` is used.
 
 ```{r, Pathway enrichment based on the gen sets that falls into the TAD regions, eval=TRUE}
-ncRNAPathway<-genePathwayEnricher(gene = brain_disorder_ncRNA[1:100,], org_assembly='hg19', pathwayType = 'kegg', isTADSearch = TRUE,TAD = tad_hg19, genetype = 'Ensembl_gene', min=2,pAdjust = "none")
+ncRNAPathway<-genePathwayEnricher(gene = brain_disorder_ncRNA[1:100,], org_assembly='hg19', pathwayType = 1 , isTADSearch = TRUE,TAD = tad_hg19, genetype = 'Ensembl_gene', min=2,pAdjust = "none")
 ```
 
 # Gene Enrichment Analysis

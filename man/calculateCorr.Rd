@@ -2,7 +2,7 @@
 % Please edit documentation in R/expressionBased.R
 \name{calculateCorr}
 \alias{calculateCorr}
-\title{Calculates the correlation coefficient values between two custom expression 
+\title{Calculates the correlation coefficient values between two custom expression
 data.}
 \usage{
 calculateCorr(exp1, exp2, label1 = "", label2 = "",
@@ -10,42 +10,42 @@ calculateCorr(exp1, exp2, label1 = "", label2 = "",
   pcut = 0.05, alternate = "greater", conf = 0.95)
 }
 \arguments{
-\item{exp1}{Custom expression data matrix or SummarizedExperiment data. 
+\item{exp1}{Custom expression data matrix or SummarizedExperiment data.
 Columns must be genes and rows must be patients.}
 
-\item{exp2}{Custom expression data matrix or SummarizedExperiment data. 
+\item{exp2}{Custom expression data matrix or SummarizedExperiment data.
 Columns must be genes and rows must be patients.}
 
-\item{label1}{Gene names of the custom exp1 expression data. If it is 
+\item{label1}{Gene names of the custom exp1 expression data. If it is
 not provided, column name of the exp1 data will be taken.}
 
-\item{label2}{Gene names of the custom exp2 expression data. If it is 
+\item{label2}{Gene names of the custom exp2 expression data. If it is
 not provided, column name of the exp2 data will be taken.}
 
-\item{corrMethod}{Correlation coeffient method that will be used for 
+\item{corrMethod}{Correlation coeffient method that will be used for
 evaluation. Possible values are "pearson", "kendall", "spearman"}
 
-\item{varCutoff}{Variance cutt off that genes have less variance than 
+\item{varCutoff}{Variance cutt off that genes have less variance than
 this value will be trimmed}
 
-\item{corCutoff}{Correlation cut off values for the given correlation 
+\item{corCutoff}{Correlation cut off values for the given correlation
 method}
 
 \item{pcut}{P-value cut off for the correlation values}
 
-\item{alternate}{Holds the alternative hypothesis and "two.sided", 
+\item{alternate}{Holds the alternative hypothesis and "two.sided",
 "greater" or "less" are the possible values.}
 
-\item{conf}{Confidence level for the returned confidence interval. It is 
+\item{conf}{Confidence level for the returned confidence interval. It is
 only used for the Pearson correlation coefficient if there are at least
 4 complete pairs of observations.}
 }
 \value{
-Pairwise relations between gene-gene with corresponding correlation 
+Pairwise relations between gene-gene with corresponding correlation
       value and pvalue
 }
 \description{
-Calculates the correlation coefficient values between two custom expression 
+Calculates the correlation coefficient values between two custom expression
 data.
 }
 \examples{
