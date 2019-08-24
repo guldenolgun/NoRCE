@@ -41,12 +41,12 @@ list.
 }
 \examples{
 subsetGene <- brain_disorder_ncRNA[1:50,]
-
+\dontrun{
 ncGO <- geneGOEnricher(gene = subsetGene,
                        org_assembly='hg19',
                        near=TRUE,
                        genetype = 'Ensembl_gene',
                        pAdjust = "none")
 createNetwork(ncGO,n=2)
-
+}
 }

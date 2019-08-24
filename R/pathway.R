@@ -18,12 +18,6 @@
 #'
 #' @importFrom KEGGREST keggGet
 #'
-#' @examples
-#' subsetGene <- breastmRNA[1:30,]
-#'
-#' br_enr<-KeggEnrichment(genes = subsetGene,
-#'                        org_assembly='hg19')
-#'
 #' @export
 #'
 KeggEnrichment <-

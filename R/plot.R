@@ -8,7 +8,6 @@
 #'
 #' @return Dot plot of the top n enrichment results
 #' @importFrom ggplot2 ggplot
-#' @import AnnotateDbi
 #'
 #'
 #' @examples
@@ -258,14 +257,14 @@ topEnrichment <- function(mrnaObject, type, n) {
 #'
 #'@examples
 #' subsetGene <- brain_disorder_ncRNA[1:50,]
-#'
+#' \dontrun{
 #' ncGO <- geneGOEnricher(gene = subsetGene,
 #'                        org_assembly='hg19',
 #'                        near=TRUE,
 #'                        genetype = 'Ensembl_gene',
 #'                        pAdjust = "none")
 #' createNetwork(ncGO,n=2)
-#'
+#'}
 #' @importFrom igraph cluster_optimal degree graph_from_data_frame layout_with_fr norm_coords V E V<- E<-
 #' @importFrom grDevices adjustcolor colorRampPalette
 #' @importFrom graphics plot
