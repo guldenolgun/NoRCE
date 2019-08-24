@@ -16,7 +16,7 @@ goEnrichment(genes, org_assembly = c("hg19", "hg38", "mm10", "dre10",
 
 \item{org_assembly}{Genome assembly of interest for the analysis. Possible
 assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat,
-"dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and 
+"dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and
 "hg38" for human}
 
 \item{GOtype}{Hierarchical category of the GO ontology. Possible values are
@@ -24,23 +24,23 @@ assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat,
 
 \item{pCut}{Threshold value for the pvalue. Default value is 0.05}
 
-\item{pAdjCut}{Cutoff value for the adjusted p-values using one of given 
+\item{pAdjCut}{Cutoff value for the adjusted p-values using one of given
 method. Default value is 0.05.}
 
-\item{pAdjust}{Methods of the adjusted p-values. Possible methods are 
+\item{pAdjust}{Methods of the adjusted p-values. Possible methods are
 "bonferroni", "holm", "BH"(default)}
 
 \item{min}{Minimum number of gene that are required for enrichment. By
 default, it is set to 5}
 
-\item{backG}{The set of genes that tested against to the input 
+\item{backG}{The set of genes that tested against to the input
 (background gene)}
 
 \item{backGType}{Type of the background gene. If miRNA gene set is used for
 background gene, backGType should be set to the 'mirna'}
 
-\item{enrichTest}{Types of enrichment methods to perform enrichment 
-analysis. Possible values are "hyper"(default), "binom", "fisher", 
+\item{enrichTest}{Types of enrichment methods to perform enrichment
+analysis. Possible values are "hyper"(default), "binom", "fisher",
 "chi".}
 }
 \value{
@@ -53,7 +53,7 @@ Perform enrichment analysis of the given genes
 subsetGene <- breastmRNA[1:30,]
 breastEnr <- goEnrichment(genes = subsetGene,
                           org_assembly = 'hg19',
-                          GOtype = 'MF', 
+                          GOtype = 'MF',
                           min = 2)
 
 }

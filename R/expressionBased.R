@@ -3,11 +3,11 @@
 #'
 #' @param mirnagene Data frame of the miRNA genes in mature format
 #' @param cancer Name of the TCGA project code such as 'BRCA' that is analyzed
-#'      for miRNA-mRNA correlation. Possible cancer types ACC, BLCA, BRCA, 
-#'      CESC, CHOL, COAD, COADREAD, DLBC, ESCA, GBMLGG, HNSC, KICH, KIPAN, 
-#'      KIRC, KIRP, LGG, LIHC, LUAD, LUSC, OV, PAAD, PCPG, PRAD, READ, SARC, 
+#'      for miRNA-mRNA correlation. Possible cancer types ACC, BLCA, BRCA,
+#'      CESC, CHOL, COAD, COADREAD, DLBC, ESCA, GBMLGG, HNSC, KICH, KIPAN,
+#'      KIRC, KIRP, LGG, LIHC, LUAD, LUSC, OV, PAAD, PCPG, PRAD, READ, SARC,
 #'      SKCM, STAD, STES, TGCT, THCA, THYM, UCEC, UCS, UVM
-#' @param minAbsCor Cut-off value for the Pearson correlation coefficient of 
+#' @param minAbsCor Cut-off value for the Pearson correlation coefficient of
 #'      the miRNA-mRNA
 #' @param databaseFile Path of the miRcancer.db file
 #'
@@ -31,21 +31,20 @@ corrbased <- function(mirnagene,
                       cancer,
                       minAbsCor,
                       databaseFile) {
-
   colnames(mirnagene) <- c('g')
-
-
+  
+  
   conn <- dbConnect(SQLite(), databaseFile)
-
+  
   dat <- conn %>%
-    dplyr::tbl('cor_mir') %>% 
-    dplyr::select(mirna_base, feature, cancer) %>% 
-    dplyr::filter(mirna_base %in% mirnagene$g) %>% 
+    dplyr::tbl('cor_mir') %>%
+    dplyr::select(mirna_base, feature, cancer) %>%
+    dplyr::filter(mirna_base %in% mirnagene$g) %>%
     collect() %>%
-    tidyr::gather(cancer, cor,-mirna_base,-feature) %>% 
+    tidyr::gather(cancer, cor, -mirna_base, -feature) %>%
     mutate(cor = cor / 100) %>% dplyr::filter(abs(cor) > minAbsCor) %>%
     arrange(dplyr::desc(abs(cor))) %>% na.omit()
-
+  
   return(dat)
 }
 
@@ -54,9 +53,9 @@ corrbased <- function(mirnagene,
 #'
 #' @param mRNAgene Data frame of the mRNA genes
 #' @param cancer Name of the TCGA project code such as 'BRCA' that is analyzed
-#'      for miRNA-mRNA correlation. Possible cancer types ACC, BLCA, BRCA, 
-#'      CESC, CHOL, COAD, COADREAD, DLBC, ESCA, GBMLGG, HNSC, KICH, KIPAN, 
-#'      KIRC, KIRP, LGG, LIHC, LUAD, LUSC, OV, PAAD, PCPG, PRAD, READ, SARC, 
+#'      for miRNA-mRNA correlation. Possible cancer types ACC, BLCA, BRCA,
+#'      CESC, CHOL, COAD, COADREAD, DLBC, ESCA, GBMLGG, HNSC, KICH, KIPAN,
+#'      KIRC, KIRP, LGG, LIHC, LUAD, LUSC, OV, PAAD, PCPG, PRAD, READ, SARC,
 #'      SKCM, STAD, STES, TGCT, THCA, THYM, UCEC, UCS, UVM
 #' @param minAbsCor Cut-off value for the Pearson correlation coefficient of
 #'      the miRNA-mRNA
@@ -81,26 +80,26 @@ corrbased <- function(mirnagene,
 corrbasedMrna <-
   function(mRNAgene, cancer, minAbsCor, databaseFile) {
     colnames(mRNAgene) <- c('g')
-
+    
     conn <- dbConnect(SQLite(), databaseFile)
-
+    
     dat <- conn %>%
-      dplyr::tbl('cor_mir') %>% 
-      dplyr::select(mirna_base, feature, cancer) %>% 
-      dplyr::filter(feature %in% mRNAgene$g) %>% 
+      dplyr::tbl('cor_mir') %>%
+      dplyr::select(mirna_base, feature, cancer) %>%
+      dplyr::filter(feature %in% mRNAgene$g) %>%
       collect() %>%
-      tidyr::gather(cancer, cor,-mirna_base,-feature) %>% 
-      mutate(cor = cor / 100) %>% 
+      tidyr::gather(cancer, cor, -mirna_base, -feature) %>%
+      mutate(cor = cor / 100) %>%
       dplyr::filter(abs(cor) > minAbsCor) %>%
       arrange(dplyr::desc(abs(cor))) %>% na.omit()
-
+    
     return(dat)
   }
 
 #' Get TCGA miRNAseq expression of miRNA genes for the given cancer
 #'
 #' @param mirnagene Data frame of the mature format
-#' @param cancer Name of the TCGA project code such as 'BRCA' that is 
+#' @param cancer Name of the TCGA project code such as 'BRCA' that is
 #'      analyzed for miRNA-mRNA correlation
 #' @param databaseFile Path of miRcancer.db file
 #'
@@ -111,7 +110,7 @@ corrbasedMrna <-
 #'
 #' database<- "filePath//miRCancer.db"
 #' \dontrun{
-#' brcaCorr<- getmiRNACount(mirnagene = brain_mirna, 
+#' brcaCorr<- getmiRNACount(mirnagene = brain_mirna,
 #' cancer = 'BRCA', databaseFile = database)
 #' }
 #'
@@ -122,45 +121,45 @@ corrbasedMrna <-
 #' @export
 getmiRNACount <- function(mirnagene, cancer, databaseFile) {
   colnames(mirnagene) <- c('g')
-
+  
   conn <- dbConnect(SQLite(), databaseFile)
-
+  
   dat <-
-    conn %>% 
-    dplyr::tbl('profiles') %>% 
-    dplyr::select(study, mirna_base, count) %>% 
+    conn %>%
+    dplyr::tbl('profiles') %>%
+    dplyr::select(study, mirna_base, count) %>%
     dplyr::filter(mirna_base %in% mirnagene$g) %>%
-    dplyr::filter(study %in% cancer) %>% 
+    dplyr::filter(study %in% cancer) %>%
     collect() %>% na.omit()
-
+  
   return(dat)
 }
 
-#' Calculates the correlation coefficient values between two custom expression 
+#' Calculates the correlation coefficient values between two custom expression
 #' data.
-#' 
-#' @param exp1 Custom expression data matrix or SummarizedExperiment data. 
+#'
+#' @param exp1 Custom expression data matrix or SummarizedExperiment data.
 #'      Columns must be genes and rows must be patients.
-#' @param exp2 Custom expression data matrix or SummarizedExperiment data. 
+#' @param exp2 Custom expression data matrix or SummarizedExperiment data.
 #'      Columns must be genes and rows must be patients.
-#' @param label1 Gene names of the custom exp1 expression data. If it is 
+#' @param label1 Gene names of the custom exp1 expression data. If it is
 #'      not provided, column name of the exp1 data will be taken.
-#' @param label2 Gene names of the custom exp2 expression data. If it is 
+#' @param label2 Gene names of the custom exp2 expression data. If it is
 #'      not provided, column name of the exp2 data will be taken.
-#' @param corrMethod Correlation coeffient method that will be used for 
+#' @param corrMethod Correlation coeffient method that will be used for
 #'      evaluation. Possible values are "pearson", "kendall", "spearman"
-#' @param varCutoff Variance cutt off that genes have less variance than 
+#' @param varCutoff Variance cutt off that genes have less variance than
 #'      this value will be trimmed
-#' @param corCutoff Correlation cut off values for the given correlation 
+#' @param corCutoff Correlation cut off values for the given correlation
 #'      method
 #' @param pcut P-value cut off for the correlation values
-#' @param alternate Holds the alternative hypothesis and "two.sided", 
+#' @param alternate Holds the alternative hypothesis and "two.sided",
 #'      "greater" or "less" are the possible values.
-#' @param conf Confidence level for the returned confidence interval. It is 
+#' @param conf Confidence level for the returned confidence interval. It is
 #'      only used for the Pearson correlation coefficient if there are at least
 #'      4 complete pairs of observations.
 #'
-#' @return Pairwise relations between gene-gene with corresponding correlation 
+#' @return Pairwise relations between gene-gene with corresponding correlation
 #'       value and pvalue
 #'
 #' @importFrom psych corr.test
@@ -182,33 +181,34 @@ calculateCorr <-
            pcut = 0.05,
            alternate = 'greater',
            conf = 0.95) {
-    if(class(exp1)[[1]] =="RangedSummarizedExperiment"){
+    if (class(exp1)[[1]] == "RangedSummarizedExperiment") {
       tmp1 <- assay(exp1)
-      exp1<-t(tmp1)
+      exp1 <- t(tmp1)
     }
-    if(class(exp2)[[1]] =="RangedSummarizedExperiment"){
+    if (class(exp2)[[1]] == "RangedSummarizedExperiment") {
       tmp2 <- assay(exp2)
-      exp2<-t(tmp2)
-    } 
-    if (label1 == '')
-      label1 <- data.frame(colnames(exp1))
-    else
-      colnames(exp1) <- t(label1)
-
-    if (label2 == '')
-      label2 <- data.frame(colnames(exp2))
-    else
-      colnames(exp2) <- t(label2)
-
+      exp2 <- t(tmp2)
+    }
+    
+    ifelse(label1 == '',
+           label1 <- data.frame(colnames(exp1)),
+           colnames(exp1) <- t(label1))
+    
+    ifelse(label2 == '',
+           label2 <- data.frame(colnames(exp2)),
+           colnames(exp2) <- t(label2))
+    
+    
     var1 <- apply(exp1, 2, var)
     var2 <- apply(exp2, 2, var)
-
+    
     exp1 <- exp1[, which(var1 > varCutoff)]
     exp2 <- exp2[, which(var2 > varCutoff)]
-    label1 <- data.frame(label1[which(var1 > varCutoff),])
-    label2 <- data.frame(label2[which(var2 > varCutoff),])
+    label1 <- data.frame(label1[which(var1 > varCutoff), ])
+    label2 <- data.frame(label2[which(var2 > varCutoff), ])
     extractData <- data.frame()
-    for (i in seq_len(ncol(exp2))) { #for (i in 1:dim(exp2)[2]) {
+    for (i in seq_len(ncol(exp2))) {
+      #for (i in 1:dim(exp2)[2]) {
       tmp <-
         apply(exp1, 2, function(x)
           cor.test(
@@ -223,12 +223,13 @@ calculateCorr <-
       corpValue <- data.frame(do.call(rbind, out))
       index <- which(abs(corpValue$cor) > corCutoff &
                        corpValue$V2 < pcut)
-      if(!isEmpty(index)){
+      if (!isEmpty(index)) {
         extractData <-
-          rbind(extractData, data.frame(label1[index,], 
-                                        label2[i,], corpValue[index, ]))
+          rbind(extractData, data.frame(label1[index, ],
+                                        label2[i, ], corpValue[index,]))
       }
     }
-    colnames(extractData) <- c('firstExp','SecondExp','Cor','Pvalue')
+    colnames(extractData) <-
+      c('firstExp', 'SecondExp', 'Cor', 'Pvalue')
     return(extractData)
   }
