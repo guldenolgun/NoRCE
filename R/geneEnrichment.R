@@ -408,7 +408,7 @@ genePathwayEnricher <-
                        "fdr", 
                        "none"),
            min = 5,
-           pathwayType = c('kegg', 'reactome','wiki','other'),
+           pathwayType = c('1', '2','3','4'),
            near = TRUE,
            isTADSearch = FALSE,
            TAD = tad_hg19,
@@ -549,7 +549,7 @@ genePathwayEnricher <-
       )
     }
     else{
-    if (pathwayType == 'kegg') {
+    if (pathwayType == 1) {
       enrichedGene <-
         KeggEnrichment(
           genes = nearGene,
@@ -560,7 +560,7 @@ genePathwayEnricher <-
           min = min
         )
     }
-    else if (pathwayType == 'reactome') {
+    else if (pathwayType == 2) {
       enrichedGene <-
         reactomeEnrichment(
           genes = nearGene,
@@ -571,7 +571,7 @@ genePathwayEnricher <-
           min = min
         )
     }
-    else if (pathwayType == 'wiki') {
+    else if (pathwayType == 3) {
       enrichedGene <- WikiEnrichment(
         org_assembly = org_assembly,
         genes = nearGene,
@@ -953,7 +953,7 @@ geneRegionGOEnricher <-
 #'                                   near = TRUE, 
 #'                                   upstream =1000,
 #'                                   downstream = 0, 
-#'                                   pathwayType = 'kegg')
+#'                                   pathwayType = 1)
 #' @export
 geneRegionPathwayEnricher <-
   function(region,
@@ -979,7 +979,7 @@ geneRegionPathwayEnricher <-
                        "fdr", 
                        "none"),
            min = 5,
-           pathwayType = c('kegg', 'reactome','wiki','other'),
+           pathwayType = c('1', '2','3','4'),
            near = FALSE,
            isTADSearch = FALSE,
            TAD = tad_hg19,
@@ -1107,7 +1107,7 @@ geneRegionPathwayEnricher <-
     }
     else{
 
-    if (pathwayType == 'kegg') {
+    if (pathwayType == '1') {
       enrichedGene <-
         KeggEnrichment(
           genes = nearGene,
@@ -1118,7 +1118,7 @@ geneRegionPathwayEnricher <-
           min = min
         )
     }
-    else if (pathwayType == 'reactome') {
+    else if (pathwayType == '2') {
       enrichedGene <-
         reactomeEnrichment(
           genes = nearGene,
@@ -1129,7 +1129,7 @@ geneRegionPathwayEnricher <-
           min = min
         )
     }
-    else if (pathwayType == 'wiki') {
+    else if (pathwayType == '3') {
       enrichedGene <- WikiEnrichment(
         org_assembly = org_assembly,
         genes = nearGene,

@@ -440,7 +440,7 @@ mirnaPathwayEnricher <-
                        "fdr",
                        "none"),
            min = 5,
-           pathwayType = c('kegg', 'reactome', 'wiki', 'other'),
+           pathwayType = c('1', '2', '3', '4'),
            near = FALSE,
            target = FALSE,
            isTADSearch = FALSE,
@@ -628,7 +628,7 @@ mirnaPathwayEnricher <-
       )
     }
     else{
-      if (pathwayType == 'kegg') {
+      if (pathwayType == 1) {
         miEnrich <-
           KeggEnrichment(
             genes = miNearGene,
@@ -639,7 +639,7 @@ mirnaPathwayEnricher <-
             min = min
           )
       }
-      else if (pathwayType == 'reactome') {
+      else if (pathwayType == 2) {
         miEnrich <-
           reactomeEnrichment(
             genes = miNearGene,
@@ -650,7 +650,7 @@ mirnaPathwayEnricher <-
             min = min
           )
       }
-      else if (pathwayType == 'wiki') {
+      else if (pathwayType == 3) {
         miEnrich <- WikiEnrichment(
           org_assembly = org_assembly,
           genes = miNearGene,
@@ -1104,7 +1104,7 @@ mirnaRegionPathwayEnricher <-
                        "fdr",
                        "none"),
            min = 5,
-           pathwayType = c('kegg', 'reactome', 'wiki', 'other'),
+           pathwayType = c(1, 2, 3, 4),
            near = FALSE,
            target = FALSE,
            isTADSearch = FALSE,
@@ -1280,7 +1280,7 @@ mirnaRegionPathwayEnricher <-
       )
     }
     else{
-      if (pathwayType == 'kegg') {
+      if (pathwayType ==1) {
         miEnrich <-
           KeggEnrichment(
             genes = miNearGene,
@@ -1291,7 +1291,7 @@ mirnaRegionPathwayEnricher <-
             min = min
           )
       }
-      else if (pathwayType == 'reactome') {
+      else if (pathwayType == 2) {
         miEnrich <-
           reactomeEnrichment(
             genes = miNearGene,
@@ -1302,7 +1302,7 @@ mirnaRegionPathwayEnricher <-
             min = min
           )
       }
-      else if (pathwayType == 'wiki') {
+      else if (pathwayType == 3) {
         miEnrich <- WikiEnrichment(
           org_assembly = org_assembly,
           genes = miNearGene,
@@ -1319,7 +1319,6 @@ mirnaRegionPathwayEnricher <-
           org_assembly = org_assembly,
           pCut = pCut,
           pAdjCut = pAdjCut,
-          pAdjust = pAdjust,
           isSymbol = isSymbol,
           min = min,
           isGeneEnrich = isGeneEnrich

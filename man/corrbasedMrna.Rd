@@ -11,9 +11,9 @@ corrbasedMrna(mRNAgene, cancer, minAbsCor, databaseFile)
 \item{mRNAgene}{Data frame of the mRNA genes}
 
 \item{cancer}{Name of the TCGA project code such as 'BRCA' that is analyzed
-for miRNA-mRNA correlation. Possible cancer types ACC, BLCA, BRCA, 
-CESC, CHOL, COAD, COADREAD, DLBC, ESCA, GBMLGG, HNSC, KICH, KIPAN, 
-KIRC, KIRP, LGG, LIHC, LUAD, LUSC, OV, PAAD, PCPG, PRAD, READ, SARC, 
+for miRNA-mRNA correlation. Possible cancer types ACC, BLCA, BRCA,
+CESC, CHOL, COAD, COADREAD, DLBC, ESCA, GBMLGG, HNSC, KICH, KIPAN,
+KIRC, KIRP, LGG, LIHC, LUAD, LUSC, OV, PAAD, PCPG, PRAD, READ, SARC,
 SKCM, STAD, STES, TGCT, THCA, THYM, UCEC, UCS, UVM}
 
 \item{minAbsCor}{Cut-off value for the Pearson correlation coefficient of

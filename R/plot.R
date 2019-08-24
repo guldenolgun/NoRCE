@@ -545,7 +545,7 @@ getKeggDiagram <-
 #' ncRNAPathway<-mirnaPathwayEnricher(gene = subsetSet,
 #'                                    org_assembly='hg19',
 #'                                    near=TRUE,
-#'                                    pathwayType = 'reactome',
+#'                                    pathwayType =2,
 #'                                    pAdjust = "none")
 #' getReactomeDiagram(mrnaObject = ncRNAPathway,
 #'                    pathway = ncRNAPathway@ID[1],

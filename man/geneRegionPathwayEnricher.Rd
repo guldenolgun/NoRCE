@@ -10,7 +10,7 @@ geneRegionPathwayEnricher(region, org_assembly = c("hg19", "hg38",
   downstream = 10000, searchRegion = c("all", "exon", "intron"),
   pCut = 0.05, pAdjCut = 0.05, pAdjust = c("holm", "hochberg",
   "hommel", "bonferroni", "BH", "BY", "fdr", "none"), min = 5,
-  pathwayType = c("kegg", "reactome", "wiki", "other"), near = FALSE,
+  pathwayType = c("1", "2", "3", "4"), near = FALSE,
   isTADSearch = FALSE, TAD = tad_hg19, cellline = "all",
   gmtName = "", isSymbol = FALSE, express = FALSE,
   isCustomExp = FALSE, cancer, exp1, exp2, label1 = "", label2 = "",
@@ -140,5 +140,5 @@ ncPath<-geneRegionPathwayEnricher(region = regionNC,
                                   near = TRUE, 
                                   upstream =1000,
                                   downstream = 0, 
-                                  pathwayType = 'kegg')
+                                  pathwayType = 1)
 }
