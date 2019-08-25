@@ -10,7 +10,7 @@ mirnaRegionPathwayEnricher(region, org_assembly = c("hg19", "hg38",
   downstream = 10000, searchRegion = c("all", "exon", "intron"),
   pCut = 0.05, pAdjCut = 0.05, pAdjust = c("holm", "hochberg",
   "hommel", "bonferroni", "BH", "BY", "fdr", "none"), min = 5,
-  pathwayType = c(1, 2, 3, 4), near = FALSE, target = FALSE,
+  pathwayType = "kegg", near = FALSE, target = FALSE,
   isTADSearch = FALSE, TAD = c(tad_hg19, tad_dmel, tad_hg38, tad_mm10),
   cellline = "all", gmtName = "", isSymbol = FALSE,
   express = FALSE, isCustomExp = FALSE, cancer, exp1, exp2,
@@ -139,8 +139,7 @@ given upstream/downstream regions of the microRNA genes
 
 regionNC <-  readbed(dm_file = ncRegion,isText = FALSE)
 
-a<- mirnaRegionGOEnricher(region = regionNC,
-                          org_assembly = 'hg19',
-                          near = TRUE)
+a<- mirnaRegionPathwayEnricher(region = regionNC,
+             org_assembly = 'hg19',pathwayType = 'kegg')
 
 }

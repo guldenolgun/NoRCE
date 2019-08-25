@@ -7,7 +7,8 @@
 WikiEnrichment(genes, org_assembly = c("hg19", "hg38", "mm10", "dre10",
   "rn6", "dm6", "ce11", "sc3"), pCut = 0.05, pAdjCut = 0.05,
   pAdjust = c("holm", "hochberg", "hommel", "bonferroni", "BH", "BY",
-  "fdr", "none"), min = 5)
+  "fdr", "none"), min = 5, gmtFile = "", isSymbol = "",
+  isGeneEnrich = "")
 }
 \arguments{
 \item{genes}{Input genes}
@@ -27,6 +28,15 @@ method. Default value is 0.05.}
 
 \item{min}{Minimum number of genes that are required for enrichment. By
 default, it is set to 5.}
+
+\item{gmtFile}{File path of the gmt file}
+
+\item{isSymbol}{Boolean value that controls the gene formats. If it is TRUE,
+gene format of the gmt file should be symbol. Otherwise, gene format
+must be ENTREZ ID.}
+
+\item{isGeneEnrich}{Boolean value whether gene enrichment should be
+performed}
 }
 \value{
 Wiki Pathway Enrichment
