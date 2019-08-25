@@ -12,11 +12,22 @@
 #'      "holm", "hochberg", "hommel", "bonferroni", "BH", "BY","fdr", "none"
 #' @param min Minimum number of genes that are required for enrichment.
 #'      By default, it is set to 5.
-#'
+#' @param gmtFile File path of the gmt file
+#' @param isSymbol Boolean value that controls the gene formats. If it is TRUE,
+#'      gene format of the gmt file should be symbol. Otherwise, gene format
+#'      must be ENTREZ ID.
+#' @param isGeneEnrich Boolean value whether gene enrichment should be
+#'      performed
 #'
 #' @return KEGG pathway enrichment results
 #'
 #' @importFrom KEGGREST keggGet
+#'
+#' @examples
+#' subsetGene <- breastmRNA[1:30,]
+#'
+#' br_enr<-KeggEnrichment(genes = subsetGene,
+#'                        org_assembly='hg19')
 #'
 #' @export
 #'
@@ -40,7 +51,7 @@ KeggEnrichment <-
                        "BY",
                        "fdr",
                        "none"),
-           min = 5) {
+           min = 5, gmtFile ='', isSymbol = '', isGeneEnrich ='') {
     if (missing(genes)) {
       message("Gene is missing.")
     }
@@ -139,6 +150,12 @@ KeggEnrichment <-
 #'      "holm", "hochberg", "hommel", "bonferroni", "BH", "BY","fdr", "none"
 #' @param min Minimum number of genes that are required for enrichment. By
 #'      default, it is set to 5.
+#' @param gmtFile File path of the gmt file
+#' @param isSymbol Boolean value that controls the gene formats. If it is TRUE,
+#'      gene format of the gmt file should be symbol. Otherwise, gene format
+#'      must be ENTREZ ID.
+#' @param isGeneEnrich Boolean value whether gene enrichment should be
+#'      performed
 #'
 #'
 #' @return Reactome pathway enrichment results
@@ -172,7 +189,7 @@ reactomeEnrichment <-
                        "BY",
                        "fdr",
                        "none"),
-           min = 5) {
+           min = 5, gmtFile ='', isSymbol = '', isGeneEnrich ='') {
     if (missing(genes)) {
       message("Gene is missing.")
     }
@@ -430,6 +447,12 @@ WikiPathwayDB <- function(org_assembly = c("hg19",
 #'      "holm", "hochberg", "hommel", "bonferroni", "BH", "BY","fdr", "none"
 #' @param min Minimum number of genes that are required for enrichment. By
 #'      default, it is set to 5.
+#' @param gmtFile File path of the gmt file
+#' @param isSymbol Boolean value that controls the gene formats. If it is TRUE,
+#'      gene format of the gmt file should be symbol. Otherwise, gene format
+#'      must be ENTREZ ID.
+#' @param isGeneEnrich Boolean value whether gene enrichment should be
+#'      performed
 #'
 #' @return Wiki Pathway Enrichment
 #'
@@ -455,7 +478,7 @@ WikiEnrichment <- function(genes,
                                        "BY",
                                        "fdr",
                                        "none"),
-                           min = 5) {
+                           min = 5, gmtFile ='', isSymbol = '', isGeneEnrich ='') {
   if (missing(genes)) {
     message("Gene is missing.")
   }

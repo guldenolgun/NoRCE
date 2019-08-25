@@ -6,9 +6,9 @@
 Results can be filtered according to the available cell lines.}
 \usage{
 getTADOverlap(bedfile, org_assembly = c("hg19", "hg38", "mm10", "dre10",
-  "rn6", "dm6", "ce11", "sc3"), TAD = c(NoRCE::tad_hg19, NoRCE::tad_dmel,
-  NoRCE::tad_hg38, NoRCE::tad_mm10), near = FALSE, upstream = 10000,
-  downstream = 10000, cellline = "all")
+  "rn6", "dm6", "ce11", "sc3"), tad = c(tad_hg19, tad_dmel, tad_hg38,
+  tad_mm10), near = FALSE, upstream = 10000, downstream = 10000,
+  cellline = "all")
 }
 \arguments{
 \item{bedfile}{Region of interest}
@@ -18,7 +18,7 @@ assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat,
 "dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and
 "hg38" for human}
 
-\item{TAD}{TAD genomic regions for the species. Predefined TAD regions or
+\item{tad}{TAD genomic regions for the species. Predefined TAD regions or
 any new TAD regions can be used for the analysis. TAD regions must be
 formated as GRanges object. Predefined TAD regions are 'tad_hg19',
 'tad_hg38', 'tad_mm10', 'tad_dmel' for hg19, hg38, mm9 and dm6
@@ -46,7 +46,7 @@ Results can be filtered according to the available cell lines.
 
 regionNC <-  readbed(dm_file = ncRegion,isText = FALSE)
 r<-getTADOverlap(bedfile = regionNC,
-                 TAD = tad_hg38,
+                 tad = tad_hg19,
                  org_assembly = 'hg19',
                  cellline = 'HUVEC')
 

@@ -196,7 +196,7 @@ geneGOEnricher <-
       tadGene <-
         getTADOverlap(
           bedfile = geneLoc,
-          TAD = TAD,
+          tad = TAD,
           cellline = cellline,
           org_assembly = org_assembly,
           near = near,
@@ -408,7 +408,7 @@ genePathwayEnricher <-
                        "fdr", 
                        "none"),
            min = 5,
-           pathwayType = c('1', '2','3','4'),
+           pathwayType = 'kegg',#c('kegg', 'reactome','wiki','other'),
            near = TRUE,
            isTADSearch = FALSE,
            TAD = tad_hg19,
@@ -487,7 +487,7 @@ genePathwayEnricher <-
       tadGene <-
         getTADOverlap(
           bedfile = geneLoc,
-          TAD = TAD,
+          tad = TAD,
           cellline = cellline,
           org_assembly = org_assembly,
           near = near,
@@ -549,51 +549,93 @@ genePathwayEnricher <-
       )
     }
     else{
-    if (pathwayType == 1) {
-      enrichedGene <-
-        KeggEnrichment(
-          genes = nearGene,
-          org_assembly = org_assembly,
-          pCut = pCut,
-          pAdjCut = pAdjCut,
-          pAdjust = pAdjust,
-          min = min
+    # if (pathwayType == 1) {
+    #   enrichedGene <-
+    #     KeggEnrichment(
+    #       genes = nearGene,
+    #       org_assembly = org_assembly,
+    #       pCut = pCut,
+    #       pAdjCut = pAdjCut,
+    #       pAdjust = pAdjust,
+    #       min = min
+    #     )
+    # }
+    # else if (pathwayType == 2) {
+    #   enrichedGene <-
+    #     reactomeEnrichment(
+    #       genes = nearGene,
+    #       org_assembly = org_assembly,
+    #       pCut = pCut,
+    #       pAdjCut = pAdjCut,
+    #       pAdjust = pAdjust,
+    #       min = min
+    #     )
+    # }
+    # else if (pathwayType == 3) {
+    #   enrichedGene <- WikiEnrichment(
+    #     org_assembly = org_assembly,
+    #     genes = nearGene,
+    #     pCut = pCut,
+    #     pAdjCut = pAdjCut,
+    #     pAdjust = pAdjust,
+    #     min = min
+    #   )
+    # }
+    # else{
+    #   enrichedGene <-
+    #     pathwayEnrichment(
+    #       genes = nearGene,
+    #       gmtFile = gmtName,
+    #       org_assembly = org_assembly,
+    #       pCut = pCut,
+    #       pAdjCut = pAdjCut,
+    #       pAdjust = pAdjust,
+    #       isSymbol = isSymbol,
+    #       min = min, isGeneEnrich = isGeneEnrich
+    #     )
+    # }
+      
+      ifelse(
+        pathwayType == 'kegg',
+        pth <- 1,
+        ifelse(
+          pathwayType == 'reactome',
+          pth <- 2,
+          ifelse(
+            pathwayType == 'wiki',
+            pth <- 3,
+            pth <- 4
+          )
         )
-    }
-    else if (pathwayType == 2) {
-      enrichedGene <-
-        reactomeEnrichment(
-          genes = nearGene,
-          org_assembly = org_assembly,
-          pCut = pCut,
-          pAdjCut = pAdjCut,
-          pAdjust = pAdjust,
-          min = min
-        )
-    }
-    else if (pathwayType == 3) {
-      enrichedGene <- WikiEnrichment(
-        org_assembly = org_assembly,
-        genes = nearGene,
-        pCut = pCut,
-        pAdjCut = pAdjCut,
-        pAdjust = pAdjust,
-        min = min
       )
-    }
-    else{
-      enrichedGene <-
-        pathwayEnrichment(
-          genes = nearGene,
-          gmtFile = gmtName,
-          org_assembly = org_assembly,
-          pCut = pCut,
-          pAdjCut = pAdjCut,
-          pAdjust = pAdjust,
-          isSymbol = isSymbol,
-          min = min, isGeneEnrich = isGeneEnrich
+      
+      ifelse(
+        pathwayType == 'kegg',
+        pth <- 1,
+        ifelse(
+          pathwayType == 'reactome',
+          pth <- 2,
+          ifelse(
+            pathwayType == 'wiki',
+            pth <- 3,
+            pth <- 4
+          )
         )
-    }
+      )
+      
+      funclist<- list(KeggEnrichment, reactomeEnrichment,
+                      WikiEnrichment,pathwayEnrichment)
+      
+      enrichedGene <- funclist[[pth]](genes = nearGene,
+                      gmtFile = gmtName,
+                      org_assembly = org_assembly,
+                      pCut = pCut,
+                      pAdjCut = pAdjCut,
+                      pAdjust = pAdjust,
+                      isSymbol = isSymbol,
+                      min = min,
+                      isGeneEnrich = isGeneEnrich)
+      
     if (length(enrichedGene@Term) > 0)
     {
       enrichedGene@ncGeneList <- commonGene(mrnaobject = enrichedGene,
@@ -789,7 +831,7 @@ geneRegionGOEnricher <-
       tadGene <-
         getTADOverlap(
           bedfile = geneLoc,
-          TAD = TAD,
+          tad = TAD,
           cellline = cellline,
           org_assembly = org_assembly,
           near = near,
@@ -953,7 +995,7 @@ geneRegionGOEnricher <-
 #'                                   near = TRUE, 
 #'                                   upstream =1000,
 #'                                   downstream = 0, 
-#'                                   pathwayType = 1)
+#'                                   pathwayType = 'kegg')
 #' @export
 geneRegionPathwayEnricher <-
   function(region,
@@ -979,7 +1021,7 @@ geneRegionPathwayEnricher <-
                        "fdr", 
                        "none"),
            min = 5,
-           pathwayType = c('1', '2','3','4'),
+           pathwayType = 'kegg',
            near = FALSE,
            isTADSearch = FALSE,
            TAD = tad_hg19,
@@ -1047,7 +1089,7 @@ geneRegionPathwayEnricher <-
       tadGene <-
         getTADOverlap(
           bedfile = geneLoc,
-          TAD = TAD,
+          tad = TAD,
           cellline = cellline,
           org_assembly = org_assembly,
           near = near,
@@ -1107,51 +1149,78 @@ geneRegionPathwayEnricher <-
     }
     else{
 
-    if (pathwayType == '1') {
-      enrichedGene <-
-        KeggEnrichment(
-          genes = nearGene,
-          org_assembly = org_assembly,
-          pCut = pCut,
-          pAdjCut = pAdjCut,
-          pAdjust = pAdjust,
-          min = min
+    # if (pathwayType == '1') {
+    #   enrichedGene <-
+    #     KeggEnrichment(
+    #       genes = nearGene,
+    #       org_assembly = org_assembly,
+    #       pCut = pCut,
+    #       pAdjCut = pAdjCut,
+    #       pAdjust = pAdjust,
+    #       min = min
+    #     )
+    # }
+    # else if (pathwayType == '2') {
+    #   enrichedGene <-
+    #     reactomeEnrichment(
+    #       genes = nearGene,
+    #       org_assembly = org_assembly,
+    #       pCut = pCut,
+    #       pAdjCut = pAdjCut,
+    #       pAdjust = pAdjust,
+    #       min = min
+    #     )
+    # }
+    # else if (pathwayType == '3') {
+    #   enrichedGene <- WikiEnrichment(
+    #     org_assembly = org_assembly,
+    #     genes = nearGene,
+    #     pCut = pCut,
+    #     pAdjCut = pAdjCut,
+    #     pAdjust = pAdjust,
+    #     min = min
+    #   )
+    # }
+    # else{
+    #   enrichedGene <-
+    #     pathwayEnrichment(
+    #       genes = nearGene,
+    #       gmtFile = gmtName,
+    #       org_assembly = org_assembly,
+    #       pCut = pCut,
+    #       pAdjCut = pAdjCut,
+    #       pAdjust = pAdjust,
+    #       isSymbol = isSymbol,
+    #       min = min,isGeneEnrich = isGeneEnrich
+    #     )
+    # }
+      
+      ifelse(
+        pathwayType == 'kegg',
+        pth <- 1,
+        ifelse(
+          pathwayType == 'reactome',
+          pth <- 2,
+          ifelse(
+            pathwayType == 'wiki',
+            pth <- 3,
+            pth <- 4
+          )
         )
-    }
-    else if (pathwayType == '2') {
-      enrichedGene <-
-        reactomeEnrichment(
-          genes = nearGene,
-          org_assembly = org_assembly,
-          pCut = pCut,
-          pAdjCut = pAdjCut,
-          pAdjust = pAdjust,
-          min = min
-        )
-    }
-    else if (pathwayType == '3') {
-      enrichedGene <- WikiEnrichment(
-        org_assembly = org_assembly,
-        genes = nearGene,
-        pCut = pCut,
-        pAdjCut = pAdjCut,
-        pAdjust = pAdjust,
-        min = min
       )
-    }
-    else{
-      enrichedGene <-
-        pathwayEnrichment(
-          genes = nearGene,
-          gmtFile = gmtName,
-          org_assembly = org_assembly,
-          pCut = pCut,
-          pAdjCut = pAdjCut,
-          pAdjust = pAdjust,
-          isSymbol = isSymbol,
-          min = min,isGeneEnrich = isGeneEnrich
-        )
-    }
+      
+      funclist<- list(KeggEnrichment, reactomeEnrichment,
+                      WikiEnrichment,pathwayEnrichment)
+      
+      enrichedGene <- funclist[[pth]](genes = nearGene,
+                      gmtFile = gmtName,
+                      org_assembly = org_assembly,
+                      pCut = pCut,
+                      pAdjCut = pAdjCut,
+                      pAdjust = pAdjust,
+                      isSymbol = isSymbol,
+                      min = min,
+                      isGeneEnrich = isGeneEnrich)
 
     return(enrichedGene)
     }

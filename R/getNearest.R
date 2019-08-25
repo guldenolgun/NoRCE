@@ -534,7 +534,7 @@ getNearToIntron <-
 #' Results can be filtered according to the available cell lines.
 #'
 #' @param bedfile Region of interest
-#' @param TAD TAD genomic regions for the species. Predefined TAD regions or
+#' @param tad TAD genomic regions for the species. Predefined TAD regions or
 #'      any new TAD regions can be used for the analysis. TAD regions must be
 #'      formated as GRanges object. Predefined TAD regions are 'tad_hg19',
 #'      'tad_hg38', 'tad_mm10', 'tad_dmel' for hg19, hg38, mm9 and dm6
@@ -557,7 +557,7 @@ getNearToIntron <-
 #'
 #' regionNC <-  readbed(dm_file = ncRegion,isText = FALSE)
 #' r<-getTADOverlap(bedfile = regionNC,
-#'                  TAD = tad_hg38,
+#'                  tad = tad_hg19,
 #'                  org_assembly = 'hg19',
 #'                  cellline = 'HUVEC')
 #'
@@ -572,10 +572,10 @@ getTADOverlap <-
                             "dm6",
                             "ce11",
                             "sc3"),
-           TAD = c(NoRCE::tad_hg19,
-                   NoRCE::tad_dmel,
-                   NoRCE::tad_hg38,
-                   NoRCE::tad_mm10),
+           tad = c(tad_hg19,
+                   tad_dmel,
+                   tad_hg38,
+                   tad_mm10),
            near = FALSE,
            upstream = 10000,
            downstream = 10000,
@@ -590,12 +590,9 @@ getTADOverlap <-
       message("Bed file is missing?")
     }
     
-    if (cellline == 'all') {
-      tad <- TAD
-    }
-    else{
-      temp <- which(TAD$celline == cellline)
-      tad <-  TAD[temp, ]
+    if(cellline != 'all'){
+      temp <- which(tad$celline == cellline)
+      tad <-  tad[temp, ]
     }
     
     if (near) {
@@ -681,72 +678,57 @@ convertGeneID <-
         "start_position",
         "end_position",
         "strand")
-    if (genetype == "Entrez") {
+    
+    ifelse(genetype == "Entrez",
       output <-
         getBM(
           attributes = c("entrezgene_id", attributes),
           filters = "entrezgene_id",
           values = genelist,
           mart = pkg.env$mart
-        )
-    }
-    
-    else if (genetype == "mirna") {
+        ),ifelse(genetype == "mirna" ,
       output <-
         getBM(
           attributes = c("mirbase_id", attributes),
           filters = "mirbase_id",
           values = apply(as.data.frame(genelist), 2, tolower),
           mart = pkg.env$mart
-        )
-    }
-    else if (genetype == "Ensembl_gene") {
+        ),ifelse(genetype == "Ensembl_gene",
       output <-
         getBM(
           attributes = c("ensembl_gene_id", attributes),
           filters = "ensembl_gene_id",
           values = genelist,
           mart = pkg.env$mart
-        )
-    }
-    else if (genetype == "Ensembl_trans") {
+        ),ifelse(genetype == "Ensembl_trans",
       output <-
         getBM(
           attributes = c("ensembl_transcript_id", attributes),
           filters = "ensembl_transcript_id",
           values = genelist,
           mart = pkg.env$mart
-        )
-    }
-    else if (genetype == "NCBI") {
+        ),ifelse(genetype == "NCBI",
       output <-
         getBM(
           attributes = c("hgnc_symbol", attributes),
           filters = "hgnc_symbol",
           values = genelist,
-          mart = pkg.env$mart
-        )
-    }
-    else if (genetype == "mgi_symbol")
-    {
+          mart = pkg.env$mart,ifelse(genetype == "mgi_symbol",
       output <-
         getBM(
           attributes = c("mgi_symbol", attributes),
           filters = "mgi_symbol",
           values = genelist,
           mart = pkg.env$mart
-        )
-    }
-    else if (genetype == "external_gene_name")
-    {
+        ), 
       output <-
         getBM(
           attributes = c("external_gene_name", attributes),
           filters = "external_gene_name",
           values = genelist,
           mart = pkg.env$mart
-        )
-    }
+        ))))))))
+    
     
     colnames(output) <- c("gene",
                           "chromosome_name",
