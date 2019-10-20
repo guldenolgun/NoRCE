@@ -10,46 +10,36 @@ pkg.env$ucsc <- GRanges(c(
 pkg.env$genomee <- data.frame()
 pkg.env$mart <- data.frame()
 
-#' Convert txt file or data frame to bed format. First three columns should
-#' be chr number, start and end, respectively.
-#'
-#' @param dm_file Bed formated txt file or data frame
-#' @param isText Boolean value that holds whether input data is txt file. If
-#'    it is TRUE, input file has to be txt.
-#'
-#' @return Bed file
-#'
-#' @importFrom readr read_table
-#'
-#' @examples
-#'
-#' #txt formatted data
-#' data("ncRegion")
-#'
-#' #Directly convert data frame to bed format
-#' regionNC <- readbed(dm_file = ncRegion,
-#'                     isText = FALSE)
-#'
-#' @export
-readbed <- function(dm_file, isText = TRUE) {
-  if (missing(dm_file)) {
-    message("Please provide path of the bed file")
-    dm_file <- readline("New path: ")
-    readbed(dm_file)
-  }
-  if (isText) {
-    data <- read.table(dm_file, header = FALSE)
-    colnames(data) <- c('chr', 'start', 'end')
-    bedfile <- with(data, GRanges(chr, IRanges(start, end)))
-  }
-  else
-  {
-    colnames(dm_file) <- c('chr', 'start', 'end')
-    bedfile <- with(dm_file, GRanges(chr, IRanges(start, end)))
-  }
-  return(bedfile)
-}
+pkg.env$upstream<-10000
+pkg.env$downstream <- 10000
+pkg.env$searchRegion <- "all" #searchRegion = c('all',"exon","intron")
+pkg.env$GOtype = "BP"  #c("BP", "CC", "MF")
+pkg.env$pCut = 0.05
+pkg.env$pAdjCut = 0.05
+#c("holm","hochberg","hommel","bonferroni", "BH", "BY","fdr", "none")
+pkg.env$pAdjust = "none" 
+#c("hyper", "binom", "fisher", "chi")
+pkg.env$enrichTest = "hyper"
+pkg.env$varCutoff = 0.0025
+pkg.env$minAbsCor = 0.3
+pkg.env$pcut = 0.05
+pkg.env$conf = 0.95
+pkg.env$min = 5
+pkg.env$cellline = 'all'
+pkg.env$corrMethod = "pearson" #c("pearson", "kendall", "spearman")
+pkg.env$alternate = "two.sided" #c('greater', "two.sided", "less")
+pkg.env$pathwayType = 'kegg' #c('kegg', 'reactome','wiki','other'),
+pkg.env$isSymbol = FALSE
 
+#' Get the required information for the given assembly
+#' 
+#' @param org_assembly Genome assembly of interest for the analysis. Possible
+#'     assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat,
+#'     "dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and "hg38"
+#'     for human
+#'     
+#' @return setting required information 
+#' 
 #' @importFrom biomaRt getBM useEnsembl useMart
 #' @importFrom rtracklayer browserSession genome getTable ucscTableQuery
 #' @import TxDb.Hsapiens.UCSC.hg19.knownGene
@@ -60,6 +50,12 @@ readbed <- function(dm_file, isText = TRUE) {
 #' @import TxDb.Dmelanogaster.UCSC.dm6.ensGene
 #' @import TxDb.Celegans.UCSC.ce11.refGene
 #' @importFrom rtracklayer genome<-
+#' 
+#' @examples 
+#' 
+#' assembly('hg19')
+#' 
+#' @export
 assembly <- function(org_assembly = c("hg19",
                                       "hg38",
                                       "mm10",
@@ -69,261 +65,67 @@ assembly <- function(org_assembly = c("hg19",
                                       "ce11",
                                       "sc3")) {
   myses <- browserSession()
-  
-  if (org_assembly == "hg19") {
-    if (length(packageCheck(c(
-      "TxDb.Hsapiens.UCSC.hg19.knownGene", "org.Hs.eg.db"
-    ))) == 0) {
-      genome(myses) <- "hg19"
-      data <-
-        getTable(ucscTableQuery(myses, track = "wgEncodeGencodeV31lift37"))
-      data <- data[, c(3, 4, 5, 6, 13)]
-      colnames(data) <-
-        c('chr', 'strand', 'start', 'end', 'symbol')
-      ucsc <-
-        with(data, GRanges(chr, IRanges(start, end), strand, symbol))
-      
-      pkg.env$ucsc <- ucsc
-      
-      genomee <- TxDb.Hsapiens.UCSC.hg19.knownGene
-      pkg.env$genomee <- genomee
-      
-      mart = useMart(
-        biomart = "ENSEMBL_MART_ENSEMBL",
-        host = "grch37.ensembl.org",
-        path = "/biomart/martservice",
-        dataset = "hsapiens_gene_ensembl"
-      )
-      pkg.env$mart <- mart
-    }
-    else{
-      message(paste("Please install",
-                    packageCheck(
-                      c("TxDb.Hsapiens.UCSC.hg19.knownGene", "org.Hs.eg.db")
-                    )))
-    }
-  }
-  
-  if (org_assembly == "hg38")
-  {
-    if (length(packageCheck(c(
-      "TxDb.Hsapiens.UCSC.hg38.knownGene", "org.Hs.eg.db"
-    ))) == 0) {
-      genome(myses) <- "hg38"
-      data <-
-        getTable(ucscTableQuery(myses, track = "wgEncodeGencodeV31"))
-      data <- data[, c(3, 4, 5, 6, 13)]
-      colnames(data) <-
-        c('chr', 'strand', 'start', 'end', 'symbol')
-      ucsc <-
-        with(data, GRanges(chr, IRanges(start, end), strand, symbol))
-      pkg.env$ucsc <- ucsc
-      
-      genomee <- TxDb.Hsapiens.UCSC.hg38.knownGene
-      pkg.env$genomee <- genomee
-      
-      mart <-
-        useEnsembl(biomart = "ensembl", dataset = "hsapiens_gene_ensembl")
-      pkg.env$mart <- mart
-    }
-    else{
-      message(paste("Please install",
-                    packageCheck(
-                      c("TxDb.Hsapiens.UCSC.hg38.knownGene", "org.Hs.eg.db")
-                    )))
-    }
-  }
-  if (org_assembly == 'mm10') {
-    if (length(packageCheck(c(
-      "TxDb.Mmusculus.UCSC.mm10.knownGene", "org.Mm.eg.db"
-    ))) == 0) {
-      genome(myses) <- "mm10"
-      data <-
-        getTable(ucscTableQuery(myses, track = "wgEncodeGencodeVM22"))
-      data <- data[, c(3, 4, 5, 6, 13)]
-      colnames(data) <-
-        c('chr', 'strand', 'start', 'end', 'symbol')
-      ucsc <-
-        with(data, GRanges(chr, IRanges(start, end), strand, symbol))
-      pkg.env$ucsc <- ucsc
-      
-      genomee <- TxDb.Mmusculus.UCSC.mm10.knownGene
-      pkg.env$genomee <- genomee
-      
-      mart <- useMart("ensembl", dataset = "mmusculus_gene_ensembl")
-      pkg.env$mart <- mart
-    }
-    else{
-      message(paste("Please install",
-                    packageCheck(
-                      c("TxDb.Mmusculus.UCSC.mm10.knownGene", "org.Mm.eg.db")
-                    )))
-    }
-  }
-  if (org_assembly == 'dre10') {
-    #zebrafish
-    if (length(packageCheck(c(
-      "TxDb.Drerio.UCSC.danRer10.refGene", "org.Dr.eg.db"
-    ))) == 0) {
-      genome(myses) <- "danRer11"
-      a <- getTable(ucscTableQuery(myses, track = "ensGene"))
-      a1 <-
-        getTable(ucscTableQuery(myses, track = "ensGene",
-                                table = "ensemblToGeneName"))
-      data <- merge(a1, a)
-      data <- data[, c(4, 5, 6, 7, 2)]
-      
-      colnames(data) <-
-        c('chr', 'strand', 'start', 'end', 'symbol')
-      ucsc <-
-        with(data, GRanges(chr, IRanges(start, end), strand, symbol))
-      pkg.env$ucsc <- ucsc
-      
-      genomee <- TxDb.Drerio.UCSC.danRer10.refGene
-      pkg.env$genomee <- genomee
-      
-      mart <-
-        useMart(host = "useast.ensembl.org",
-                biomart = "ENSEMBL_MART_ENSEMBL",
-                dataset = "drerio_gene_ensembl")
-      pkg.env$mart <- mart
-    }
-    else{
-      message(paste("Please install",
-                    packageCheck(
-                      c("TxDb.Drerio.UCSC.danRer10.refGene", "org.Dr.eg.db")
-                    )))
-    }
-  }
-  if (org_assembly == 'rn6') {
-    #rat
-    if (length(packageCheck(c(
-      "TxDb.Rnorvegicus.UCSC.rn6.refGene", "org.Rn.eg.db"
-    ))) == 0) {
-      genome(myses) <- "rn6"
-      a <- getTable(ucscTableQuery(myses, track = "ensGene"))
-      a1 <-
-        getTable(ucscTableQuery(myses, track = "ensGene",
-                                table = "ensemblToGeneName"))
-      data <- merge(a1, a)
-      data <- data[, c(4, 5, 6, 7, 2)]
-      
-      colnames(data) <- c('chr', 'strand', 'start', 'end', 'symbol')
-      ucsc <-
-        with(data, GRanges(chr, IRanges(start, end), strand, symbol))
-      pkg.env$ucsc <- ucsc
-      
-      genomee <- TxDb.Rnorvegicus.UCSC.rn6.refGene
-      pkg.env$genomee <- genomee
-      
-      mart <-
-        useMart("ensembl", dataset = "rnorvegicus_gene_ensembl")
-      pkg.env$mart <- mart
-    }
-    else{
-      message(paste("Please install",
-                    packageCheck(
-                      c("TxDb.Rnorvegicus.UCSC.rn6.refGene", "org.Rn.eg.db")
-                    )))
-    }
-  }
-  if (org_assembly == 'sc3') {
-    if (length(packageCheck(
+  types <-
+    rbind(
       c(
-        "TxDb.Scerevisiae.UCSC.sacCer3.sgdGene",
-        "org.Sc.sgd.db"
-      )
-    )) == 0) {
-      genome(myses) <- "sacCer3"
-      data <-
-        getTable(ucscTableQuery(myses, track = "refSeqComposite"))
-      data <- data[, c(3, 4, 5, 6, 13)]
-      colnames(data) <- c('chr', 'strand', 'start', 'end', 'symbol')
-      ucsc <-
-        with(data, GRanges(chr, IRanges(start, end), strand, symbol))
-      pkg.env$ucsc <- ucsc
-      
-      genomee <- TxDb.Scerevisiae.UCSC.sacCer3.sgdGene
-      pkg.env$genomee <- genomee
-      
-      mart <-
-        useMart("ensembl", dataset = "scerevisiae_gene_ensembl")
-      pkg.env$mart <- mart
-    }
-    else{
-      message(paste("Please install",
-                    packageCheck(
-                      c(
-                        "TxDb.Scerevisiae.UCSC.sacCer3.sgdGene",
-                        "org.Sc.sgd.db"
-                      )
-                    )))
-    }
+        "Hsapiens","hg19", "hg19", "wgEncodeGencodeV31lift37",
+        3,4,5,6,13,"knownGene","hsapiens_gene_ensembl"),
+      c("Hsapiens","hg38","hg38","wgEncodeGencodeV31",
+        3,4,5,6,13,"knownGene","hsapiens_gene_ensembl"),
+      c("Mmusculus","mm10","mm10","wgEncodeGencodeVM22",
+        3,4,5,6,13,"knownGene","mmusculus_gene_ensembl"),
+      c("Drerio","danRer10","dre10","ensGene",
+        4,5,6,7,2,"refGene","drerio_gene_ensembl"),
+      c("Rnorvegicus","rn6","rn6","ensGene",
+        4,5,6,7,2,"refGene","rnorvegicus_gene_ensembl"),
+      c("Scerevisiae","sacCer3","sc3","refSeqComposite",
+        3,4,5,6,13,"sgdGene","scerevisiae_gene_ensembl"),
+      c("Dmelanogaster","dm6","dm6","ensGene",
+        4,5,6,7,2,"ensGene","dmelanogaster_gene_ensembl"),
+      c("Celegans","ce11","ce11","ensGene",
+        4,5,6,7,2,"refGene","celegans_gene_ensembl")
+    )
+  
+  index = which(org_assembly == types[, 3])
+  
+  genome(myses) <- types[index, 2]
+  
+  if (index == 4 & index == 5 & index == 7 & index == 8) {
+    a <- getTable(ucscTableQuery(myses, track = "ensGene"))
+    a1 <-
+      getTable(ucscTableQuery(myses, track = "ensGene",
+                              table = "ensemblToGeneName"))
+    data <- merge(a1, a)
+    data <- data[, c(4, 5, 6, 7, 2)]
   }
-  if (org_assembly == 'dm6') {
-    #Fruit fly
-    if (length(packageCheck(
-      c("TxDb.Dmelanogaster.UCSC.dm6.ensGene", "org.Dm.eg.db")
-    )) == 0) {
-      genome(myses) <- "dm6"
-      a <- getTable(ucscTableQuery(myses, track = "ensGene"))
-      a1 <- getTable(ucscTableQuery(myses, track = "ensGene",
-                                    table = "ensemblToGeneName"))
-      data <- merge(a1, a)
-      data <- data[, c(4, 5, 6, 7, 2)]
-      colnames(data) <- c('chr', 'strand', 'start', 'end', 'symbol')
-      ucsc <-
-        with(data, GRanges(chr, IRanges(start, end), strand, symbol))
-      pkg.env$ucsc <- ucsc
-      
-      genomee <- TxDb.Dmelanogaster.UCSC.dm6.ensGene
-      pkg.env$genomee <- genomee
-      
-      mart <-
-        useMart("ensembl",
-                dataset = "dmelanogaster_gene_ensembl")
-      pkg.env$mart <- mart
-    }
-    else{
-      message(paste("Please install",
-                    packageCheck(
-                      c("TxDb.Dmelanogaster.UCSC.dm6.ensGene", "org.Dm.eg.db")
-                    )))
-    }
+  else{
+    data <- getTable(ucscTableQuery(myses, track = types[index, 4]))
+    data <- data[, as.double(types[index, 5:9])]
   }
-  if (org_assembly == 'ce11') {
-    #Worm
-    if (length(packageCheck(c(
-      "TxDb.Celegans.UCSC.ce11.refGene", "org.Ce.eg.db"
-    ))) == 0) {
-      genome(myses) <- "ce11"
-      a <- getTable(ucscTableQuery(myses, track = "ensGene"))
-      a1 <-
-        getTable(ucscTableQuery(myses, track = "ensGene",
-                                table = "ensemblToGeneName"))
-      data <- merge(a1, a)
-      data <- data[, c(4, 5, 6, 7, 2)]
-      colnames(data) <- c('chr', 'strand', 'start', 'end', 'symbol')
-      ucsc <-
-        with(data, GRanges(chr, IRanges(start, end), strand, symbol))
-      pkg.env$ucsc <- ucsc
-      
-      genomee <- TxDb.Celegans.UCSC.ce11.refGene
-      pkg.env$genomee <- genomee
-      
-      mart <-
-        useMart(host = "useast.ensembl.org",
-                biomart = "ENSEMBL_MART_ENSEMBL",
-                dataset = "celegans_gene_ensembl")
-      pkg.env$mart <- mart
-    }
-    else{
-      message(paste("Please install",
-                    packageCheck(
-                      c("TxDb.Celegans.UCSC.ce11.refGene", "org.Ce.eg.db")
-                    )))
-    }
+  colnames(data) <- c('chr', 'strand', 'start', 'end', 'symbol')
+  ucsc <-
+    with(data, GRanges(chr, IRanges(start, end), strand, symbol))
+  pkg.env$ucsc <- ucsc
+  td <-
+    paste0("TxDb.", types[index, 1], ".UCSC.", types[index, 2], ".", 
+           types[index, 10])
+  
+  genomee <- eval(as.name(td))
+  pkg.env$genomee <- genomee
+  
+  if (index == 1) {
+    mart = useMart(
+      biomart = "ENSEMBL_MART_ENSEMBL",
+      host = "grch37.ensembl.org",
+      path = "/biomart/martservice",
+      dataset = "hsapiens_gene_ensembl"
+    )
   }
+  else{
+    mart <-
+      useEnsembl(biomart = "ensembl", dataset = types[index, 11])
+  }
+  pkg.env$mart <- mart
 }
 
 #' Get nearest genes for the window of the upstream/downstream region.
@@ -354,7 +156,8 @@ assembly <- function(org_assembly = c("hg19",
 #'
 #' @examples
 #'
-#' regionNC <-  readbed(dm_file = ncRegion,isText = FALSE)
+#' regions<-system.file("extdata", "ncRegion.txt", package = "NoRCE")
+#' regionNC <- import(regions, format = "BED")
 #'
 #' neighbour <- getUCSC(bedfile = regionNC,
 #'                      upstream = 1000,
@@ -417,7 +220,9 @@ getUCSC <-
 #'
 #' @examples
 #'
-#' regionNC <-  readbed(dm_file = ncRegion,isText = FALSE)
+#' regions <- system.file("extdata", "ncRegion.txt", package = "NoRCE")
+#' regionNC <- import(regions, format = "BED")
+#' 
 #' r<-getNearToExon(bedfile = regionNC,
 #'                  upstream = 1000,
 #'                  downstream = 2000,
@@ -477,7 +282,8 @@ getNearToExon <-
 #'
 #' @examples
 #'
-#' regionNC <-  readbed(dm_file = ncRegion,isText = FALSE)
+#' regions<-system.file("extdata", "ncRegion.txt", package = "NoRCE")
+#' regionNC <- import(regions, format = "BED")
 #'
 #' r<-getNearToExon(bedfile = regionNC,
 #'                  upstream = 1000,
@@ -546,7 +352,7 @@ getNearToIntron <-
 #'      "hg38" for human
 #' @param near Boolean value presents whether cis-neighbourhood should be
 #'       considered in the analysis
-#' @param upstream Holds upstream distance from the transcription start 
+#' @param upstream Holds upstream distance from the transcription start
 #'     position
 #' @param downstream Holds downstream distance from the transcription end
 #'      position
@@ -555,7 +361,9 @@ getNearToIntron <-
 #'
 #' @examples
 #'
-#' regionNC <-  readbed(dm_file = ncRegion,isText = FALSE)
+#' regions<-system.file("extdata", "ncRegion.txt", package = "NoRCE")
+#' regionNC <- import(regions, format = "BED")
+#' 
 #' r<-getTADOverlap(bedfile = regionNC,
 #'                  tad = tad_hg19,
 #'                  org_assembly = 'hg19',
@@ -590,9 +398,9 @@ getTADOverlap <-
       message("Bed file is missing?")
     }
     
-    if(cellline != 'all'){
+    if (cellline != 'all') {
       temp <- which(tad$celline == cellline)
-      tad <-  tad[temp, ]
+      tad <-  tad[temp,]
     }
     
     if (near) {
@@ -679,55 +487,73 @@ convertGeneID <-
         "end_position",
         "strand")
     
-    ifelse(genetype == "Entrez",
+    ifelse(
+      genetype == "Entrez",
       output <-
         getBM(
           attributes = c("entrezgene_id", attributes),
           filters = "entrezgene_id",
           values = genelist,
           mart = pkg.env$mart
-        ),ifelse(genetype == "mirna" ,
-      output <-
-        getBM(
-          attributes = c("mirbase_id", attributes),
-          filters = "mirbase_id",
-          values = apply(as.data.frame(genelist), 2, tolower),
-          mart = pkg.env$mart
-        ),ifelse(genetype == "Ensembl_gene",
-      output <-
-        getBM(
-          attributes = c("ensembl_gene_id", attributes),
-          filters = "ensembl_gene_id",
-          values = genelist,
-          mart = pkg.env$mart
-        ),ifelse(genetype == "Ensembl_trans",
-      output <-
-        getBM(
-          attributes = c("ensembl_transcript_id", attributes),
-          filters = "ensembl_transcript_id",
-          values = genelist,
-          mart = pkg.env$mart
-        ),ifelse(genetype == "NCBI",
-      output <-
-        getBM(
-          attributes = c("hgnc_symbol", attributes),
-          filters = "hgnc_symbol",
-          values = genelist,
-          mart = pkg.env$mart,ifelse(genetype == "mgi_symbol",
-      output <-
-        getBM(
-          attributes = c("mgi_symbol", attributes),
-          filters = "mgi_symbol",
-          values = genelist,
-          mart = pkg.env$mart
-        ), 
-      output <-
-        getBM(
-          attributes = c("external_gene_name", attributes),
-          filters = "external_gene_name",
-          values = genelist,
-          mart = pkg.env$mart
-        ))))))))
+        ),
+      ifelse(
+        genetype == "mirna" ,
+        output <-
+          getBM(
+            attributes = c("mirbase_id", attributes),
+            filters = "mirbase_id",
+            values = apply(as.data.frame(genelist), 2, tolower),
+            mart = pkg.env$mart
+          ),
+        ifelse(
+          genetype == "Ensembl_gene",
+          output <-
+            getBM(
+              attributes = c("ensembl_gene_id", attributes),
+              filters = "ensembl_gene_id",
+              values = genelist,
+              mart = pkg.env$mart
+            ),
+          ifelse(
+            genetype == "Ensembl_trans",
+            output <-
+              getBM(
+                attributes = c("ensembl_transcript_id", attributes),
+                filters = "ensembl_transcript_id",
+                values = genelist,
+                mart = pkg.env$mart
+              ),
+            ifelse(
+              genetype == "NCBI",
+              output <-
+                getBM(
+                  attributes = c("hgnc_symbol", attributes),
+                  filters = "hgnc_symbol",
+                  values = genelist,
+                  mart = pkg.env$mart,
+                  ifelse(
+                    genetype == "mgi_symbol",
+                    output <-
+                      getBM(
+                        attributes = c("mgi_symbol", attributes),
+                        filters = "mgi_symbol",
+                        values = genelist,
+                        mart = pkg.env$mart
+                      ),
+                    output <-
+                      getBM(
+                        attributes = c("external_gene_name", attributes),
+                        filters = "external_gene_name",
+                        values = genelist,
+                        mart = pkg.env$mart
+                      )
+                  )
+                )
+            )
+          )
+        )
+      )
+    )
     
     
     colnames(output) <- c("gene",
@@ -769,13 +595,72 @@ listTAD <- function(TADName) {
 
 #' Check the package availability for the given assembly
 #' @param pkg Required packages
-#' 
+#'
 #' @return return install packages
-#' 
+#'
 #' @importFrom utils installed.packages
-#' 
+#'
 packageCheck <- function(pkg)
 {
   notInstalled <- pkg[!(pkg %in% installed.packages()[, "Package"])]
   return(notInstalled)
+}
+
+#' Set the parameters
+#'
+#' Parameters:
+#' upstream: Upstream distance from the transcription start position
+#' downstream: Downstream distance from the transcription end position
+#' searchRegion: Search space of the cis-region. Possible values are
+#'     "all", "exon", "intron"
+#' GOtype: Hierarchical category of the GO ontology. Possible values
+#'     are "BP", "CC", "MF"
+#' pCut: Threshold value for the pvalue. Default value is 0.05
+#' pAdjCut: Cutoff value for the adjusted p-values using one of given
+#'     method. Default value is 0.05.
+#' pAdjust: Methods of the adjusted p-values. Possible methods are
+#'     "holm", "hochberg", "hommel", "bonferroni", "BH", "BY","fdr", "none"
+#' min: Minimum number of genes that are required for enrichment. By
+#'     default, this value is set to 5.
+#' cellline: Cell lines for TAD regions.
+#' corrMethod Correlation coeffient method that will be used for
+#'     evaluation. Possible values are "pearson", "kendall", "spearman"
+#' varCutoff: Variance cutt off that genes have less variance than this
+#'     value will be trimmed
+#' pcut: P-value cut off for the correlation values
+#' alternate: Holds the alternative hypothesis and "two.sided", "greater"
+#'     or "less" are the possible values.
+#' conf: Confidence level for the returned confidence interval. It is
+#'     only used for the Pearson correlation coefficient if there are at
+#'     least 4 complete pairs of observations.
+#' minAbsCor: Cut-off value for the Pearson correlation coefficient of
+#'     the miRNA-mRNA
+#' pathwayType: Pathway database for enrichment. Possible values are
+#'     'reactome' for Reactome, 'kegg' for KEGG, 'wiki' for WikiPathways,
+#'     'other' for custom database
+#' enrichTest: Types of enrichment methods to perform enrichment
+#'      analysis. Possible values are "hyper"(default), "binom", "fisher",
+#'      "chi".
+#' isSymbol: Boolean variable that hold the gene format of the gmt file.
+#'      If it is set as TRUE, gene format of the gmt file should be symbol.
+#'      Otherwise, gene format should be ENTREZ ID. By default, it is FALSE.
+#' 
+#' @param type List of parameter names
+#' @param value New values for the parameters. Value and the parameter names
+#'  must be in the same order.
+#' 
+#' @return changed parameters
+#'
+#' @examples 
+#'
+#' type <- c('downstream','upstream')
+#' 
+#' value <- c(2000,30000)
+#' 
+#' setParameters(type,value)
+#' 
+#' @export
+setParameters <-function(type, value){
+  for(i in seq_along(type)){
+     eval(parse(text=paste0("pkg.env$",type[i]," <- value[i]")))}
 }

@@ -164,8 +164,6 @@ KeggEnrichment <-
 #' @importFrom reactome.db reactomePATHID2EXTID reactomePATHID2NAME
 #'
 #' @examples
-#' data(breastmRNA)
-#'
 #' br_enr<-reactomeEnrichment(genes = breastmRNA,org_assembly='hg19')
 #'
 #' @export
@@ -246,7 +244,8 @@ reactomeEnrichment <-
       {
         enric <-
           c(enric,
-            setNames(list(as.character(r[which(pathT[i] == r$pathway), ]$symbol)),
+            setNames(list(as.character(
+              r[which(pathT[i] == r$pathway), ]$symbol)),
                      paste(pathT[i])))
       }
     }
@@ -398,27 +397,37 @@ WikiPathwayDB <- function(org_assembly = c("hg19",
                                            "sc3")) {
   if (org_assembly == 'hg19' | org_assembly == 'hg38')
     wp.gmt <-
-      rWikiPathways::downloadPathwayArchive(organism = "Homo sapiens", format = "gmt")
+      rWikiPathways::downloadPathwayArchive(organism = "Homo sapiens",
+                                            format = "gmt")
   if (org_assembly == 'mm10')
     wp.gmt <-
-      rWikiPathways::downloadPathwayArchive(organism = "Mus musculus", format = "gmt")
+      rWikiPathways::downloadPathwayArchive(organism = "Mus musculus",
+                                            format = "gmt")
   if (org_assembly == 'dre10')
     wp.gmt <-
-      rWikiPathways::downloadPathwayArchive(organism = "Danio rerio", format = "gmt")
+      rWikiPathways::downloadPathwayArchive(organism = "Danio rerio",
+                                            format = "gmt")
   if (org_assembly == 'rn6')
     wp.gmt <-
-      rWikiPathways::downloadPathwayArchive(organism = "Rattus norvegicus", format = "gmt")
+      rWikiPathways::downloadPathwayArchive(organism = "Rattus norvegicus",
+                                            format = "gmt")
   if (org_assembly == 'dm6')
     wp.gmt <-
-      rWikiPathways::downloadPathwayArchive(organism = "Drosophila melanogaster", format = "gmt")
+      rWikiPathways::downloadPathwayArchive(
+        organism = "Drosophila melanogaster",
+        format = "gmt")
   if (org_assembly == 'ce11')
     wp.gmt <-
-      rWikiPathways::downloadPathwayArchive(organism = "Caenorhabditis elegans", format = "gmt")
+      rWikiPathways::downloadPathwayArchive(
+        organism = "Caenorhabditis elegans",
+        format = "gmt")
   if (org_assembly == 'sc3')
     wp.gmt <-
-      rWikiPathways::downloadPathwayArchive(organism = "Saccharomyces cerevisiae", format = "gmt")
+      rWikiPathways::downloadPathwayArchive(
+        organism = "Saccharomyces cerevisiae",
+        format = "gmt")
   
-  gmtFile <- readGMT(gmtName = wp.gmt)
+  gmtFile <- convertGMT(gmtName = wp.gmt)
   tmp <-
     do.call(rbind, strsplit(as.character(gmtFile$pathTerm), '%'))
   gmtFile <-
@@ -455,6 +464,9 @@ WikiPathwayDB <- function(org_assembly = c("hg19",
 #'      performed
 #'
 #' @return Wiki Pathway Enrichment
+#' 
+#' @examples
+#' br_enr<-WikiEnrichment(genes = breastmRNA$V1[1:100],org_assembly='hg19')
 #'
 #' @importFrom rWikiPathways downloadPathwayArchive
 #'
@@ -478,7 +490,8 @@ WikiEnrichment <- function(genes,
                                        "BY",
                                        "fdr",
                                        "none"),
-                           min = 5, gmtFile ='', isSymbol = '', isGeneEnrich ='') {
+                           min = 5, gmtFile ='', 
+                           isSymbol = '', isGeneEnrich ='') {
   if (missing(genes)) {
     message("Gene is missing.")
   }
@@ -532,7 +545,8 @@ WikiEnrichment <- function(genes,
     if (length(which(pathT[i] == r$pathID)) > 0)
     {
       enric <-
-        c(enric, setNames(list(as.character(r[which(pathT[i] == r$pathID), ]$gene)),
+        c(enric, setNames(list(
+          as.character(r[which(pathT[i] == r$pathID), ]$gene)),
                           paste(pathT[i])))
     }
   }
@@ -574,6 +588,14 @@ WikiEnrichment <- function(genes,
 #'      performed
 #'
 #' @return Pathway Enrichment
+#' 
+#' @examples 
+#' 
+#' wp.gmt <-rWikiPathways::downloadPathwayArchive(
+#'                          organism = "Homo sapiens",format = "gmt")
+#' a <- pathwayEnrichment(genes = breastmRNA[1:100,], gmtFile = wp.gmt, 
+#'                        org_assembly = 'hg19',isGeneEnrich = FALSE, 
+#'                        isSymbol = FALSE)                   
 #'
 #' @export
 pathwayEnrichment <- function(genes,
@@ -618,7 +640,7 @@ pathwayEnrichment <- function(genes,
   colnames(genes) <- 'g'
   
   if (!isGeneEnrich) {
-    pathTable <- unique(readGMT(gmtName = gmtFile, isSymbol = isSymbol))
+    pathTable <- unique(convertGMT(gmtName = gmtFile, isSymbol = isSymbol))
   }
   else{
     pathTable <- geneListEnrich(f = gmtFile, isSymbol = isSymbol)
@@ -688,22 +710,22 @@ pathwayEnrichment <- function(genes,
   )
 }
 
-#' Import gmt formatted pathway file to the NoRCE
+#' Convert gmt formatted pathway file to the Pathway ID, Entrez, symbol
+#'  formatted data frame
 #'
 #' @param gmtName Custom pathway gmt file
 #' @param isSymbol Boolean variable that hold the gene format of the gmt file.
 #'     If it is set as TRUE, gene format of the gmt file should be symbol.
 #'     Otherwise, gene format should be ENTREZ ID. By default, it is FALSE.
 #'
-#' @return return gmt file
+#' @return return data frame
 #'
 #'
 #' @importFrom biomaRt getBM
 #' @importFrom reshape2 melt
 #'
-#' @export
 #'
-readGMT <- function(gmtName,
+convertGMT <- function(gmtName,
                     isSymbol = FALSE) {
   x <- scan(gmtName, what = "", sep = "\n")
   x <- strsplit(x, '\t')

@@ -11,6 +11,13 @@
 #' @importFrom AnnotationDbi Term
 #'
 #'
+#' @examples 
+#' 
+#' ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA[1:200,],
+#'  org_assembly='hg19', near=TRUE, genetype = 'Ensembl_gene')
+#'  
+#' drawDotPlot(mrnaObject = ncGO,type = 'pvalue',n = 2)
+#' 
 #' @export
 drawDotPlot <- function(mrnaObject, type = "pAdjust", n) {
   if (missing(mrnaObject)) {
@@ -86,11 +93,10 @@ drawDotPlot <- function(mrnaObject, type = "pAdjust", n) {
 #'
 #' @examples
 #'
-#' ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA[1:50,],
+#' ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA,
 #'                        org_assembly='hg19',
 #'                        near=TRUE,
-#'                        genetype = 'Ensembl_gene',
-#'                        pAdjust = "none")
+#'                        genetype = 'Ensembl_gene')
 #' writeEnrichment(mrnaObject=ncGO,fileName = "test.txt", type = "pvalue",n=2)
 #'
 #' @export
@@ -131,11 +137,9 @@ writeEnrichment <-
 #'
 #' @examples
 #'
-#' data(brain_disorder_ncRNA)
-#'
 #' ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA[1:100,],
-#'                        org_assembly='hg19', near=TRUE, genetype = 'Ensembl_gene',
-#'                        pAdjust = "none")
+#'                        org_assembly='hg19', near=TRUE, 
+#'                        genetype = 'Ensembl_gene')
 #' topGO<-topEnrichment(mrnaObject = ncGO, type = "pvalue", n = 5)
 #'
 #' @export
@@ -242,16 +246,13 @@ topEnrichment <- function(mrnaObject, type, n) {
 #'
 #' @return Network
 #'
-#'@examples
-#' subsetGene <- brain_disorder_ncRNA[1:50,]
-#' \dontrun{
-#' ncGO <- geneGOEnricher(gene = subsetGene,
-#'                        org_assembly='hg19',
-#'                        near=TRUE,
-#'                        genetype = 'Ensembl_gene',
-#'                        pAdjust = "none")
-#' createNetwork(ncGO,n=2)
-#'}
+#' @examples
+#' ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA[1:100,],
+#'                        org_assembly='hg19', near=TRUE, 
+#'                        genetype = 'Ensembl_gene')
+#'                        
+#' createNetwork(ncGO,n=1)
+#'
 #' @importFrom igraph cluster_optimal degree graph_from_data_frame layout_with_fr norm_coords V E V<- E<-
 #' @importFrom grDevices adjustcolor colorRampPalette
 #' @importFrom graphics plot
@@ -270,7 +271,8 @@ createNetwork <-
     }
     if (missing(n)) {
       message(
-        "Number of top enrichment is missing. Please specify maximum number of enrichment of interest"
+        "Number of top enrichment is missing. 
+        Please specify maximum number of enrichment of interest"
       )
     }
     if (n > length(mrnaObject@ID))
@@ -390,6 +392,15 @@ createNetwork <-
 #' @importFrom RCurl postForm
 #' @importFrom png readPNG writePNG
 #' @importFrom RCurl postForm
+#' 
+#' @examples 
+#' 
+#' ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA[1:100,],
+#'                        org_assembly='hg19', near=TRUE, 
+#'                        genetype = 'Ensembl_gene')
+#'                        
+#' getGoDag(mrnaObject = ncGO,type = 'pvalue',n = 1,
+#'          filename = 'customexp.png',imageFormat = 'png')
 #'
 #' @export
 getGoDag <-
@@ -484,6 +495,13 @@ getGoDag <-
 #'     "hg19" and "hg38" for human
 #'
 #' @return Shows kegg diagram marked with an enriched genes in a browser
+
+#' @examples 
+#' ncRNAPathway<-mirnaPathwayEnricher(gene = brain_mirna, 
+#'                                    org_assembly = 'hg19',near = TRUE)
+#'                                    
+#' getKeggDiagram(mrnaObject = ncRNAPathway, org_assembly ='hg19',
+#'                pathway = ncRNAPathway@ID[1])
 #' @export
 #'
 getKeggDiagram <-
@@ -538,18 +556,6 @@ getKeggDiagram <-
 #'      'png', 'svg'
 #'
 #' @return Shows reactome diagram marked with an enriched genes in a browser
-#'
-#' @examples
-#' subsetSet = brain_mirna[0:60,]
-#'
-#' ncRNAPathway<-mirnaPathwayEnricher(gene = subsetSet,
-#'                                    org_assembly='hg19',
-#'                                    near=TRUE,
-#'                                    pathwayType ='reactome',
-#'                                    pAdjust = "none")
-#' getReactomeDiagram(mrnaObject = ncRNAPathway,
-#'                    pathway = ncRNAPathway@ID[1],
-#'                    imageFormat = 'svg')
 #'
 #'
 #'@export

@@ -27,7 +27,7 @@ assembly, respectively.}
 \item{near}{Boolean value presents whether cis-neighbourhood should be
 considered in the analysis}
 
-\item{upstream}{Holds upstream distance from the transcription start 
+\item{upstream}{Holds upstream distance from the transcription start
 position}
 
 \item{downstream}{Holds downstream distance from the transcription end
@@ -44,7 +44,9 @@ Results can be filtered according to the available cell lines.
 }
 \examples{
 
-regionNC <-  readbed(dm_file = ncRegion,isText = FALSE)
+regions<-system.file("extdata", "ncRegion.txt", package = "NoRCE")
+regionNC <- import(regions, format = "BED")
+
 r<-getTADOverlap(bedfile = regionNC,
                  tad = tad_hg19,
                  org_assembly = 'hg19',

@@ -28,11 +28,10 @@ Write the tabular form of the pathway or GO term enrichment results
 }
 \examples{
 
-ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA[1:50,],
+ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA,
                        org_assembly='hg19',
                        near=TRUE,
-                       genetype = 'Ensembl_gene',
-                       pAdjust = "none")
+                       genetype = 'Ensembl_gene')
 writeEnrichment(mrnaObject=ncGO,fileName = "test.txt", type = "pvalue",n=2)
 
 }

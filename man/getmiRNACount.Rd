@@ -21,12 +21,3 @@ Data frame of the raw read count of the given miRNA genes
 \description{
 Get TCGA miRNAseq expression of miRNA genes for the given cancer
 }
-\examples{
-
-database<- "filePath//miRCancer.db"
-\dontrun{
-brcaCorr<- getmiRNACount(mirnagene = brain_mirna,
-cancer = 'BRCA', databaseFile = database)
-}
-
-}

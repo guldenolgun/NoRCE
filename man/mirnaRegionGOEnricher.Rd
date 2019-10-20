@@ -6,18 +6,11 @@
 upstream/downstream regions of the microRNA genes}
 \usage{
 mirnaRegionGOEnricher(region, org_assembly = c("hg19", "hg38", "mm10",
-  "dre10", "rn6", "dm6", "ce11", "sc3"), upstream = 10000,
-  downstream = 10000, searchRegion = c("all", "exon", "intron"),
-  GOtype = c("BP", "CC", "MF"), pCut = 0.05, pAdjCut = 0.05,
-  pAdjust = c("holm", "hochberg", "hommel", "bonferroni", "BH", "BY",
-  "fdr", "none"), near = FALSE, target = FALSE, min = 5,
+  "dre10", "rn6", "dm6", "ce11", "sc3"), near = FALSE, target = FALSE,
   backG = "", backGType = "pc-genes", isTADSearch = FALSE,
-  TAD = c(tad_hg19, tad_dmel, tad_hg38, tad_mm10), cellline = "all",
-  express = FALSE, isCustomExp = FALSE, cancer, exp1, exp2,
-  label1 = "", label2 = "", corrMethod = c("pearson", "kendall",
-  "spearman"), varCutoff = 0.0025, minAbsCor = 0.3, pcut = 0.05,
-  alternate = c("greater", "two.sided", "less"),
-  isUnionCorGene = FALSE, conf = 0.95, databaseFile)
+  TAD = c(tad_hg19, tad_dmel, tad_hg38, tad_mm10), express = FALSE,
+  isCustomExp = FALSE, cancer, exp1, exp2, label1 = "", label2 = "",
+  isUnionCorGene = FALSE, databaseFile)
 }
 \arguments{
 \item{region}{MiRNA region in a bed format}
@@ -27,32 +20,11 @@ assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat,
 "dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and
 "hg38" for human}
 
-\item{upstream}{Upstream distance from the transcription start position}
-
-\item{downstream}{Downstream distance from the transcription end position}
-
-\item{searchRegion}{Search space of the cis-region. Possible values are
-"all", "exon", "intron"}
-
-\item{GOtype}{Hierarchical category of the GO ontology. Possible values are
-"BP", "CC", "MF"}
-
-\item{pCut}{Threshold value for the pvalue. Default value for pCut is 0.05}
-
-\item{pAdjCut}{Cutoff value for the adjusted p-values using one of given
-method. Default value is 0.05.}
-
-\item{pAdjust}{Methods of the adjusted p-values. Possible methods are
-"holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none"}
-
 \item{near}{Boolean value presents whether cis-neighbourhood should be
 considered in the analysis}
 
 \item{target}{Boolean value shows whether miRNA target prediction should
 be performed}
-
-\item{min}{Minimum number of genes that are required for enrichment. By
-default, it is set to 5.}
 
 \item{backG}{The set of genes that tested against to the input}
 
@@ -67,8 +39,6 @@ any new TAD regions can be used for the analysis. TAD regions must be
 formated as GRanges object. Predefined TAD regions are 'tad_hg19',
 'tad_hg38', 'tad_mm10', 'tad_dmel' for hg19, hg38, mm9 and dm6
 assembly, respectively.}
-
-\item{cellline}{Cell lines for TAD regions.}
 
 \item{express}{Boolean variable whether co-expression analysis is performed.
 If this option is set to TRUE, co-expression analysis will be
@@ -98,27 +68,9 @@ provided, column name of the exp1 data will be taken.}
 \item{label2}{Gene names of the custom exp2 expression data. If it is not
 provided, column name of the exp2 data will be taken.}
 
-\item{corrMethod}{Correlation coeffient method that will be used for
-evaluation. Possible values are "pearson", "kendall", "spearman"}
-
-\item{varCutoff}{Variance cutt off that genes have less variance than this
-value will be trimmed}
-
-\item{minAbsCor}{Cut-off value for the Pearson correlation coefficient of
-the miRNA-mRNA}
-
-\item{pcut}{P-value cut off for the correlation values}
-
-\item{alternate}{Holds the alternative hypothesis and "two.sided", "greater"
-or "less" are the possible values.}
-
 \item{isUnionCorGene}{Boolean value that shows whether union of the output
 of the co-expression analysis and the other analysis should be
 considered}
-
-\item{conf}{Confidence level for the returned confidence interval. It is only
-used for the Pearson correlation coefficient if there are at least 4
-complete pairs of observations.}
 
 \item{databaseFile}{Path of miRcancer.db file}
 }
@@ -130,7 +82,8 @@ GO enrichments of the microRNA regions with mRNAs that fall in the given
 upstream/downstream regions of the microRNA genes
 }
 \examples{
-regionNC <-  readbed(dm_file = ncRegion,isText = FALSE)
+regions<-system.file("extdata", "ncRegion.txt", package = "NoRCE")
+regionNC <- import(regions, format = "BED")
 
 a<- mirnaRegionGOEnricher(region = regionNC,
                           org_assembly = 'hg19',

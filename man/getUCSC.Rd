@@ -30,7 +30,8 @@ to HUGO genes
 }
 \examples{
 
-regionNC <-  readbed(dm_file = ncRegion,isText = FALSE)
+regions<-system.file("extdata", "ncRegion.txt", package = "NoRCE")
+regionNC <- import(regions, format = "BED")
 
 neighbour <- getUCSC(bedfile = regionNC,
                      upstream = 1000,

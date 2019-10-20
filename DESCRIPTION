@@ -1,7 +1,7 @@
 Package: NoRCE
 Type: Package
 Title: NoRCE: Noncoding RNA Sets Cis Annotation and Enrichment
-Version: 0.99.12
+Version: 0.99.13
 Authors@R: c(person("Gulden", "Olgun", 
            email = "gulden@cs.bilkent.edu.tr", 
 		   role = c("aut", "cre")))
@@ -35,7 +35,7 @@ Depends: R (>= 3.6), GenomicRanges, biomaRt, png, RCurl,
 		TxDb.Rnorvegicus.UCSC.rn6.refGene, stats,
 		reshape2, graphics,org.Sc.sgd.db, org.Ce.eg.db, 
 		KEGGREST, reactome.db, dbplyr, psych, rWikiPathways,
-		AnnotationDbi,org.Dm.eg.db
+		AnnotationDbi,org.Dm.eg.db, cRegulome
 Encoding: UTF-8
 RoxygenNote: 6.1.1
 Suggests: 

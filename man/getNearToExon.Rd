@@ -27,7 +27,9 @@ Get only those neighbouring genes that fall within exon region
 }
 \examples{
 
-regionNC <-  readbed(dm_file = ncRegion,isText = FALSE)
+regions <- system.file("extdata", "ncRegion.txt", package = "NoRCE")
+regionNC <- import(regions, format = "BED")
+
 r<-getNearToExon(bedfile = regionNC,
                  upstream = 1000,
                  downstream = 2000,
