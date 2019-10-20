@@ -30,3 +30,8 @@ Saves image file in a given format
 Plot and save the GO term DAG of the top n enrichments in terms of p-values
 or adjusted p-values with an user provided format
 }
+\examples{
+ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA[1:100,],
+  org_assembly='hg19', near=TRUE,  genetype = 'Ensembl_gene')
+  
+}
