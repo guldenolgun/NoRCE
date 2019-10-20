@@ -21,3 +21,8 @@ Dot plot of the top n enrichment results
 \description{
 Draw dot plot of the enrichment object
 }
+\examples{
+ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA[1:100,],
+  org_assembly='hg19', near=TRUE,  genetype = 'Ensembl_gene')
+
+}

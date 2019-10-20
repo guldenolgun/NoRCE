@@ -10,7 +10,9 @@
 #' @importFrom ggplot2 ggplot
 #' @importFrom AnnotationDbi Term
 #'
-#'
+#' @examples
+#' ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA[1:100,],
+#'   org_assembly='hg19', near=TRUE,  genetype = 'Ensembl_gene')
 #' 
 #' @export
 drawDotPlot <- function(mrnaObject, type = "pAdjust", n) {
@@ -85,7 +87,10 @@ drawDotPlot <- function(mrnaObject, type = "pAdjust", n) {
 #'
 #' @importFrom utils browseURL read.table write.table
 #'
-#'
+#' @examples
+#' ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA[1:100,],
+#'   org_assembly='hg19', near=TRUE,  genetype = 'Ensembl_gene')
+#'   
 #' @export
 writeEnrichment <-
   function(mrnaObject,
@@ -122,7 +127,7 @@ writeEnrichment <-
 #'
 #' @return Give top n enrichment results
 #'
-#'
+#'   
 #' @export
 topEnrichment <- function(mrnaObject, type, n) {
   if (missing(mrnaObject)) {
@@ -241,6 +246,10 @@ topEnrichment <- function(mrnaObject, type, n) {
 #' @importFrom ggplot2 aes element_text geom_point ggplot labs theme theme_bw
 #'
 #'
+#' @examples
+#' ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA[1:100,],
+#'   org_assembly='hg19', near=TRUE,  genetype = 'Ensembl_gene')
+#' 
 #' @export
 createNetwork <-
   function(mrnaObject,
@@ -375,7 +384,10 @@ createNetwork <-
 #' @importFrom png readPNG writePNG
 #' @importFrom RCurl postForm
 #'
-#'
+#' @examples
+#' ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA[1:100,],
+#'   org_assembly='hg19', near=TRUE,  genetype = 'Ensembl_gene')
+#'   
 #' @export
 getGoDag <-
   function(mrnaObject,
