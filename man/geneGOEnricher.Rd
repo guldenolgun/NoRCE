@@ -7,124 +7,72 @@ interest, GO term enrichment analysis is carried out}
 \usage{
 geneGOEnricher(gene, org_assembly = c("hg19", "hg38", "mm10", "dre10",
   "rn6", "dm6", "ce11", "sc3"), genetype = c("Entrez", "mirna",
-  "Ensembl_gene", "Ensembl_trans", "NCBI"), upstream = 10000,
-  downstream = 10000, searchRegion = c("all", "exon", "intron"),
-  GOtype = c("BP", "CC", "MF"), pCut = 0.05, pAdjCut = 0.05,
-  pAdjust = c("holm", "hochberg", "hommel", "bonferroni", "BH", "BY",
-  "fdr", "none"), backG = "", backGType = "pc_gene",
-  enrichTest = c("hyper", "binom", "fisher", "chi"), near = FALSE,
-  min = 5, isTADSearch = FALSE, TAD = c(tad_hg19, tad_dmel, tad_hg38,
-  tad_mm10), cellline = "all", express = FALSE, isCustomExp = FALSE,
-  cancer, exp1, exp2, label1 = "", label2 = "",
-  corrMethod = c("pearson", "kendall", "spearman"), varCutoff = 0.0025,
-  minAbsCor = 0.3, pcut = 0.05, alternate = c("greater", "two.sided",
-  "less"), isUnionCorGene = FALSE, conf = 0.95, databaseFile)
+  "Ensembl_gene", "Ensembl_trans", "NCBI"), backG = "",
+  backGType = "pc_gene", near = FALSE, isTADSearch = FALSE,
+  TAD = c(tad_hg19, tad_dmel, tad_hg38, tad_mm10), express = FALSE,
+  isCustomExp = FALSE, cancer, exp1, exp2, label1 = "", label2 = "",
+  isUnionCorGene = FALSE, databaseFile)
 }
 \arguments{
 \item{gene}{Input genes other than miRNA}
 
-\item{org_assembly}{Genome assembly of interest for the analysis. Possible 
+\item{org_assembly}{Genome assembly of interest for the analysis. Possible
 assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat,
-"dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and 
+"dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and
 "hg38" for human}
 
 \item{genetype}{Type of the input gene list. Possible values are "Entrez",
 "mirna", "Ensembl_gene", "Ensembl_trans", "NCBI". For HUGO gene symbol
 "NCBI" value, for Entrez gene id "Entrez" is used.}
 
-\item{upstream}{Holds upstream distance from the TSS position}
-
-\item{downstream}{Holds downstream distance from the TES position}
-
-\item{searchRegion}{Search space of the cis-region. Possible values are 
-"all", "exon", "intron"}
-
-\item{GOtype}{Hierarchical category of the GO ontology. Possible values are
-"BP", "CC", "MF"}
-
-\item{pCut}{Threshold value for the pvalue. Default value for pCut is 0.05}
-
-\item{pAdjCut}{Cutoff value for the adjusted p-values using one of given 
-method. Default value is 0.05.}
-
-\item{pAdjust}{Methods of the adjusted p-values. Possible values are
-"holm", "hochberg", "hommel", "bonferroni", "BH", "BY","fdr", "none"}
-
-\item{backG}{The set of genes that tested against to the input 
+\item{backG}{The set of genes that tested against to the input
 (background gene)}
 
 \item{backGType}{Type of the background gene. If miRNA gene set is used for
 background gene, backGType should be set to the 'mirna'}
 
-\item{enrichTest}{Types of enrichment methods to perform enrichment 
-analysis. Possible values are "hyper"(default), "binom", "fisher", 
-"chi".}
-
-\item{near}{Boolean value presents whether cis-neighbourhood should be 
+\item{near}{Boolean value presents whether cis-neighbourhood should be
 considered in the analysis}
 
-\item{min}{Minimum number of genes that are required for enrichment. By 
-default, it is set to 5.}
-
-\item{isTADSearch}{Boolean value that shows whether TAD analysis is 
+\item{isTADSearch}{Boolean value that shows whether TAD analysis is
 performed. This value has to be TRUE for TAD analysis.}
 
-\item{TAD}{TAD genomic regions for the species. Predefined TAD regions or 
-any new TAD regions can be used for the analysis. TAD regions must be 
-formated as GRanges object. Predefined TAD regions are 'tad_hg19', 
-'tad_hg38', 'tad_mm10', 'tad_dmel' for hg19, hg38, mm9 and dm6 
+\item{TAD}{TAD genomic regions for the species. Predefined TAD regions or
+any new TAD regions can be used for the analysis. TAD regions must be
+formated as GRanges object. Predefined TAD regions are 'tad_hg19',
+'tad_hg38', 'tad_mm10', 'tad_dmel' for hg19, hg38, mm9 and dm6
 assembly, respectively.}
 
-\item{cellline}{Cell lines for TAD regions}
-
 \item{express}{Boolean variable whether co-expression analysis is performed.
-If this option is set to TRUE, co-expression analysis will be 
+If this option is set to TRUE, co-expression analysis will be
 performed.}
 
-\item{isCustomExp}{Boolean variable whether co-expression analysis with 
-custom data will be performed. When this option is set, exp1 and exp2 
+\item{isCustomExp}{Boolean variable whether co-expression analysis with
+custom data will be performed. When this option is set, exp1 and exp2
 parameters must be defined.}
 
-\item{cancer}{Defines the name of the TCGA project code such as 'BRCA' for 
-correlation analysis. Possible cancer types ACC, BLCA, BRCA, CESC, 
+\item{cancer}{Defines the name of the TCGA project code such as 'BRCA' for
+correlation analysis. Possible cancer types ACC, BLCA, BRCA, CESC,
 CHOL, COAD, COADREAD, DLBC, ESCA, GBMLGG, HNSC, KICH, KIPAN, KIRC,
-KIRP, LGG, LIHC, LUAD, LUSC, OV, PAAD, PCPG, PRAD, READ, SARC, SKCM, 
+KIRP, LGG, LIHC, LUAD, LUSC, OV, PAAD, PCPG, PRAD, READ, SARC, SKCM,
 STAD, STES, TGCT, THCA, THYM, UCEC, UCS, UVM}
 
-\item{exp1}{Custom expression data matrix. Columns must be genes and rows 
-must be patients. If gene names are provided as header, no need to 
+\item{exp1}{Custom expression data matrix. Columns must be genes and rows
+must be patients. If gene names are provided as header, no need to
 redefine the headers(labels) of the expression data.}
 
-\item{exp2}{Custom expression data matrix. Columns must be genes and rows 
-must be patients. If gene names are provided as header, no need to 
+\item{exp2}{Custom expression data matrix. Columns must be genes and rows
+must be patients. If gene names are provided as header, no need to
 redefine the headers(labels) of the expression data.}
 
-\item{label1}{Gene names of the custom exp1 expression data. If it is not 
+\item{label1}{Gene names of the custom exp1 expression data. If it is not
 provided, column name of the exp1 data will be taken.}
 
-\item{label2}{Gene names of the custom exp2 expression data. If it is not 
+\item{label2}{Gene names of the custom exp2 expression data. If it is not
 provided, column name of the exp2 data will be taken.}
-
-\item{corrMethod}{Correlation coeffient method that will be used for 
-evaluation. Possible values are "pearson", "kendall", "spearman"}
-
-\item{varCutoff}{Variance cutt off that genes have less variance than this
-value will be trimmed}
-
-\item{minAbsCor}{Cut-off value for the Pearson correlation coefficient of the
-the miRNA-mRNA}
-
-\item{pcut}{P-value cut off for the correlation values}
-
-\item{alternate}{Holds the alternative hypothesis and "two.sided", "greater" 
-or "less" are the possible values.}
 
 \item{isUnionCorGene}{Boolean value that shows whether union of the output of
 the co-expression analysis and the other analysis should be considered}
-
-\item{conf}{Confidence level for the returned confidence interval. It is 
-only used for the Pearson correlation coefficient if there are at 
-least 4 complete pairs of observations.}
 
 \item{databaseFile}{Path of miRcancer.db file}
 }
@@ -136,10 +84,7 @@ Given genes that fall in a given upstream and downstream region of mRNAs of
 interest, GO term enrichment analysis is carried out
 }
 \examples{
-subsetGene <- brain_disorder_ncRNA[1:30,]
-ncGO<-geneGOEnricher(gene = subsetGene, org_assembly='hg19', 
-                    near=TRUE, genetype = 'Ensembl_gene',
-                    searchRegion = "exon", 
-                    pAdjust = "none")
+ncGO<-geneGOEnricher(gene = brain_disorder_ncRNA, org_assembly='hg19',
+near=TRUE, genetype = 'Ensembl_gene')
 
 }

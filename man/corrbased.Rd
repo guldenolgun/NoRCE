@@ -28,12 +28,3 @@ Data frame of the miRNA-mRNA correlation result
 Pearson correlation coefficient value of the miRNA genes between miRNA:mRNA
 for a given correlation cut-off and cancer.
 }
-\examples{
-
-database<- "filePath//miRCancer.db"
-\dontrun{
-brcaCorr<- corrbased(mirnagene = NoRCE::brain_mirna, cancer = 'BRCA',
-                    minAbsCor = 0.3, database)
-}
-
-}

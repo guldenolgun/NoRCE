@@ -6,19 +6,11 @@
 upstream/downstream regions of the microRNA genes}
 \usage{
 mirnaPathwayEnricher(gene, org_assembly = c("hg19", "hg38", "mm10",
-  "dre10", "rn6", "dm6", "ce11", "sc3"), upstream = 10000,
-  downstream = 10000, searchRegion = c("all", "exon", "intron"),
-  pCut = 0.05, pAdjCut = 0.05, pAdjust = c("holm", "hochberg",
-  "hommel", "bonferroni", "BH", "BY", "fdr", "none"), min = 5,
-  pathwayType = "kegg", near = FALSE, target = FALSE,
+  "dre10", "rn6", "dm6", "ce11", "sc3"), near = FALSE, target = FALSE,
   isTADSearch = FALSE, TAD = c(tad_hg19, tad_dmel, tad_hg38, tad_mm10),
-  cellline = "all", gmtName = "", isSymbol = "FALSE",
-  express = FALSE, isCustomExp = FALSE, cancer, exp1, exp2,
-  label1 = "", label2 = "", corrMethod = c("pearson", "kendall",
-  "spearman"), varCutoff = 0.0025, minAbsCor = 0.3, pcut = 0.05,
-  alternate = c("greater", "two.sided", "less"),
-  isUnionCorGene = FALSE, conf = 0.95, databaseFile,
-  isGeneEnrich = FALSE)
+  gmtName = "", express = FALSE, isCustomExp = FALSE, cancer, exp1,
+  exp2, label1 = "", label2 = "", isUnionCorGene = FALSE,
+  databaseFile, isGeneEnrich = FALSE)
 }
 \arguments{
 \item{gene}{Input microRNA gene. It supports both pre-miRNA and mature miRNA,
@@ -29,28 +21,6 @@ should be mature.}
 assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat,
 "dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and
 "hg38" for human}
-
-\item{upstream}{Upstream distance from the transcription start position}
-
-\item{downstream}{Downstream distance from the transcription end position}
-
-\item{searchRegion}{Search space of the cis-region. Possible values are
-"all", "exon", "intron"}
-
-\item{pCut}{Threshold value for the pvalue. Default value for pCut is 0.05}
-
-\item{pAdjCut}{Cutoff value for the adjusted p-values using one of given
-method. Default value is 0.05.}
-
-\item{pAdjust}{Methods of the adjusted p-values. Possible methods are "holm",
-"hochberg", "hommel", "bonferroni", "BH", "BY","fdr", "none"}
-
-\item{min}{Minimum number of genes that are required for enrichment. By
-default, it is set to 5}
-
-\item{pathwayType}{Pathway database for enrichment. Possible values are
-'reactome' for Reactome, 'kegg' for KEGG, 'wiki' for WikiPathways,
-'other' for custom database}
 
 \item{near}{Boolean value presents whether cis-neighbourhood should be
 considered in the analysis}
@@ -67,13 +37,7 @@ formated as GRanges object. Predefined TAD regions are 'tad_hg19',
 'tad_hg38', 'tad_mm10', 'tad_dmel' for hg19, hg38, mm9 and dm6
 assembly, respectively.}
 
-\item{cellline}{Cell lines for TAD regions.}
-
 \item{gmtName}{Custom pathway gmt file}
-
-\item{isSymbol}{Boolean variable that hold the gene format of the gmt file.
-If it is set as TRUE, gene format of the gmt file should be symbol.
-Otherwise, gene format should be ENTREZ ID. By default, it is FALSE.}
 
 \item{express}{Boolean variable whether co-expression analysis is performed.
 If this option is set to TRUE, co-expression analysis will be
@@ -103,27 +67,9 @@ provided, column name of the exp1 data will be taken.}
 \item{label2}{Gene names of the custom exp2 expression data. If it is not
 provided, column name of the exp2 data will be taken.}
 
-\item{corrMethod}{Correlation coeffient method that will be used for
-evaluation. Possible values are "pearson", "kendall", "spearman"}
-
-\item{varCutoff}{Variance cutt off that genes have less variance than this
-value will be trimmed}
-
-\item{minAbsCor}{Cut-off value for the Pearson correlation coefficient of
-the miRNA-mRNA}
-
-\item{pcut}{P-value cut off for the correlation values}
-
-\item{alternate}{Holds the alternative hypothesis and "two.sided", "greater"
-or "less" are the possible values.}
-
 \item{isUnionCorGene}{Boolean value that shows whether union of the output
 of the co-expression analysis and the other analysis should be
 considered}
-
-\item{conf}{Confidence level for the returned confidence interval. It is
-only used for the Pearson correlation coefficient if there are at least
-4 complete pairs of observations.}
 
 \item{databaseFile}{Path of miRcancer.db file}
 
@@ -142,7 +88,6 @@ subsetGene <- brain_mirna[1:30,]
 
 miPath <- mirnaPathwayEnricher(gene = subsetGene,
                                org_assembly = 'hg19',
-                               near = TRUE,
-                               pAdjust = "none")
+                               near = TRUE)
 
 }

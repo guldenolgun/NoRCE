@@ -21,10 +21,3 @@ Tabular form of the gtf file with the required features
 Get the biotype of the non-coding genes. It is suitable for the 
 GENCODE gtf files
 }
-\examples{
-gtfFile="\\\\pathTotheGTFFile\\\\Homo_sapiens.GRCh38.93.chr.gtf.zip"
-\dontrun{
-gtf <- extractBiotype(gtfFile = gtfFile)
-}
-
-}

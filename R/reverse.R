@@ -1,4 +1,5 @@
-commonGene <- function(mrnaobject, org_assembly, downstream, upstream,inputGene, inGeneType){
+commonGene <- function(mrnaobject, org_assembly, 
+                       downstream, upstream,inputGene, inGeneType){
   a<-unique(unlist(mrnaobject@geneList))
   aa<-convertGeneID(genelist = a,genetype = 'NCBI',org_assembly = org_assembly)
 

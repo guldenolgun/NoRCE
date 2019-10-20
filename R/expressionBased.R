@@ -13,18 +13,13 @@
 #'
 #' @return Data frame of the miRNA-mRNA correlation result
 #'
-#' @examples
 #'
-#' database<- "filePath//miRCancer.db"
-#' \dontrun{
-#' brcaCorr<- corrbased(mirnagene = NoRCE::brain_mirna, cancer = 'BRCA',
-#'                     minAbsCor = 0.3, database)
-#'}
 #'
 #' @importFrom DBI dbConnect
 #' @importFrom RSQLite SQLite
 #' @importFrom dplyr select tbl filter mutate collect arrange count
 #' @import tidyr
+#' @importFrom cRegulome get_mir
 #'
 #' @export
 corrbased <- function(mirnagene,
@@ -33,17 +28,27 @@ corrbased <- function(mirnagene,
                       databaseFile) {
   colnames(mirnagene) <- c('g')
   
+  a <-
+    as.data.frame(gsub(paste(c("-3p", "-5p"), collapse = "|"), "",
+                       mirnagene$g))
   
-  conn <- dbConnect(SQLite(), databaseFile)
+  colnames(a) <- 'genes'
+  a <- unique(rbind(a, mirnagene$g))
   
-  dat <- conn %>%
-    dplyr::tbl('cor_mir') %>%
-    dplyr::select(mirna_base, feature, cancer) %>%
-    dplyr::filter(mirna_base %in% mirnagene$g) %>%
-    collect() %>%
-    tidyr::gather(cancer, cor, -mirna_base, -feature) %>%
-    mutate(cor = cor / 100) %>% dplyr::filter(abs(cor) > minAbsCor) %>%
-    arrange(dplyr::desc(abs(cor))) %>% na.omit()
+  dat <- get_mir(conn = conn, mir =as.character(a$genes),study = cancer,
+                 min_abs_cor = minAbsCor)
+  colnames(dat) <- c("mirna_base","feature", "cor", "cancer")
+  
+  # conn <- dbConnect(SQLite(), databaseFile)
+  # 
+  # dat <- conn %>%
+  #   dplyr::tbl('cor_mir') %>%
+  #   dplyr::select(mirna_base, feature, cancer) %>%
+  #   dplyr::filter(mirna_base %in% mirnagene$g) %>%
+  #   collect() %>%
+  #   tidyr::gather(cancer, cor, -mirna_base, -feature) %>%
+  #   mutate(cor = cor / 100) %>% dplyr::filter(abs(cor) > minAbsCor) %>%
+  #   arrange(dplyr::desc(abs(cor))) %>% na.omit()
   
   return(dat)
 }
@@ -63,13 +68,6 @@ corrbased <- function(mirnagene,
 #'
 #' @return Data frame of the miRNA-mRNA correlation result
 #'
-#' @examples
-#'
-#' database<- "filePath//miRCancer.db"
-#' \dontrun{
-#' d<-corrbasedMrna(mRNAgene = as.data.frame(gene_list$geneSet),
-#'                  cancer = 'BRCA', minAbsCor = 0.3, database)
-#'}
 #'
 #' @importFrom DBI dbConnect
 #' @importFrom RSQLite SQLite
@@ -86,7 +84,7 @@ corrbasedMrna <-
     dat <- conn %>%
       dplyr::tbl('cor_mir') %>%
       dplyr::select(mirna_base, feature, cancer) %>%
-      dplyr::filter(feature %in% mRNAgene$g) %>%
+      dplyr::filter(feature %in% !!mRNAgene$g) %>%
       collect() %>%
       tidyr::gather(cancer, cor, -mirna_base, -feature) %>%
       mutate(cor = cor / 100) %>%
@@ -106,13 +104,6 @@ corrbasedMrna <-
 #' @return Data frame of the raw read count of the given miRNA genes
 #'       for different patients
 #'
-#' @examples
-#'
-#' database<- "filePath//miRCancer.db"
-#' \dontrun{
-#' brcaCorr<- getmiRNACount(mirnagene = brain_mirna,
-#' cancer = 'BRCA', databaseFile = database)
-#' }
 #'
 #' @importFrom DBI dbConnect
 #' @importFrom RSQLite SQLite
@@ -128,7 +119,7 @@ getmiRNACount <- function(mirnagene, cancer, databaseFile) {
     conn %>%
     dplyr::tbl('profiles') %>%
     dplyr::select(study, mirna_base, count) %>%
-    dplyr::filter(mirna_base %in% mirnagene$g) %>%
+    dplyr::filter(mirna_base %in% !!mirnagene$g) %>%
     dplyr::filter(study %in% cancer) %>%
     collect() %>% na.omit()
   

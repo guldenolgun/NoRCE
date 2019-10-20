@@ -12,8 +12,7 @@
 #' @import GO.db
 #' @import org.Hs.eg.db
 #'
-annotate <- function(genes,
-                     GOtype = c("BP", "CC", "MF"),
+annotate <- function(genes,GOtype = c("BP", "CC", "MF"),
                      org_assembly = c("hg19", "hg38", "mm10", "dre10", "rn6",
                                       "dm6", "ce11", "sc3")) {
   if (missing(genes)) {

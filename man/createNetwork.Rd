@@ -40,13 +40,10 @@ GO-term is annotated and enriched with the mRNAs provided from the input
 list.
 }
 \examples{
-subsetGene <- brain_disorder_ncRNA[1:50,]
-\dontrun{
-ncGO <- geneGOEnricher(gene = subsetGene,
-                       org_assembly='hg19',
-                       near=TRUE,
-                       genetype = 'Ensembl_gene',
-                       pAdjust = "none")
-createNetwork(ncGO,n=2)
-}
+ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA[1:100,],
+                       org_assembly='hg19', near=TRUE, 
+                       genetype = 'Ensembl_gene')
+                       
+createNetwork(ncGO,n=1)
+
 }

@@ -11,12 +11,6 @@
 #'
 #' @import readr
 #'
-#' @examples
-#' gtfFile="\\pathTotheGTFFile\\Homo_sapiens.GRCh38.93.chr.gtf.zip"
-#' \dontrun{
-#' gtf <- extractBiotype(gtfFile = gtfFile)
-#' }
-#'
 #' @export
 #'
 extractBiotype <- function(gtfFile) {
@@ -56,15 +50,6 @@ extractBiotype <- function(gtfFile) {
 #'
 #' @return Table format of genes with a given biotypes
 #'
-#'
-#' @examples
-#' biotypes <- c('lincRNA','antisense')
-#' \dontrun{
-#' lncGenes <-filterBiotype(gtfFile = "filePath//gtf", biotypes = biotypes)
-#'
-#' a<-geneGOEnrichment(gene = unique(lncGenes), org_assembly = "hg19",
-#'                     genetype = "Ensembl_gene")
-#' }
 #'
 #' @export
 filterBiotype <- function(gtfFile, biotypes) {

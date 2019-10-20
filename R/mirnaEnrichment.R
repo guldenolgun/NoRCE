@@ -11,19 +11,6 @@ options(readr.num_columns = 0)
 #'     assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat,
 #'     "dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and "hg38"
 #'     for human
-#' @param upstream Upstream distance from the transcription start position
-#' @param downstream Downstream distance from the transcription end position
-#' @param searchRegion Search space of the cis-region. Possible values are
-#'     "all", "exon", "intron"
-#' @param GOtype Hierarchical category of the GO ontology. Possible values
-#'     are "BP", "CC", "MF"
-#' @param pCut Threshold value for the pvalue. Default value is 0.05
-#' @param pAdjCut Cutoff value for the adjusted p-values using one of given
-#'     method. Default value is 0.05.
-#' @param pAdjust Methods of the adjusted p-values. Possible methods are
-#'     "holm", "hochberg", "hommel", "bonferroni", "BH", "BY","fdr", "none"
-#' @param min Minimum number of genes that are required for enrichment. By
-#'     default, this value is set to 5.
 #' @param near Boolean value presents whether cis-neighbourhood should be
 #'     considered in the analysis
 #' @param target Boolean value shows whether miRNA target prediction should
@@ -36,7 +23,6 @@ options(readr.num_columns = 0)
 #'     formated as GRanges object. Predefined TAD regions are 'tad_hg19',
 #'     'tad_hg38', 'tad_mm10', 'tad_dmel' for hg19, hg38, mm9 and dm6 assembly,
 #'     respectively.
-#' @param cellline Cell lines for TAD regions.
 #' @param backGType Type of the background gene. If miRNA gene set is used for
 #'     background gene, backGType should be set to the 'mirna'
 #' @param express Boolean variable whether co-expression analysis is performed.
@@ -59,18 +45,6 @@ options(readr.num_columns = 0)
 #'     provided, column name of the exp1 data will be taken.
 #' @param label2 Gene names of the custom exp2 expression data. If it is not
 #'     provided, column name of the exp2 data will be taken.
-#' @param corrMethod Correlation coeffient method that will be used for
-#'     evaluation. Possible values are "pearson", "kendall", "spearman"
-#' @param varCutoff Variance cutt off that genes have less variance than this
-#'     value will be trimmed
-#' @param pcut P-value cut off for the correlation values
-#' @param alternate Holds the alternative hypothesis and "two.sided", "greater"
-#'     or "less" are the possible values.
-#' @param conf Confidence level for the returned confidence interval. It is
-#'     only used for the Pearson correlation coefficient if there are at
-#'     least 4 complete pairs of observations.
-#' @param minAbsCor Cut-off value for the Pearson correlation coefficient of
-#'     the miRNA-mRNA
 #' @param databaseFile Path of miRcancer.db file
 #' @param isUnionCorGene Boolean value that shows whether union of the output
 #'     of the co-expression analysis and the other analysis should be
@@ -84,8 +58,7 @@ options(readr.num_columns = 0)
 #' miGO <-mirnaGOEnricher(gene=subsetGene,
 #'                        org_assembly='hg19',
 #'                        near = TRUE,
-#'                        target = FALSE,
-#'                        pAdjust = "none")
+#'                        target = FALSE)
 #' @export mirnaGOEnricher
 mirnaGOEnricher <-
   function(gene,
@@ -97,28 +70,12 @@ mirnaGOEnricher <-
                             "dm6",
                             "ce11",
                             "sc3"),
-           upstream = 10000,
-           downstream = 10000,
-           searchRegion = c('all', "exon", "intron"),
-           GOtype = c("BP", "CC", "MF"),
-           pCut = 0.05,
-           pAdjCut = 0.05,
-           pAdjust = c("holm",
-                       "hochberg",
-                       "hommel",
-                       "bonferroni",
-                       "BH",
-                       "BY",
-                       "fdr",
-                       "none"),
            near = FALSE,
            target = FALSE,
-           min = 5,
            backGenes = '',
            backGType = 'pc_gene',
            isTADSearch = FALSE,
            TAD = c(tad_hg19, tad_dmel, tad_hg38, tad_mm10),
-           cellline = 'all',
            express = FALSE,
            isCustomExp = FALSE,
            cancer,
@@ -126,14 +83,8 @@ mirnaGOEnricher <-
            exp2,
            label1 = '',
            label2 = '',
-           corrMethod = c("pearson", "kendall", "spearman"),
-           varCutoff = 0.0025,
-           minAbsCor = 0.3,
-           pcut = 0.05,
-           alternate = c('greater', "two.sided", "less"),
            isUnionCorGene = FALSE,
-           conf = 0.95,
-           databaseFile = '') {
+          databaseFile = '') {
     if (missing(gene)) {
       message("Gene is missing.")
     }
@@ -184,15 +135,17 @@ mirnaGOEnricher <-
     
     if (near) {
       ifelse(
-        searchRegion == 'all',
+        pkg.env$searchRegion == 'all',
         miNearGene_temp <-
-          getUCSC(geneLoc, upstream, downstream, org_assembly),
+          getUCSC(geneLoc, pkg.env$upstream, pkg.env$downstream, org_assembly),
         ifelse(
-          searchRegion == 'exon',
+          pkg.env$searchRegion == 'exon',
           miNearGene_temp <-
-            getNearToExon(geneLoc, upstream, downstream, org_assembly),
+            getNearToExon(geneLoc, pkg.env$upstream, 
+                          pkg.env$downstream, org_assembly),
           miNearGene_temp <-
-            getNearToIntron(geneLoc, upstream, downstream, org_assembly)
+            getNearToIntron(geneLoc, pkg.env$upstream, 
+                            pkg.env$downstream, org_assembly)
         )
       )
       
@@ -230,11 +183,11 @@ mirnaGOEnricher <-
         getTADOverlap(
           bedfile = geneLoc,
           tad = TAD,
-          cellline = cellline,
+          cellline = pkg.env$cellline,
           org_assembly = org_assembly,
           near = near,
-          upstream = upstream,
-          downstream = downstream
+          upstream = pkg.env$upstream,
+          downstream = pkg.env$downstream
         )
       if (near | target)
         miNearGene <-
@@ -248,7 +201,7 @@ mirnaGOEnricher <-
         nearG <- corrbased(
           mirnagene = a$genes,
           cancer = cancer,
-          minAbsCor = minAbsCor,
+          minAbsCor = pkg.env$minAbsCor,
           databaseFile = databaseFile
         )
         d <- nearG[which(a$genes %in% nearG$mirna_base),]
@@ -264,12 +217,12 @@ mirnaGOEnricher <-
           exp2 = exp2,
           label1 = label1 ,
           label2 = label2,
-          corrMethod = corrMethod,
-          varCutoff = varCutoff,
-          corCutoff = minAbsCor,
-          pcut = pcut,
-          alternate = alternate,
-          conf = conf
+          corrMethod = pkg.env$corrMethod,
+          varCutoff = pkg.env$varCutoff,
+          corCutoff = pkg.env$minAbsCor,
+          pcut = pkg.env$pcut,
+          alternate = pkg.env$alternate,
+          conf = pkg.env$conf
         )
         tt <-
           lapply(seq_len(nrow(a)), function(x)
@@ -301,22 +254,22 @@ mirnaGOEnricher <-
       miEnrich <-
         goEnrichment(
           gene = miNearGene,
-          GOtype = GOtype,
+          GOtype = pkg.env$GOtype,
           org_assembly = org_assembly,
-          pCut = pCut,
-          pAdjCut = pAdjCut,
-          pAdjust = pAdjust,
+          pCut = pkg.env$pCut,
+          pAdjCut = pkg.env$pAdjCut,
+          pAdjust = pkg.env$pAdjust,
           backG = backGenes,
           backGType = backGType,
-          min = min
+          min = pkg.env$min,enrichTest = pkg.env$enrichTest
         )
       if (length(miEnrich@Term)) {
         miEnrich@ncGeneList <-
           commonGene(
             mrnaobject = miEnrich,
             org_assembly = org_assembly,
-            downstream = downstream,
-            upstream = upstream,
+            downstream = pkg.env$downstream,
+            upstream = pkg.env$upstream,
             inputGene = rbind(a, gene),
             inGeneType = 'mirna'
           )
@@ -335,20 +288,6 @@ mirnaGOEnricher <-
 #'     assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat,
 #'     "dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and
 #'     "hg38" for human
-#' @param upstream Upstream distance from the transcription start position
-#' @param downstream Downstream distance from the transcription end position
-#' @param searchRegion Search space of the cis-region. Possible values are
-#'     "all", "exon", "intron"
-#' @param pCut Threshold value for the pvalue. Default value for pCut is 0.05
-#' @param pAdjCut Cutoff value for the adjusted p-values using one of given
-#'     method. Default value is 0.05.
-#' @param pAdjust Methods of the adjusted p-values. Possible methods are "holm",
-#'     "hochberg", "hommel", "bonferroni", "BH", "BY","fdr", "none"
-#' @param min Minimum number of genes that are required for enrichment. By
-#'     default, it is set to 5
-#' @param pathwayType Pathway database for enrichment. Possible values are
-#'     'reactome' for Reactome, 'kegg' for KEGG, 'wiki' for WikiPathways,
-#'     'other' for custom database
 #' @param near Boolean value presents whether cis-neighbourhood should be
 #'     considered in the analysis
 #' @param target Boolean value shows whether miRNA target prediction should
@@ -360,11 +299,7 @@ mirnaGOEnricher <-
 #'     formated as GRanges object. Predefined TAD regions are 'tad_hg19',
 #'     'tad_hg38', 'tad_mm10', 'tad_dmel' for hg19, hg38, mm9 and dm6
 #'     assembly, respectively.
-#' @param cellline Cell lines for TAD regions.
 #' @param gmtName Custom pathway gmt file
-#' @param isSymbol Boolean variable that hold the gene format of the gmt file.
-#'      If it is set as TRUE, gene format of the gmt file should be symbol.
-#'      Otherwise, gene format should be ENTREZ ID. By default, it is FALSE.
 #' @param express Boolean variable whether co-expression analysis is performed.
 #'      If this option is set to TRUE, co-expression analysis will be
 #'      performed.
@@ -386,18 +321,6 @@ mirnaGOEnricher <-
 #'      provided, column name of the exp1 data will be taken.
 #' @param label2 Gene names of the custom exp2 expression data. If it is not
 #'      provided, column name of the exp2 data will be taken.
-#' @param corrMethod Correlation coeffient method that will be used for
-#'      evaluation. Possible values are "pearson", "kendall", "spearman"
-#' @param varCutoff Variance cutt off that genes have less variance than this
-#'      value will be trimmed
-#' @param pcut P-value cut off for the correlation values
-#' @param alternate Holds the alternative hypothesis and "two.sided", "greater"
-#'      or "less" are the possible values.
-#' @param conf Confidence level for the returned confidence interval. It is
-#'      only used for the Pearson correlation coefficient if there are at least
-#'      4 complete pairs of observations.
-#' @param minAbsCor Cut-off value for the Pearson correlation coefficient of
-#'      the miRNA-mRNA
 #' @param databaseFile Path of miRcancer.db file
 #' @param isUnionCorGene Boolean value that shows whether union of the output
 #'      of the co-expression analysis and the other analysis should be
@@ -408,12 +331,9 @@ mirnaGOEnricher <-
 #' @return MiRNA pathway enrichment object for the given input
 #'
 #' @examples
-#' subsetGene <- brain_mirna[1:30,]
-#'
-#' miPath <- mirnaPathwayEnricher(gene = subsetGene,
+#' miPath <- mirnaPathwayEnricher(gene = brain_mirna,
 #'                                org_assembly = 'hg19',
-#'                                near = TRUE,
-#'                                pAdjust = "none")
+#'                                near = TRUE)
 #'
 #' @export
 mirnaPathwayEnricher <-
@@ -426,28 +346,11 @@ mirnaPathwayEnricher <-
                             "dm6",
                             "ce11",
                             "sc3"),
-           upstream = 10000,
-           downstream = 10000,
-           searchRegion = c('all', "exon", "intron"),
-           pCut = 0.05,
-           pAdjCut = 0.05,
-           pAdjust = c("holm",
-                       "hochberg",
-                       "hommel",
-                       "bonferroni",
-                       "BH",
-                       "BY",
-                       "fdr",
-                       "none"),
-           min = 5,
-           pathwayType = 'kegg',
-           near = FALSE,
+          near = FALSE,
            target = FALSE,
            isTADSearch = FALSE,
            TAD = c(tad_hg19, tad_dmel, tad_hg38, tad_mm10),
-           cellline = 'all',
            gmtName = '',
-           isSymbol = 'FALSE',
            express = FALSE,
            isCustomExp = FALSE,
            cancer,
@@ -455,13 +358,7 @@ mirnaPathwayEnricher <-
            exp2,
            label1 = '',
            label2 = '',
-           corrMethod = c("pearson", "kendall", "spearman"),
-           varCutoff = 0.0025,
-           minAbsCor = 0.3,
-           pcut = 0.05,
-           alternate = c('greater', "two.sided", "less"),
            isUnionCorGene = FALSE,
-           conf = 0.95,
            databaseFile,
            isGeneEnrich = FALSE) {
     if (missing(gene)) {
@@ -514,15 +411,17 @@ mirnaPathwayEnricher <-
     
     if (near) {
       ifelse(
-        searchRegion == 'all',
+        pkg.env$searchRegion == 'all',
         miNearGene_temp <-
-          getUCSC(geneLoc, upstream, downstream, org_assembly),
+          getUCSC(geneLoc, pkg.env$upstream, pkg.env$downstream, org_assembly),
         ifelse(
-          searchRegion == 'exon',
+          pkg.env$searchRegion == 'exon',
           miNearGene_temp <-
-            getNearToExon(geneLoc, upstream, downstream, org_assembly),
+            getNearToExon(geneLoc, pkg.env$upstream, 
+                          pkg.env$downstream, org_assembly),
           miNearGene_temp <-
-            getNearToIntron(geneLoc, upstream, downstream, org_assembly)
+            getNearToIntron(geneLoc, pkg.env$upstream, 
+                            pkg.env$downstream, org_assembly)
         )
       )
       
@@ -560,11 +459,11 @@ mirnaPathwayEnricher <-
         getTADOverlap(
           bedfile = geneLoc,
           tad = TAD,
-          cellline = cellline,
+          cellline = pkg.env$cellline,
           org_assembly = org_assembly,
           near = near,
-          upstream = upstream,
-          downstream = downstream
+          upstream = pkg.env$upstream,
+          downstream = pkg.env$downstream
         )
       if (near | target)
         miNearGene <-
@@ -578,7 +477,7 @@ mirnaPathwayEnricher <-
         nearG <- corrbased(
           mirnagene = a$genes,
           cancer = cancer,
-          minAbsCor = minAbsCor,
+          minAbsCor = pkg.env$minAbsCor,
           databaseFile = databaseFile
         )
         d <- nearG[which(a$genes %in% nearG$mirna_base),]
@@ -594,12 +493,12 @@ mirnaPathwayEnricher <-
           exp2 = exp2,
           label1 = label1 ,
           label2 = label2,
-          corrMethod = corrMethod,
-          varCutoff = varCutoff,
-          corCutoff = minAbsCor,
-          pcut = pcut,
-          alternate = alternate,
-          conf = conf
+          corrMethod = pkg.env$corrMethod,
+          varCutoff = pkg.env$varCutoff,
+          corCutoff = pkg.env$minAbsCor,
+          pcut = pkg.env$pcut,
+          alternate = pkg.env$alternate,
+          conf = pkg.env$conf
         )
         tt <-
           lapply(seq_len(nrow(a)), function(x)
@@ -628,60 +527,14 @@ mirnaPathwayEnricher <-
       )
     }
     else{
-      # if (pathwayType == 'kegg') {
-      #   miEnrich <-
-      #     KeggEnrichment(
-      #       genes = miNearGene,
-      #       org_assembly = org_assembly,
-      #       pCut = pCut,
-      #       pAdjCut = pAdjCut,
-      #       pAdjust = pAdjust,
-      #       min = min
-      #     )
-      # }
-      # else if (pathwayType == 'reactome') {
-      #   miEnrich <-
-      #     reactomeEnrichment(
-      #       genes = miNearGene,
-      #       org_assembly = org_assembly,
-      #       pCut = pCut,
-      #       pAdjCut = pAdjCut,
-      #       pAdjust = pAdjust,
-      #       min = min
-      #     )
-      # }
-      # else if (pathwayType == 'wiki') {
-      #   miEnrich <- WikiEnrichment(
-      #     org_assembly = org_assembly,
-      #     genes = miNearGene,
-      #     pCut = pCut,
-      #     pAdjCut = pAdjCut,
-      #     pAdjust = pAdjust,
-      #     min = min
-      #   )
-      # }
-      # else{
-      #   miEnrich <- pathwayEnrichment(
-      #     genes = miNearGene,
-      #     gmtFile = gmtName,
-      #     org_assembly = org_assembly,
-      #     pCut = pCut,
-      #     pAdjCut = pAdjCut,
-      #     pAdjust = pAdjust,
-      #     isSymbol = isSymbol,
-      #     min = min,
-      #     isGeneEnrich = isGeneEnrich
-      #   )
-      # }
-      
       ifelse(
-        pathwayType == 'kegg',
+        pkg.env$pathwayType == 'kegg',
         pth <- 1,
         ifelse(
-          pathwayType == 'reactome',
+          pkg.env$pathwayType == 'reactome',
           pth <- 2,
           ifelse(
-            pathwayType == 'wiki',
+            pkg.env$pathwayType == 'wiki',
             pth <- 3,
             pth <- 4
           )
@@ -694,11 +547,11 @@ mirnaPathwayEnricher <-
       miEnrich <- funclist[[pth]](genes = miNearGene,
                       gmtFile = gmtName,
                       org_assembly = org_assembly,
-                      pCut = pCut,
-                      pAdjCut = pAdjCut,
-                      pAdjust = pAdjust,
-                      isSymbol = isSymbol,
-                      min = min,
+                      pCut = pkg.env$pCut,
+                      pAdjCut = pkg.env$pAdjCut,
+                      pAdjust = pkg.env$pAdjust,
+                      isSymbol = pkg.env$isSymbol,
+                      min = pkg.env$min,
                       isGeneEnrich = isGeneEnrich)
       
       if (length(miEnrich@Term) > 0)
@@ -707,8 +560,8 @@ mirnaPathwayEnricher <-
           commonGene(
             mrnaobject = miEnrich,
             org_assembly = org_assembly,
-            downstream = downstream,
-            upstream = upstream,
+            downstream = pkg.env$downstream,
+            upstream = pkg.env$upstream,
             inputGene = rbind(a, gene),
             inGeneType = 'mirna'
           )
@@ -727,19 +580,6 @@ mirnaPathwayEnricher <-
 #'      assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat,
 #'      "dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and
 #'      "hg38" for human
-#' @param upstream Upstream distance from the transcription start position
-#' @param downstream Downstream distance from the transcription end position
-#' @param searchRegion Search space of the cis-region. Possible values are
-#'      "all", "exon", "intron"
-#' @param GOtype Hierarchical category of the GO ontology. Possible values are
-#'      "BP", "CC", "MF"
-#' @param pCut Threshold value for the pvalue. Default value for pCut is 0.05
-#' @param pAdjCut Cutoff value for the adjusted p-values using one of given
-#'      method. Default value is 0.05.
-#' @param pAdjust Methods of the adjusted p-values. Possible methods are
-#'      "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none"
-#' @param min Minimum number of genes that are required for enrichment. By
-#'      default, it is set to 5.
 #' @param backG The set of genes that tested against to the input
 #' @param near Boolean value presents whether cis-neighbourhood should be
 #'      considered in the analysis
@@ -752,7 +592,6 @@ mirnaPathwayEnricher <-
 #'      formated as GRanges object. Predefined TAD regions are 'tad_hg19',
 #'      'tad_hg38', 'tad_mm10', 'tad_dmel' for hg19, hg38, mm9 and dm6
 #'      assembly, respectively.
-#' @param cellline Cell lines for TAD regions.
 #' @param backGType Type of the background gene. If miRNA gene set is used for
 #'      background gene, backGType should be set to the 'mirna'
 #' @param express Boolean variable whether co-expression analysis is performed.
@@ -776,18 +615,6 @@ mirnaPathwayEnricher <-
 #'      provided, column name of the exp1 data will be taken.
 #' @param label2 Gene names of the custom exp2 expression data. If it is not
 #'      provided, column name of the exp2 data will be taken.
-#' @param corrMethod Correlation coeffient method that will be used for
-#'      evaluation. Possible values are "pearson", "kendall", "spearman"
-#' @param varCutoff Variance cutt off that genes have less variance than this
-#'      value will be trimmed
-#' @param pcut P-value cut off for the correlation values
-#' @param alternate Holds the alternative hypothesis and "two.sided", "greater"
-#'      or "less" are the possible values.
-#' @param conf Confidence level for the returned confidence interval. It is only
-#'      used for the Pearson correlation coefficient if there are at least 4
-#'      complete pairs of observations.
-#' @param minAbsCor Cut-off value for the Pearson correlation coefficient of
-#'      the miRNA-mRNA
 #' @param databaseFile Path of miRcancer.db file
 #' @param isUnionCorGene Boolean value that shows whether union of the output
 #'      of the co-expression analysis and the other analysis should be
@@ -796,7 +623,8 @@ mirnaPathwayEnricher <-
 #' @return MiRNA GO enrichment object for the given input
 #'
 #'@examples
-#' regionNC <-  readbed(dm_file = ncRegion,isText = FALSE)
+#' regions<-system.file("extdata", "ncRegion.txt", package = "NoRCE")
+#' regionNC <- import(regions, format = "BED")
 #'
 #' a<- mirnaRegionGOEnricher(region = regionNC,
 #'                           org_assembly = 'hg19',
@@ -813,42 +641,20 @@ mirnaRegionGOEnricher <-
                             "dm6",
                             "ce11",
                             "sc3"),
-           upstream = 10000,
-           downstream = 10000,
-           searchRegion = c('all', "exon", "intron"),
-           GOtype = c("BP", "CC", "MF"),
-           pCut = 0.05,
-           pAdjCut = 0.05,
-           pAdjust = c("holm",
-                       "hochberg",
-                       "hommel",
-                       "bonferroni",
-                       "BH",
-                       "BY",
-                       "fdr",
-                       "none"),
            near = FALSE,
            target = FALSE,
-           min = 5,
            backG = '',
            backGType = 'pc-genes',
            isTADSearch = FALSE,
            TAD = c(tad_hg19, tad_dmel, tad_hg38, tad_mm10),
-           cellline = 'all',
-           express = FALSE,
+          express = FALSE,
            isCustomExp = FALSE,
            cancer,
            exp1,
            exp2,
            label1 = '',
            label2 = '',
-           corrMethod = c("pearson", "kendall", "spearman"),
-           varCutoff = 0.0025,
-           minAbsCor = 0.3,
-           pcut = 0.05,
-           alternate = c('greater', "two.sided", "less"),
-           isUnionCorGene = FALSE,
-           conf = 0.95,
+          isUnionCorGene = FALSE,
            databaseFile) {
     if (missing(region)) {
       message("Region of interest is missing.")
@@ -887,15 +693,17 @@ mirnaRegionGOEnricher <-
     }
     if (near) {
       ifelse(
-        searchRegion == 'all',
+        pkg.env$searchRegion == 'all',
         miNearGene_temp <-
-          getUCSC(region, upstream, downstream, org_assembly),
+          getUCSC(region, pkg.env$upstream, pkg.env$downstream, org_assembly),
         ifelse(
-          searchRegion == 'exon',
+          pkg.env$searchRegion == 'exon',
           miNearGene_temp <-
-            getNearToExon(region, upstream, downstream, org_assembly),
+            getNearToExon(region, pkg.env$upstream, 
+                          pkg.env$downstream, org_assembly),
           miNearGene_temp <-
-            getNearToIntron(region, upstream, downstream, org_assembly)
+            getNearToIntron(region, pkg.env$upstream, 
+                            pkg.env$downstream, org_assembly)
         )
       )
       geneLoc_temp <-
@@ -939,11 +747,11 @@ mirnaRegionGOEnricher <-
         getTADOverlap(
           bedfile = region,
           tad = TAD,
-          cellline = cellline,
+          cellline = pkg.env$cellline,
           org_assembly = org_assembly,
           near = near,
-          upstream = upstream,
-          downstream = downstream
+          upstream = pkg.env$upstream,
+          downstream = pkg.env$downstream
         )
       if (near | target)
         miNearGene <-
@@ -958,7 +766,7 @@ mirnaRegionGOEnricher <-
           corrbasedMrna(
             mRNAgene = miNearGene,
             cancer = cancer,
-            minAbsCor = minAbsCor,
+            minAbsCor = pkg.env$minAbsCor,
             databaseFile = databaseFile
           )
         if (!isUnionCorGene)
@@ -972,12 +780,12 @@ mirnaRegionGOEnricher <-
           exp2 = exp2,
           label1 = label1 ,
           label2 = label2,
-          corrMethod = corrMethod,
-          varCutoff = varCutoff,
-          corCutoff = minAbsCor,
-          pcut = pcut,
-          alternate = alternate,
-          conf = conf
+          corrMethod = pkg.env$corrMethod,
+          varCutoff = pkg.env$varCutoff,
+          corCutoff = pkg.env$minAbsCor,
+          pcut = pkg.env$pcut,
+          alternate = pkg.env$alternate,
+          conf = pkg.env$conf
         )
         if (!isUnionCorGene)
           miNearGene <-
@@ -1003,14 +811,14 @@ mirnaRegionGOEnricher <-
       miEnrich <-
         goEnrichment(
           gene = miNearGene,
-          GOtype = GOtype,
+          GOtype = pkg.env$GOtype,
           org_assembly = org_assembly,
-          pCut = pCut,
-          pAdjCut = pAdjCut,
-          pAdjust = pAdjust,
+          pCut = pkg.env$pCut,
+          pAdjCut = pkg.env$pAdjCut,
+          pAdjust = pkg.env$pAdjust,
           backG = backG,
           backGType = backGType,
-          min = min
+          min = pkg.env$min,enrichTest = pkg.env$enrichTest
         )
       
       return(miEnrich)
@@ -1025,20 +833,6 @@ mirnaRegionGOEnricher <-
 #'      assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat,
 #'      "dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and
 #'      "hg38" for human
-#' @param upstream Upstream distance from the transcription start position
-#' @param downstream Downstream distance from the transcription end position
-#' @param searchRegion Search space of the cis-region. Possible values are
-#'      "all", "exon", "intron"
-#' @param pCut Threshold value for the pvalue. Default value is 0.05
-#' @param pAdjCut Cutoff value for the adjusted p-values using one of given
-#'      method. Default value is 0.05.
-#' @param pAdjust Methods of the adjusted p-values. Possible methods are
-#'      "holm", "hochberg", "hommel", "bonferroni", "BH", "BY","fdr", "none"
-#' @param min Minimum number of genes that are required for enrichment. By
-#'      default, it is set to 5.
-#' @param pathwayType Pathway database for enrichment. Possible values are
-#'      'reactome' for Reactome, 'kegg' for KEGG, 'wiki' for WikiPathways,
-#'      'other' for custom database
 #' @param near Boolean value presents whether cis-neighbourhood should be
 #'      considered in the analysis
 #' @param target Boolean value shows whether miRNA target prediction should be
@@ -1050,11 +844,7 @@ mirnaRegionGOEnricher <-
 #'      formated as GRanges object. Predefined TAD regions are 'tad_hg19',
 #'      'tad_hg38', 'tad_mm10', 'tad_dmel' for hg19, hg38, mm9 and
 #'      dm6 assembly, respectively.
-#' @param cellline Cell lines for TAD regions
 #' @param gmtName Custom pathway gmt file
-#' @param isSymbol Boolean variable that hold the gene format of the gmt file.
-#'      If it is set as TRUE, gene format of the gmt file should be symbol.
-#'      Otherwise, gene format should be ENTREZ ID. By default, it is FALSE.
 #' @param express Boolean variable whether co-expression analysis is performed.
 #'       If this option is set to TRUE, co-expression analysis will be
 #'       performed.
@@ -1076,18 +866,6 @@ mirnaRegionGOEnricher <-
 #'      provided, column name of the exp1 data will be taken.
 #' @param label2 Gene names of the custom exp2 expression data. If it is not
 #'      provided, column name of the exp2 data will be taken.
-#' @param corrMethod Correlation coeffient method that will be used for
-#'      evaluation. Possible values are "pearson", "kendall", "spearman"
-#' @param varCutoff Variance cutt off that genes have less variance than this
-#'      value will be trimmed
-#' @param pcut P-value cut off for the correlation values
-#' @param alternate Holds the alternative hypothesis and "two.sided", "greater"
-#'       or "less" are the possible values.
-#' @param conf Confidence level for the returned confidence interval. It is
-#'      only used for the Pearson correlation coefficient if there are at
-#'      least 4 complete pairs of observations.
-#' @param minAbsCor Cut-off value for the Pearson correlation coefficient of
-#'       the miRNA-mRNA
 #' @param databaseFile Path of miRcancer.db file
 #' @param isUnionCorGene Boolean value that shows whether union of the output
 #'       of the co-expression analysis and the other analysis should be
@@ -1099,10 +877,11 @@ mirnaRegionGOEnricher <-
 #'
 #' @examples
 #'
-#' regionNC <-  readbed(dm_file = ncRegion,isText = FALSE)
+#' regions<-system.file("extdata", "ncRegion.txt", package = "NoRCE")
+#' regionNC <- import(regions, format = "BED")
 #'
 #' a<- mirnaRegionPathwayEnricher(region = regionNC,
-#'              org_assembly = 'hg19',pathwayType = 'kegg')
+#'              org_assembly = 'hg19')
 #'
 #' @export
 mirnaRegionPathwayEnricher <-
@@ -1115,42 +894,18 @@ mirnaRegionPathwayEnricher <-
                             "dm6",
                             "ce11",
                             "sc3"),
-           upstream = 10000,
-           downstream = 10000,
-           searchRegion = c('all', "exon", "intron"),
-           pCut = 0.05,
-           pAdjCut = 0.05,
-           pAdjust = c("holm",
-                       "hochberg",
-                       "hommel",
-                       "bonferroni",
-                       "BH",
-                       "BY",
-                       "fdr",
-                       "none"),
-           min = 5,
-           pathwayType = 'kegg',
-           near = FALSE,
+         near = FALSE,
            target = FALSE,
            isTADSearch = FALSE,
            TAD = c(tad_hg19, tad_dmel, tad_hg38, tad_mm10),
-           cellline = 'all',
            gmtName = '',
-           isSymbol = FALSE,
            express = FALSE,
            isCustomExp = FALSE,
            cancer,
            exp1,
            exp2,
            label1 = '',
-           label2 = '',
-           corrMethod = c("pearson", "kendall", "spearman"),
-           varCutoff = 0.0025,
-           minAbsCor = 0.3,
-           pcut = 0.05,
-           alternate = c('greater', "two.sided", "less"),
-           isUnionCorGene = FALSE,
-           conf = 0.95,
+           label2 = '', isUnionCorGene = FALSE,
            databaseFile,
            isGeneEnrich = FALSE) {
     if (missing(region)) {
@@ -1191,15 +946,17 @@ mirnaRegionPathwayEnricher <-
     }
     if (near) {
       ifelse(
-        searchRegion == 'all',
+        pkg.env$searchRegion == 'all',
         miNearGene_temp <-
-          getUCSC(region, upstream, downstream, org_assembly),
+          getUCSC(region, pkg.env$upstream, pkg.env$downstream, org_assembly),
         ifelse(
-          searchRegion == 'exon',
+          pkg.env$searchRegion == 'exon',
           miNearGene_temp <-
-            getNearToExon(region, upstream, downstream, org_assembly),
+            getNearToExon(region, pkg.env$upstream, 
+                          pkg.env$downstream, org_assembly),
           miNearGene_temp <-
-            getNearToIntron(region, upstream, downstream, org_assembly)
+            getNearToIntron(region, pkg.env$upstream, 
+                            pkg.env$downstream, org_assembly)
         )
       )
       
@@ -1244,11 +1001,11 @@ mirnaRegionPathwayEnricher <-
         getTADOverlap(
           bedfile = region,
           tad = TAD,
-          cellline = cellline,
+          cellline = pkg.env$cellline,
           org_assembly = org_assembly,
           near = near,
-          upstream = upstream,
-          downstream = downstream
+          upstream = pkg.env$upstream,
+          downstream = pkg.env$downstream
         )
       if (near | target)
         miNearGene <-
@@ -1263,7 +1020,7 @@ mirnaRegionPathwayEnricher <-
           corrbasedMrna(
             mRNAgene = miNearGene,
             cancer = cancer,
-            minAbsCor = minAbsCor,
+            minAbsCor = pkg.env$minAbsCor,
             databaseFile = databaseFile
           )
         if (!isUnionCorGene)
@@ -1277,12 +1034,12 @@ mirnaRegionPathwayEnricher <-
           exp2 = exp2,
           label1 = label1 ,
           label2 = label2,
-          corrMethod = corrMethod,
-          varCutoff = varCutoff,
-          corCutoff = minAbsCor,
-          pcut = pcut,
-          alternate = alternate,
-          conf = conf
+          corrMethod = pkg.env$corrMethod,
+          varCutoff = pkg.env$varCutoff,
+          corCutoff = pkg.env$minAbsCor,
+          pcut = pkg.env$pcut,
+          alternate = pkg.env$alternate,
+          conf = pkg.env$conf
         )
         if (!isUnionCorGene)
           miNearGene <-
@@ -1305,60 +1062,14 @@ mirnaRegionPathwayEnricher <-
       )
     }
     else{
-      # if (pathwayType == 'kegg') {
-      #   miEnrich <-
-      #     KeggEnrichment(
-      #       genes = miNearGene,
-      #       org_assembly = org_assembly,
-      #       pCut = pCut,
-      #       pAdjCut = pAdjCut,
-      #       pAdjust = pAdjust,
-      #       min = min
-      #     )
-      # }
-      # else if (pathwayType == 'reactome') {
-      #   miEnrich <-
-      #     reactomeEnrichment(
-      #       genes = miNearGene,
-      #       org_assembly = org_assembly,
-      #       pCut = pCut,
-      #       pAdjCut = pAdjCut,
-      #       pAdjust = pAdjust,
-      #       min = min
-      #     )
-      # }
-      # else if (pathwayType == 'wiki') {
-      #   miEnrich <- WikiEnrichment(
-      #     org_assembly = org_assembly,
-      #     genes = miNearGene,
-      #     pCut = pCut,
-      #     pAdjCut = pAdjCut,
-      #     pAdjust = pAdjust,
-      #     min = min
-      #   )
-      # }
-      # else{
-      #   miEnrich <- pathwayEnrichment(
-      #     genes = miNearGene,
-      #     gmtFile = gmtName,
-      #     org_assembly = org_assembly,
-      #     pCut = pCut,
-      #     pAdjCut = pAdjCut,
-      #     pAdjust = pAdjust,
-      #     isSymbol = isSymbol,
-      #     min = min,
-      #     isGeneEnrich = isGeneEnrich
-      #   )
-      # }
-      
       ifelse(
-        pathwayType == 'kegg',
+        pkg.env$pathwayType == 'kegg',
         pth <- 1,
         ifelse(
-          pathwayType == 'reactome',
+          pkg.env$pathwayType == 'reactome',
           pth <- 2,
           ifelse(
-            pathwayType == 'wiki',
+            pkg.env$pathwayType == 'wiki',
             pth <- 3,
             pth <- 4
           )
@@ -1371,60 +1082,13 @@ mirnaRegionPathwayEnricher <-
       miEnrich <- funclist[[pth]](genes = miNearGene,
                       gmtFile = gmtName,
                       org_assembly = org_assembly,
-                      pCut = pCut,
-                      pAdjCut = pAdjCut,
-                      pAdjust = pAdjust,
-                      isSymbol = isSymbol,
-                      min = min,
+                      pCut = pkg.env$pCut,
+                      pAdjCut = pkg.env$pAdjCut,
+                      pAdjust = pkg.env$pAdjust,
+                      isSymbol = pkg.env$isSymbol,
+                      min = pkg.env$min,
                       isGeneEnrich = isGeneEnrich)
-      
-      # ifelse(
-      #   pathwayType == 'kegg',
-      #   miEnrich <-
-      #     KeggEnrichment(
-      #       genes = miNearGene,
-      #       org_assembly = org_assembly,
-      #       pCut = pCut,
-      #       pAdjCut = pAdjCut,
-      #       pAdjust = pAdjust,
-      #       min = min
-      #     ),
-      #   ifelse(
-      #     pathwayType == 'reactome',
-      #     miEnrich <-
-      #       reactomeEnrichment(
-      #         genes = miNearGene,
-      #         org_assembly = org_assembly,
-      #         pCut = pCut,
-      #         pAdjCut = pAdjCut,
-      #         pAdjust = pAdjust,
-      #         min = min
-      #       ),
-      #     ifelse(
-      #       pathwayType == 'wiki',
-      #       miEnrich <- WikiEnrichment(
-      #         org_assembly = org_assembly,
-      #         genes = miNearGene,
-      #         pCut = pCut,
-      #         pAdjCut = pAdjCut,
-      #         pAdjust = pAdjust,
-      #         min = min
-      #       ),
-      #       miEnrich <- pathwayEnrichment(
-      #         genes = miNearGene,
-      #         gmtFile = gmtName,
-      #         org_assembly = org_assembly,
-      #         pCut = pCut,
-      #         pAdjCut = pAdjCut,
-      #         pAdjust = pAdjust,
-      #         isSymbol = isSymbol,
-      #         min = min,
-      #         isGeneEnrich = isGeneEnrich
-      #       )
-      #     )
-      #   )
-      # )
-      
+    
       return(miEnrich)
     }
   }
