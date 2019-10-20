@@ -85,7 +85,6 @@ Given genes that fall in the given upstream and downstream region of mRNAs
 of interest, pathway enrichment analysis is carried out
 }
 \examples{
-subsetGene <- brain_disorder_ncRNA[1:100,]
 #Pathway enrichment based on the gen sets that falls into the TAD regions
 ncRNAPathway<-genePathwayEnricher(gene = brain_disorder_ncRNA ,
                                   org_assembly='hg19',

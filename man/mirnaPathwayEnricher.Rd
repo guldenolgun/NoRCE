@@ -84,9 +84,7 @@ Pathway enrichments of the microRNA genes with mRNAs that fall in the given
 upstream/downstream regions of the microRNA genes
 }
 \examples{
-subsetGene <- brain_mirna[1:30,]
-
-miPath <- mirnaPathwayEnricher(gene = subsetGene,
+miPath <- mirnaPathwayEnricher(gene = brain_mirna,
                                org_assembly = 'hg19',
                                near = TRUE)
 
