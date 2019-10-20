@@ -11,12 +11,6 @@
 #' @importFrom AnnotationDbi Term
 #'
 #'
-#' @examples 
-#' 
-#' ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA[1:200,],
-#'  org_assembly='hg19', near=TRUE, genetype = 'Ensembl_gene')
-#'  
-#' drawDotPlot(mrnaObject = ncGO,type = 'pvalue',n = 2)
 #' 
 #' @export
 drawDotPlot <- function(mrnaObject, type = "pAdjust", n) {
@@ -91,13 +85,6 @@ drawDotPlot <- function(mrnaObject, type = "pAdjust", n) {
 #'
 #' @importFrom utils browseURL read.table write.table
 #'
-#' @examples
-#'
-#' ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA,
-#'                        org_assembly='hg19',
-#'                        near=TRUE,
-#'                        genetype = 'Ensembl_gene')
-#' writeEnrichment(mrnaObject=ncGO,fileName = "test.txt", type = "pvalue",n=2)
 #'
 #' @export
 writeEnrichment <-
@@ -135,12 +122,6 @@ writeEnrichment <-
 #'
 #' @return Give top n enrichment results
 #'
-#' @examples
-#'
-#' ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA,
-#'                        org_assembly='hg19', near=TRUE, 
-#'                        genetype = 'Ensembl_gene')
-#' topGO<-topEnrichment(mrnaObject = ncGO, type = "pvalue", n = 5)
 #'
 #' @export
 topEnrichment <- function(mrnaObject, type, n) {
@@ -393,15 +374,7 @@ createNetwork <-
 #' @importFrom RCurl postForm
 #' @importFrom png readPNG writePNG
 #' @importFrom RCurl postForm
-#' 
-#' @examples 
-#' 
-#' ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA[1:100,],
-#'                        org_assembly='hg19', near=TRUE, 
-#'                        genetype = 'Ensembl_gene')
-#'                        
-#' getGoDag(mrnaObject = ncGO,type = 'pvalue',n = 1,
-#'          filename = 'customexp.png',imageFormat = 'png')
+#'
 #'
 #' @export
 getGoDag <-
