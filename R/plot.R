@@ -137,7 +137,7 @@ writeEnrichment <-
 #'
 #' @examples
 #'
-#' ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA[1:100,],
+#' ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA,
 #'                        org_assembly='hg19', near=TRUE, 
 #'                        genetype = 'Ensembl_gene')
 #' topGO<-topEnrichment(mrnaObject = ncGO, type = "pvalue", n = 5)
@@ -172,8 +172,16 @@ topEnrichment <- function(mrnaObject, type, n) {
   
   table1 <- table1[!duplicated(table1),]
   
-  xy.list <- split(table$go, table$gene)
-  xy.list1 <- split(table1$go, table1$gene)
+  #split_tibble function is copied from https://stackoverflow.com/a/39638933
+  split_tibble <- function(tibble, column = 'col') {
+    tibble %>% split(., .[,column]) %>% lapply(., function(x) x[,setdiff(names(x),column)])
+  }
+
+  #xy.list <- split(table$go, table$gene)
+  #xy.list1 <- split(table1$go, table1$gene)
+  
+  xy.list <- split_tibble(table, 'gene')
+  xy.list1 <- split_tibble(table1, 'gene')
   
   ft <- lapply(xy.list, paste0, collapse = " ")
   ft1 <- lapply(xy.list1, paste0, collapse = " ")
@@ -245,13 +253,6 @@ topEnrichment <- function(mrnaObject, type, n) {
 #'
 #'
 #' @return Network
-#'
-#' @examples
-#' ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA[1:100,],
-#'                        org_assembly='hg19', near=TRUE, 
-#'                        genetype = 'Ensembl_gene')
-#'                        
-#' createNetwork(ncGO,n=1)
 #'
 #' @importFrom igraph cluster_optimal degree graph_from_data_frame layout_with_fr norm_coords V E V<- E<-
 #' @importFrom grDevices adjustcolor colorRampPalette

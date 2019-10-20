@@ -25,7 +25,7 @@ object and the order type - p-value or adjusted p-value.
 }
 \examples{
 
-ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA[1:100,],
+ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA,
                        org_assembly='hg19', near=TRUE, 
                        genetype = 'Ensembl_gene')
 topGO<-topEnrichment(mrnaObject = ncGO, type = "pvalue", n = 5)

@@ -45,8 +45,6 @@ Reactome pathway enrichment results
 Reactome pathway enrichment
 }
 \examples{
-data(breastmRNA)
-
 br_enr<-reactomeEnrichment(genes = breastmRNA,org_assembly='hg19')
 
 }
