@@ -24,3 +24,11 @@ Display the enriched Reactome diagram of the given Reactome pathway id.
 This function is specific to only one pathway id and identifies the enriched
  genes in the diagram.
 }
+\examples{
+
+br_enr<-reactomeEnrichment(genes = breastmRNA,org_assembly='hg19')
+
+getReactomeDiagram(mrnaObject = br_enr,pathway = br_enr@ID[1],
+                   imageFormat = 'png')
+
+}

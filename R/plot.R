@@ -10,10 +10,6 @@
 #' @importFrom ggplot2 ggplot
 #' @importFrom AnnotationDbi Term
 #'
-#' @examples
-#' ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA[1:100,],
-#'   org_assembly='hg19', near=TRUE,  genetype = 'Ensembl_gene')
-#' 
 #' @export
 drawDotPlot <- function(mrnaObject, type = "pAdjust", n) {
   if (missing(mrnaObject)) {
@@ -87,9 +83,6 @@ drawDotPlot <- function(mrnaObject, type = "pAdjust", n) {
 #'
 #' @importFrom utils browseURL read.table write.table
 #'
-#' @examples
-#' ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA[1:100,],
-#'   org_assembly='hg19', near=TRUE,  genetype = 'Ensembl_gene')
 #'   
 #' @export
 writeEnrichment <-
@@ -160,7 +153,8 @@ topEnrichment <- function(mrnaObject, type, n) {
   
   #split_tibble function is copied from https://stackoverflow.com/a/39638933
   split_tibble <- function(tibble, column = 'col') {
-    tibble %>% split(., .[,column]) %>% lapply(., function(x) x[,setdiff(names(x),column)])
+    tibble %>% split(., .[,column]) %>% 
+      lapply(., function(x) x[,setdiff(names(x),column)])
   }
 
   #xy.list <- split(table$go, table$gene)
@@ -245,10 +239,6 @@ topEnrichment <- function(mrnaObject, type, n) {
 #' @importFrom graphics plot
 #' @importFrom ggplot2 aes element_text geom_point ggplot labs theme theme_bw
 #'
-#'
-#' @examples
-#' ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA[1:100,],
-#'   org_assembly='hg19', near=TRUE,  genetype = 'Ensembl_gene')
 #' 
 #' @export
 createNetwork <-
@@ -383,10 +373,10 @@ createNetwork <-
 #' @importFrom RCurl postForm
 #' @importFrom png readPNG writePNG
 #' @importFrom RCurl postForm
-#'
-#' @examples
-#' ncGO <- geneGOEnricher(gene = brain_disorder_ncRNA[1:100,],
-#'   org_assembly='hg19', near=TRUE,  genetype = 'Ensembl_gene')
+#' 
+#' @examples 
+#' ncRNAPathway<-mirnaPathwayEnricher(gene = brain_mirna, 
+#'                                    org_assembly = 'hg19',near = TRUE)
 #'   
 #' @export
 getGoDag <-
@@ -481,7 +471,6 @@ getGoDag <-
 #'     "hg19" and "hg38" for human
 #'
 #' @return Shows kegg diagram marked with an enriched genes in a browser
-
 #' @examples 
 #' ncRNAPathway<-mirnaPathwayEnricher(gene = brain_mirna, 
 #'                                    org_assembly = 'hg19',near = TRUE)
@@ -542,7 +531,13 @@ getKeggDiagram <-
 #'      'png', 'svg'
 #'
 #' @return Shows reactome diagram marked with an enriched genes in a browser
-#'
+#' 
+#' @examples 
+#' 
+#' br_enr<-reactomeEnrichment(genes = breastmRNA,org_assembly='hg19')
+#' 
+#' getReactomeDiagram(mrnaObject = br_enr,pathway = br_enr@ID[1],
+#'                    imageFormat = 'png')
 #'
 #'@export
 getReactomeDiagram <- function(mrnaObject, pathway, imageFormat) {

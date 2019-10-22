@@ -2,8 +2,8 @@
 % Please edit documentation in R/expressionBased.R
 \name{corrbased}
 \alias{corrbased}
-\title{Pearson correlation coefficient value of the miRNA genes between miRNA:mRNA
-for a given correlation cut-off and cancer.}
+\title{Pearson correlation coefficient value of the miRNA genes between 
+miRNA:mRNA for a given correlation cut-off and cancer.}
 \usage{
 corrbased(mirnagene, cancer, minAbsCor, databaseFile)
 }
@@ -25,6 +25,6 @@ the miRNA-mRNA}
 Data frame of the miRNA-mRNA correlation result
 }
 \description{
-Pearson correlation coefficient value of the miRNA genes between miRNA:mRNA
-for a given correlation cut-off and cancer.
+Pearson correlation coefficient value of the miRNA genes between 
+miRNA:mRNA for a given correlation cut-off and cancer.
 }

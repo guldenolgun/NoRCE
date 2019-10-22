@@ -94,8 +94,8 @@ goEnrichment <-
     if (missing(genes)) {
       message("Genes are missing. Expected input: FOXP2 SOX4 HOXC6")
     }
-    #  annot <- unique(annotate(genes, GOtype, org_assembly))
-    goData <- annotate(genes, GOtype, org_assembly)
+    #  annot <- unique(annGO(genes, GOtype, org_assembly))
+    goData <- annGO(genes, GOtype, org_assembly)
     annot <- goData[[2]]
     uniqueGO <- annot$GOID[!duplicated(annot$GOID)]
     
@@ -253,7 +253,7 @@ getBackGenes <-
         colnames(backgroundGene) = 'bg'
       }
       annot <-
-        unique(annotate(backgroundGene$bg, GOtype, org_assembly))
+        unique(annGO(backgroundGene$bg, GOtype, org_assembly))
       uniqueGO <- annot$GOID[!duplicated(annot$GOID)]
       
       bckfreq <- as.data.frame(table(annot$GOID))

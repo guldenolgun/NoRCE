@@ -1,7 +1,7 @@
 Package: NoRCE
 Type: Package
 Title: NoRCE: Noncoding RNA Sets Cis Annotation and Enrichment
-Version: 0.99.16
+Version: 0.99.17
 Authors@R: c(person("Gulden", "Olgun", 
            email = "gulden@cs.bilkent.edu.tr", 
 		   role = c("aut", "cre")))
@@ -23,25 +23,19 @@ Description: While some non-coding RNAs (ncRNAs) have been found to
   format or viewed as graphs. NoRCE is currently available for the following
   species: human, mouse, rat, zebrafish, fruit fly, worm and yeast. 
 License: MIT + file LICENSE
-Depends: R (>= 3.6), GenomicRanges, biomaRt, png, RCurl, 
-		readr,  tidyr, RSQLite, DBI, org.Mm.eg.db, org.Rn.eg.db,
-		GenomicFeatures,TxDb.Hsapiens.UCSC.hg19.knownGene,
-		ggplot2, dplyr, igraph, GO.db, rtracklayer,
-		TxDb.Hsapiens.UCSC.hg38.knownGene, org.Dr.eg.db,
-		TxDb.Mmusculus.UCSC.mm10.knownGene, grDevices, 
-		TxDb.Drerio.UCSC.danRer10.refGene, utils,
-		TxDb.Celegans.UCSC.ce11.refGene, org.Hs.eg.db,
-		TxDb.Dmelanogaster.UCSC.dm6.ensGene,
-		TxDb.Rnorvegicus.UCSC.rn6.refGene, stats,
-		reshape2, graphics,org.Sc.sgd.db, org.Ce.eg.db, 
+Depends: R (>= 3.6), GenomicRanges, biomaRt, png, RCurl, readr, tidyr, RSQLite,
+		ggplot2, dplyr, igraph, GO.db, rtracklayer,DBI, GenomicFeatures,
+		grDevices,utils,stats,reshape2, graphics, AnnotationDbi, cRegulome,
 		KEGGREST, reactome.db, dbplyr, psych, rWikiPathways,
-		AnnotationDbi,org.Dm.eg.db, cRegulome
 Encoding: UTF-8
 RoxygenNote: 6.1.1
 Suggests: 
-    knitr, 
-    rmarkdown,
-    testthat
+    knitr, TxDb.Hsapiens.UCSC.hg38.knownGene,TxDb.Drerio.UCSC.danRer10.refGene,
+    rmarkdown,TxDb.Mmusculus.UCSC.mm10.knownGene,
+    testthat,TxDb.Celegans.UCSC.ce11.refGene,TxDb.Dmelanogaster.UCSC.dm6.ensGene,
+	TxDb.Rnorvegicus.UCSC.rn6.refGene,TxDb.Hsapiens.UCSC.hg19.knownGene,
+	org.Mm.eg.db, org.Rn.eg.db,org.Hs.eg.db,org.Dr.eg.db,
+	org.Sc.sgd.db, org.Ce.eg.db,org.Dm.eg.db,
 VignetteBuilder: knitr
 biocViews: Genome, CancerData, SequencingData, ExpressionData, OrganismData
 LazyData: true

@@ -1,4 +1,5 @@
-#' Annotate the set of genes with the GO terms for a given species and assembly
+#' Annotate the set of genes with the GO terms for a given species and 
+#' assembly
 #'
 #' @param genes List of mRNA genes. Supported format for genes is Hugo.
 #' @param GOtype Hierarchical category of the GO ontology. Possible
@@ -10,9 +11,9 @@
 #' @return data frame of the GO term annotation of the genes
 #'
 #' @import GO.db
-#' @import org.Hs.eg.db
+#' 
 #'
-annotate <- function(genes,GOtype = c("BP", "CC", "MF"),
+annGO <- function(genes,GOtype = c("BP", "CC", "MF"),
                      org_assembly = c("hg19", "hg38", "mm10", "dre10", "rn6",
                                       "dm6", "ce11", "sc3")) {
   if (missing(genes)) {
@@ -26,6 +27,13 @@ annotate <- function(genes,GOtype = c("BP", "CC", "MF"),
     assembly(org_assembly)
   }
   
+  types <-
+    rbind(
+      c("hg19","Hs.eg.db"), c("hg38","Hs.eg.db"), c("mm10","Mm.eg.db"),
+      c("dre10","Dr.eg.db"), c("rn6","Rn.eg.db"), c("sc3","Sc.sgd.db"),
+      c("dm6","Dm.eg.db"), c("ce11","Ce.eg.db") )
+  index = which(org_assembly == types[, 1])
+  
   genes <- data.frame(genes)
   goData <- AnnotationDbi::select(
     GO.db,
@@ -35,12 +43,20 @@ annotate <- function(genes,GOtype = c("BP", "CC", "MF"),
                 "ONTOLOGY"),
     keytype = "ONTOLOGY"
   )
+  
+  z <- paste0("org.",types[index,2])
+  if ( !requireNamespace(z, quietly = TRUE))
+    stop("Install package ",td," in order to use this function.")
+  else
+    lapply(z, require, character.only = TRUE)
+  
   gogene <- AnnotationDbi::select(
-    org.Hs.eg.db,
-    keys = goData$GOID,
-    columns = c("GO", "SYMBOL"),
-    keytype = "GO"
-  )
+         eval(as.name(z)),
+         keys = goData$GOID,
+         columns = c("GO", "SYMBOL"),
+         keytype = "GO"
+     )
+
   annot <- merge(goData, gogene, by.x = "GOID", by.y = "GO")
   
   

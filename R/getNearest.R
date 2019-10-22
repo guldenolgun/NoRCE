@@ -42,13 +42,6 @@ pkg.env$isSymbol = FALSE
 #' 
 #' @importFrom biomaRt getBM useEnsembl useMart
 #' @importFrom rtracklayer browserSession genome getTable ucscTableQuery
-#' @import TxDb.Hsapiens.UCSC.hg19.knownGene
-#' @import TxDb.Hsapiens.UCSC.hg38.knownGene
-#' @import TxDb.Mmusculus.UCSC.mm10.knownGene
-#' @import TxDb.Drerio.UCSC.danRer10.refGene
-#' @import TxDb.Rnorvegicus.UCSC.rn6.refGene
-#' @import TxDb.Dmelanogaster.UCSC.dm6.ensGene
-#' @import TxDb.Celegans.UCSC.ce11.refGene
 #' @importFrom rtracklayer genome<-
 #' 
 #' @examples 
@@ -69,21 +62,21 @@ assembly <- function(org_assembly = c("hg19",
     rbind(
       c(
         "Hsapiens","hg19", "hg19", "wgEncodeGencodeV31lift37",
-        3,4,5,6,13,"knownGene","hsapiens_gene_ensembl"),
+        3,4,5,6,13,"knownGene","hsapiens_gene_ensembl","Hs.eg.db"),
       c("Hsapiens","hg38","hg38","wgEncodeGencodeV31",
-        3,4,5,6,13,"knownGene","hsapiens_gene_ensembl"),
+        3,4,5,6,13,"knownGene","hsapiens_gene_ensembl","Hs.eg.db"),
       c("Mmusculus","mm10","mm10","wgEncodeGencodeVM22",
-        3,4,5,6,13,"knownGene","mmusculus_gene_ensembl"),
+        3,4,5,6,13,"knownGene","mmusculus_gene_ensembl","Mm.eg.db"),
       c("Drerio","danRer10","dre10","ensGene",
-        4,5,6,7,2,"refGene","drerio_gene_ensembl"),
+        4,5,6,7,2,"refGene","drerio_gene_ensembl","Dr.eg.db"),
       c("Rnorvegicus","rn6","rn6","ensGene",
-        4,5,6,7,2,"refGene","rnorvegicus_gene_ensembl"),
+        4,5,6,7,2,"refGene","rnorvegicus_gene_ensembl","Rn.eg.db"),
       c("Scerevisiae","sacCer3","sc3","refSeqComposite",
-        3,4,5,6,13,"sgdGene","scerevisiae_gene_ensembl"),
+        3,4,5,6,13,"sgdGene","scerevisiae_gene_ensembl","Sc.sgd.db"),
       c("Dmelanogaster","dm6","dm6","ensGene",
-        4,5,6,7,2,"ensGene","dmelanogaster_gene_ensembl"),
+        4,5,6,7,2,"ensGene","dmelanogaster_gene_ensembl","Dm.eg.db"),
       c("Celegans","ce11","ce11","ensGene",
-        4,5,6,7,2,"refGene","celegans_gene_ensembl")
+        4,5,6,7,2,"refGene","celegans_gene_ensembl","Ce.eg.db")
     )
   
   index = which(org_assembly == types[, 3])
@@ -109,6 +102,13 @@ assembly <- function(org_assembly = c("hg19",
   td <-
     paste0("TxDb.", types[index, 1], ".UCSC.", types[index, 2], ".", 
            types[index, 10])
+  yy <- paste0("org.",types[index, 12])
+  x <- list(yy,td)
+  
+  if (!requireNamespace(td, quietly = TRUE) | !requireNamespace(yy, quietly = TRUE))
+    stop("Install package ",td," in order to use this function.")
+  else
+    lapply(x, require, character.only = TRUE)
   
   genomee <- eval(as.name(td))
   pkg.env$genomee <- genomee
