@@ -1,5 +1,5 @@
-#' Pearson correlation coefficient value of the miRNA genes between miRNA:mRNA
-#' for a given correlation cut-off and cancer.
+#' Pearson correlation coefficient value of the miRNA genes between 
+#' miRNA:mRNA for a given correlation cut-off and cancer.
 #'
 #' @param mirnagene Data frame of the miRNA genes in mature format
 #' @param cancer Name of the TCGA project code such as 'BRCA' that is analyzed
@@ -126,8 +126,8 @@ getmiRNACount <- function(mirnagene, cancer, databaseFile) {
   return(dat)
 }
 
-#' Calculates the correlation coefficient values between two custom expression
-#' data.
+#' Calculates the correlation coefficient values between two custom
+#' expression data.
 #'
 #' @param exp1 Custom expression data matrix or SummarizedExperiment data.
 #'      Columns must be genes and rows must be patients.

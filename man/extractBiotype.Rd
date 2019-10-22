@@ -21,3 +21,8 @@ Tabular form of the gtf file with the required features
 Get the biotype of the non-coding genes. It is suitable for the 
 GENCODE gtf files
 }
+\examples{
+fileImport<-system.file("extdata", "temp.gtf", package = "NoRCE")
+gtf <- extractBiotype(gtfFile = fileImport)
+
+}

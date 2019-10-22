@@ -2,8 +2,8 @@
 % Please edit documentation in R/expressionBased.R
 \name{calculateCorr}
 \alias{calculateCorr}
-\title{Calculates the correlation coefficient values between two custom expression
-data.}
+\title{Calculates the correlation coefficient values between two custom
+expression data.}
 \usage{
 calculateCorr(exp1, exp2, label1 = "", label2 = "",
   corrMethod = "pearson", varCutoff = 0.0025, corCutoff = 0.3,
@@ -45,8 +45,8 @@ Pairwise relations between gene-gene with corresponding correlation
       value and pvalue
 }
 \description{
-Calculates the correlation coefficient values between two custom expression
-data.
+Calculates the correlation coefficient values between two custom
+expression data.
 }
 \examples{
 

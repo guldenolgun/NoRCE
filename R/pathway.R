@@ -263,13 +263,7 @@ reactomeEnrichment <-
     )
   }
 
-#' @import org.Hs.eg.db
-#' @import org.Mm.eg.db
-#' @import org.Dr.eg.db
-#' @import org.Rn.eg.db
-#' @import org.Ce.eg.db
-#' @import org.Sc.sgd.db
-#' @import org.Dm.eg.db
+
 reactomePathwayDB <- function(org_assembly = c("hg19",
                                                "hg38",
                                                "mm10",
@@ -285,34 +279,64 @@ reactomePathwayDB <- function(org_assembly = c("hg19",
   pn <- data.frame(pathway = rep(names(pn), lapply(pn, length)),
                    name = unlist(pn))
   if (org_assembly == 'hg19' | org_assembly == 'hg38') {
+    
+    if (!requireNamespace("org.Hs.eg.db", quietly = TRUE))
+      stop("Install package org.Hs.eg.db in order to use this function.")
+    
     ty <- table1[grepl("^R-HSA", table1$pathway), ]
     pn1 <- pn[grepl("^R-HSA", pn$pathway), ]
-    symb <- as.data.frame(org.Hs.egSYMBOL)
+    symb <- as.data.frame(org.Hs.eg.db::org.Hs.egSYMBOL)
   }
   if (org_assembly == 'mm10') {
+    
+    if (!requireNamespace("org.Mm.eg.db", quietly = TRUE))
+      stop("Install package org.Mm.eg.db in order to use this function.")
+    
     ty <- table1[grepl("^R-MMU", table1$pathway), ]
     pn1 <- pn[grepl("^R-MMU", pn$pathway), ]
-    symb <- as.data.frame(org.Mm.egSYMBOL)
+    symb <- as.data.frame(org.Mm.eg.db::org.Mm.egSYMBOL)
   }
   if (org_assembly == 'dre10') {
+    if (!requireNamespace("org.Dr.eg.db", quietly = TRUE))
+      stop("Install package org.Dr.eg.db in order to use this function.")
+    
     ty <- table1[grepl("^R-DRE", table1$pathway), ]
     pn1 <- pn[grepl("^R-DRE", pn$pathway), ]
-    symb <- as.data.frame(org.Dr.egSYMBOL)
+    symb <- as.data.frame(org.Dr.eg.db::org.Dr.egSYMBOL)
   }
   if (org_assembly == 'rn6') {
+    if (!requireNamespace("org.Rn.eg.db", quietly = TRUE))
+      stop("Install package org.Rn.eg.db in order to use this function.")
+    
     ty <- table1[grepl("^R-RNO", table1$pathway), ]
     pn1 <- pn[grepl("^R-RNO", pn$pathway), ]
-    symb <- as.data.frame(org.Rn.egSYMBOL)
+    symb <- as.data.frame(org.Rn.eg.db::org.Rn.egSYMBOL)
   }
   if (org_assembly == 'ce11') {
+    if (!requireNamespace("org.Ce.eg.db", quietly = TRUE))
+      stop("Install package org.Ce.eg.db in order to use this function.")
+    
     ty <- table1[grepl("^R-CEL", table1$pathway), ]
     pn1 <- pn[grepl("^R-CEL", pn$pathway), ]
-    symb <- as.data.frame(org.Ce.egSYMBOL)
+    symb <- as.data.frame(org.Ce.eg.db::org.Ce.egSYMBOL)
+  }
+  if(org_assembly == 'sc3'){
+    if (!requireNamespace("org.Sc.sgd.db", quietly = TRUE))
+      stop("Install package org.Sc.sgd.db in order to use this function.")
+    
+    ty <- table1[grepl("^R-SCE", table1$pathway), ]
+    pn1 <- pn[grepl("^R-SCE", pn$pathway), ]
+    symb <- AnnotationDbi::select(org.Sc.sgd.db,keys = as.character(ty$gene),
+      columns = c("ENTREZID", "GENENAME"), keytype = 'ENTREZID')
   }
   if (org_assembly == 'dm6') {
+    
+    if (!requireNamespace("org.Dm.eg.db", quietly = TRUE))
+      stop("Install package org.Dm.eg.db in order to use this function.")
+    
     ty <- table1[grepl("^R-DME", table1$pathway), ]
     pn1 <- pn[grepl("^R-DME", pn$pathway), ]
-    symb <- as.data.frame(org.Dm.egSYMBOL)
+    symb <- as.data.frame(org.Dm.eg.db::org.Dm.egSYMBOL)
   }
   colnames(symb) <- c("gene", "symbol")
   merge1 <- merge(x = pn1,
@@ -324,13 +348,6 @@ reactomePathwayDB <- function(org_assembly = c("hg19",
   return(path)
 }
 
-#' @import org.Hs.eg.db
-#' @import org.Mm.eg.db
-#' @import org.Dr.eg.db
-#' @import org.Rn.eg.db
-#' @import org.Ce.eg.db
-#' @import org.Sc.sgd.db
-#' @import org.Dm.eg.db
 #' @importFrom AnnotationDbi mappedkeys
 keggPathwayDB <- function(org_assembly = c("hg19",
                                            "hg38",
@@ -341,38 +358,59 @@ keggPathwayDB <- function(org_assembly = c("hg19",
                                            "ce11",
                                            "sc3")) {
   if (org_assembly == 'hg19' | org_assembly == 'hg38') {
-    kegg <- org.Hs.egPATH2EG
-    x <- org.Hs.egSYMBOL
+    if (!requireNamespace("org.Hs.eg.db", quietly = TRUE))
+      stop("Install package org.Hs.eg.db in order to use this function.")
+    
+    kegg <- org.Hs.eg.db::org.Hs.egPATH2EG
+    x <- org.Hs.eg.db::org.Hs.egSYMBOL
     prefix <- 'hsa'
   }
   if (org_assembly == 'mm10') {
-    kegg <- org.Mm.egPATH2EG
-    x <- org.Mm.egSYMBOL
+    if (!requireNamespace("org.Mm.eg.db", quietly = TRUE))
+      stop("Install package org.Mm.eg.db in order to use this function.")
+    
+    kegg <- org.Mm.eg.db::org.Mm.egPATH2EG
+    x <- org.Mm.eg.db::org.Mm.egSYMBOL
     prefix <- 'mmu'
   }
   if (org_assembly == 'dre10') {
-    kegg <- org.Dr.egPATH2EG
-    x <- org.Dr.egSYMBOL
+    if (!requireNamespace("org.Dr.eg.db", quietly = TRUE))
+      stop("Install package org.Dr.eg.db in order to use this function.")
+    
+    kegg <- org.Dr.eg.db::org.Dr.egPATH2EG
+    x <- org.Dr.eg.db::org.Dr.egSYMBOL
     prefix <- 'dre'
   }
   if (org_assembly == 'rn6') {
-    kegg <- org.Rn.egPATH2EG
-    x <- org.Rn.egSYMBOL
+    if (!requireNamespace("org.Rn.eg.db", quietly = TRUE))
+      stop("Install package org.Rn.eg.db in order to use this function.")
+    
+    kegg <- org.Rn.eg.db::org.Rn.egPATH2EG
+    x <- org.Rn.eg.db::org.Rn.egSYMBOL
     prefix <- 'rno'
   }
   if (org_assembly == 'ce11') {
-    kegg <- org.Ce.egPATH2EG
-    x <- org.Ce.egSYMBOL
+    if (!requireNamespace("org.Ce.eg.db", quietly = TRUE))
+      stop("Install package org.Ce.eg.db in order to use this function.")
+    
+    kegg <- org.Ce.eg.db::org.Ce.egPATH2EG
+    x <- org.Ce.eg.db::org.Ce.egSYMBOL
     prefix <- 'cel'
   }
   if (org_assembly == 'sc3') {
-    kegg <- org.Sc.sgdPATH2ORF
-    x <- org.Sc.sgdGENENAME
+    if (!requireNamespace("org.Sc.sgd.db", quietly = TRUE))
+      stop("Install package org.Sc.sgd.db in order to use this function.")
+    
+    kegg <- org.Sc.sgd.db::org.Sc.sgdPATH2ORF
+    x <- org.Sc.sgd.db::org.Sc.sgdGENENAME
     prefix <- 'sce'
   }
   if (org_assembly == 'dm6') {
-    kegg <- org.Dm.egPATH2EG
-    x <- org.Dm.egGENENAME
+    if (!requireNamespace("org.Dm.eg.db", quietly = TRUE))
+      stop("Install package org.Dm.eg.db in order to use this function.")
+    
+    kegg <- org.Dm.eg.db::org.Dm.egPATH2EG
+    x <- org.Dm.eg.db::org.Dm.egGENENAME
     prefix <- 'dme'
   }
   mapped <- mappedkeys(kegg)
