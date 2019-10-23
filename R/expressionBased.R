@@ -1,4 +1,4 @@
-#' Pearson correlation coefficient value of the miRNA genes between 
+#' Pearson correlation coefficient value of the miRNA genes between
 #' miRNA:mRNA for a given correlation cut-off and cancer.
 #'
 #' @param mirnagene Data frame of the miRNA genes in mature format
@@ -35,12 +35,17 @@ corrbased <- function(mirnagene,
   colnames(a) <- 'genes'
   a <- unique(rbind(a, mirnagene$g))
   
-  dat <- get_mir(conn = conn, mir =as.character(a$genes),study = cancer,
-                 min_abs_cor = minAbsCor)
-  colnames(dat) <- c("mirna_base","feature", "cor", "cancer")
+  dat <-
+    get_mir(
+      conn = conn,
+      mir = as.character(a$genes),
+      study = cancer,
+      min_abs_cor = minAbsCor
+    )
+  colnames(dat) <- c("mirna_base", "feature", "cor", "cancer")
   
   # conn <- dbConnect(SQLite(), databaseFile)
-  # 
+  #
   # dat <- conn %>%
   #   dplyr::tbl('cor_mir') %>%
   #   dplyr::select(mirna_base, feature, cancer) %>%
@@ -86,7 +91,7 @@ corrbasedMrna <-
       dplyr::select(mirna_base, feature, cancer) %>%
       dplyr::filter(feature %in% !!mRNAgene$g) %>%
       collect() %>%
-      tidyr::gather(cancer, cor, -mirna_base, -feature) %>%
+      tidyr::gather(cancer, cor,-mirna_base,-feature) %>%
       mutate(cor = cor / 100) %>%
       dplyr::filter(abs(cor) > minAbsCor) %>%
       arrange(dplyr::desc(abs(cor))) %>% na.omit()
@@ -195,8 +200,8 @@ calculateCorr <-
     
     exp1 <- exp1[, which(var1 > varCutoff)]
     exp2 <- exp2[, which(var2 > varCutoff)]
-    label1 <- data.frame(label1[which(var1 > varCutoff), ])
-    label2 <- data.frame(label2[which(var2 > varCutoff), ])
+    label1 <- data.frame(label1[which(var1 > varCutoff),])
+    label2 <- data.frame(label2[which(var2 > varCutoff),])
     extractData <- data.frame()
     for (i in seq_len(ncol(exp2))) {
       #for (i in 1:dim(exp2)[2]) {
@@ -216,8 +221,8 @@ calculateCorr <-
                        corpValue$V2 < pcut)
       if (!isEmpty(index)) {
         extractData <-
-          rbind(extractData, data.frame(label1[index, ],
-                                        label2[i, ], corpValue[index,]))
+          rbind(extractData, data.frame(label1[index,],
+                                        label2[i,], corpValue[index, ]))
       }
     }
     colnames(extractData) <-

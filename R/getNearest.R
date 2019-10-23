@@ -10,14 +10,15 @@ pkg.env$ucsc <- GRanges(c(
 pkg.env$genomee <- data.frame()
 pkg.env$mart <- data.frame()
 
-pkg.env$upstream<-10000
+pkg.env$upstream <- 10000
 pkg.env$downstream <- 10000
-pkg.env$searchRegion <- "all" #searchRegion = c('all',"exon","intron")
+pkg.env$searchRegion <-
+  "all" #searchRegion = c('all',"exon","intron")
 pkg.env$GOtype = "BP"  #c("BP", "CC", "MF")
 pkg.env$pCut = 0.05
 pkg.env$pAdjCut = 0.05
 #c("holm","hochberg","hommel","bonferroni", "BH", "BY","fdr", "none")
-pkg.env$pAdjust = "none" 
+pkg.env$pAdjust = "none"
 #c("hyper", "binom", "fisher", "chi")
 pkg.env$enrichTest = "hyper"
 pkg.env$varCutoff = 0.0025
@@ -32,22 +33,22 @@ pkg.env$pathwayType = 'kegg' #c('kegg', 'reactome','wiki','other'),
 pkg.env$isSymbol = FALSE
 
 #' Get the required information for the given assembly
-#' 
+#'
 #' @param org_assembly Genome assembly of interest for the analysis. Possible
 #'     assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat,
 #'     "dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and "hg38"
 #'     for human
-#'     
-#' @return setting required information 
-#' 
+#'
+#' @return setting required information
+#'
 #' @importFrom biomaRt getBM useEnsembl useMart
 #' @importFrom rtracklayer browserSession genome getTable ucscTableQuery
 #' @importFrom rtracklayer genome<-
-#' 
-#' @examples 
-#' 
+#'
+#' @examples
+#'
 #' assembly('hg19')
-#' 
+#'
 #' @export
 assembly <- function(org_assembly = c("hg19",
                                       "hg38",
@@ -61,22 +62,117 @@ assembly <- function(org_assembly = c("hg19",
   types <-
     rbind(
       c(
-        "Hsapiens","hg19", "hg19", "wgEncodeGencodeV31lift37",
-        3,4,5,6,13,"knownGene","hsapiens_gene_ensembl","Hs.eg.db"),
-      c("Hsapiens","hg38","hg38","wgEncodeGencodeV31",
-        3,4,5,6,13,"knownGene","hsapiens_gene_ensembl","Hs.eg.db"),
-      c("Mmusculus","mm10","mm10","wgEncodeGencodeVM22",
-        3,4,5,6,13,"knownGene","mmusculus_gene_ensembl","Mm.eg.db"),
-      c("Drerio","danRer10","dre10","ensGene",
-        4,5,6,7,2,"refGene","drerio_gene_ensembl","Dr.eg.db"),
-      c("Rnorvegicus","rn6","rn6","ensGene",
-        4,5,6,7,2,"refGene","rnorvegicus_gene_ensembl","Rn.eg.db"),
-      c("Scerevisiae","sacCer3","sc3","refSeqComposite",
-        3,4,5,6,13,"sgdGene","scerevisiae_gene_ensembl","Sc.sgd.db"),
-      c("Dmelanogaster","dm6","dm6","ensGene",
-        4,5,6,7,2,"ensGene","dmelanogaster_gene_ensembl","Dm.eg.db"),
-      c("Celegans","ce11","ce11","ensGene",
-        4,5,6,7,2,"refGene","celegans_gene_ensembl","Ce.eg.db")
+        "Hsapiens",
+        "hg19",
+        "hg19",
+        "wgEncodeGencodeV31lift37",
+        3,
+        4,
+        5,
+        6,
+        13,
+        "knownGene",
+        "hsapiens_gene_ensembl",
+        "Hs.eg.db"
+      ),
+      c(
+        "Hsapiens",
+        "hg38",
+        "hg38",
+        "wgEncodeGencodeV31",
+        3,
+        4,
+        5,
+        6,
+        13,
+        "knownGene",
+        "hsapiens_gene_ensembl",
+        "Hs.eg.db"
+      ),
+      c(
+        "Mmusculus",
+        "mm10",
+        "mm10",
+        "wgEncodeGencodeVM22",
+        3,
+        4,
+        5,
+        6,
+        13,
+        "knownGene",
+        "mmusculus_gene_ensembl",
+        "Mm.eg.db"
+      ),
+      c(
+        "Drerio",
+        "danRer10",
+        "dre10",
+        "ensGene",
+        4,
+        5,
+        6,
+        7,
+        2,
+        "refGene",
+        "drerio_gene_ensembl",
+        "Dr.eg.db"
+      ),
+      c(
+        "Rnorvegicus",
+        "rn6",
+        "rn6",
+        "ensGene",
+        4,
+        5,
+        6,
+        7,
+        2,
+        "refGene",
+        "rnorvegicus_gene_ensembl",
+        "Rn.eg.db"
+      ),
+      c(
+        "Scerevisiae",
+        "sacCer3",
+        "sc3",
+        "refSeqComposite",
+        3,
+        4,
+        5,
+        6,
+        13,
+        "sgdGene",
+        "scerevisiae_gene_ensembl",
+        "Sc.sgd.db"
+      ),
+      c(
+        "Dmelanogaster",
+        "dm6",
+        "dm6",
+        "ensGene",
+        4,
+        5,
+        6,
+        7,
+        2,
+        "ensGene",
+        "dmelanogaster_gene_ensembl",
+        "Dm.eg.db"
+      ),
+      c(
+        "Celegans",
+        "ce11",
+        "ce11",
+        "ensGene",
+        4,
+        5,
+        6,
+        7,
+        2,
+        "refGene",
+        "celegans_gene_ensembl",
+        "Ce.eg.db"
+      )
     )
   
   index = which(org_assembly == types[, 3])
@@ -100,13 +196,14 @@ assembly <- function(org_assembly = c("hg19",
     with(data, GRanges(chr, IRanges(start, end), strand, symbol))
   pkg.env$ucsc <- ucsc
   td <-
-    paste0("TxDb.", types[index, 1], ".UCSC.", types[index, 2], ".", 
+    paste0("TxDb.", types[index, 1], ".UCSC.", types[index, 2], ".",
            types[index, 10])
-  yy <- paste0("org.",types[index, 12])
-  x <- list(yy,td)
+  yy <- paste0("org.", types[index, 12])
+  x <- list(yy, td)
   
-  if (!requireNamespace(td, quietly = TRUE) | !requireNamespace(yy, quietly = TRUE))
-    stop("Install package ",td," in order to use this function.")
+  if (!requireNamespace(td, quietly = TRUE) |
+      !requireNamespace(yy, quietly = TRUE))
+    stop("Install package ", td, " in order to use this function.")
   else
     lapply(x, require, character.only = TRUE)
   
@@ -222,7 +319,7 @@ getUCSC <-
 #'
 #' regions <- system.file("extdata", "ncRegion.txt", package = "NoRCE")
 #' regionNC <- import(regions, format = "BED")
-#' 
+#'
 #' r<-getNearToExon(bedfile = regionNC,
 #'                  upstream = 1000,
 #'                  downstream = 2000,
@@ -363,7 +460,7 @@ getNearToIntron <-
 #'
 #' regions<-system.file("extdata", "ncRegion.txt", package = "NoRCE")
 #' regionNC <- import(regions, format = "BED")
-#' 
+#'
 #' r<-getTADOverlap(bedfile = regionNC,
 #'                  tad = tad_hg19,
 #'                  org_assembly = 'hg19',
@@ -400,7 +497,7 @@ getTADOverlap <-
     
     if (cellline != 'all') {
       temp <- which(tad$celline == cellline)
-      tad <-  tad[temp,]
+      tad <-  tad[temp, ]
     }
     
     if (near) {
@@ -644,23 +741,24 @@ packageCheck <- function(pkg)
 #' isSymbol: Boolean variable that hold the gene format of the gmt file.
 #'      If it is set as TRUE, gene format of the gmt file should be symbol.
 #'      Otherwise, gene format should be ENTREZ ID. By default, it is FALSE.
-#' 
+#'
 #' @param type List of parameter names
 #' @param value New values for the parameters. Value and the parameter names
 #'  must be in the same order.
-#' 
+#'
 #' @return changed parameters
 #'
-#' @examples 
+#' @examples
 #'
 #' type <- c('downstream','upstream')
-#' 
+#'
 #' value <- c(2000,30000)
-#' 
+#'
 #' setParameters(type,value)
-#' 
+#'
 #' @export
-setParameters <-function(type, value){
-  for(i in seq_along(type)){
-     eval(parse(text=paste0("pkg.env$",type[i]," <- value[i]")))}
+setParameters <- function(type, value) {
+  for (i in seq_along(type)) {
+    eval(parse(text = paste0("pkg.env$", type[i], " <- value[i]")))
+  }
 }

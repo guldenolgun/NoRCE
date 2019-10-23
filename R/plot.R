@@ -83,7 +83,7 @@ drawDotPlot <- function(mrnaObject, type = "pAdjust", n) {
 #'
 #' @importFrom utils browseURL read.table write.table
 #'
-#'   
+#'
 #' @export
 writeEnrichment <-
   function(mrnaObject,
@@ -120,7 +120,7 @@ writeEnrichment <-
 #'
 #' @return Give top n enrichment results
 #'
-#'   
+#'
 #' @export
 topEnrichment <- function(mrnaObject, type, n) {
   if (missing(mrnaObject)) {
@@ -147,16 +147,17 @@ topEnrichment <- function(mrnaObject, type, n) {
   ),
   go = unlist(mrnaObject@ncGeneList))
   
-  table <- table[!duplicated(table),]
+  table <- table[!duplicated(table), ]
   
-  table1 <- table1[!duplicated(table1),]
+  table1 <- table1[!duplicated(table1), ]
   
   #split_tibble function is copied from https://stackoverflow.com/a/39638933
   split_tibble <- function(tibble, column = 'col') {
-    tibble %>% split(., .[,column]) %>% 
-      lapply(., function(x) x[,setdiff(names(x),column)])
+    tibble %>% split(., .[, column]) %>%
+      lapply(., function(x)
+        x[, setdiff(names(x), column)])
   }
-
+  
   #xy.list <- split(table$go, table$gene)
   #xy.list1 <- split(table1$go, table1$gene)
   
@@ -206,9 +207,9 @@ topEnrichment <- function(mrnaObject, type, n) {
     )
   
   ifelse(type == "pvalue", dd <-
-           dd[order(dd$Pvalue),], dd <- dd[order(dd$PAdjust),])
+           dd[order(dd$Pvalue), ], dd <- dd[order(dd$PAdjust), ])
   
-  return(dd[seq_len(n),])
+  return(dd[seq_len(n), ])
 }
 
 #' Create interaction network for top n enriched GO term:mRNA interaction.
@@ -239,7 +240,7 @@ topEnrichment <- function(mrnaObject, type, n) {
 #' @importFrom graphics plot
 #' @importFrom ggplot2 aes element_text geom_point ggplot labs theme theme_bw
 #'
-#' 
+#'
 #' @export
 createNetwork <-
   function(mrnaObject,
@@ -252,7 +253,7 @@ createNetwork <-
     }
     if (missing(n)) {
       message(
-        "Number of top enrichment is missing. 
+        "Number of top enrichment is missing.
         Please specify maximum number of enrichment of interest"
       )
     }
@@ -354,7 +355,7 @@ createNetwork <-
         layout = l * 1.0
       )
     return(p)
-  }
+    }
 
 #' Plot and save the GO term DAG of the top n enrichments in terms of p-values
 #' or adjusted p-values with an user provided format
@@ -373,11 +374,11 @@ createNetwork <-
 #' @importFrom RCurl postForm
 #' @importFrom png readPNG writePNG
 #' @importFrom RCurl postForm
-#' 
-#' @examples 
-#' ncRNAPathway<-mirnaPathwayEnricher(gene = brain_mirna, 
+#'
+#' @examples
+#' ncRNAPathway<-mirnaPathwayEnricher(gene = brain_mirna,
 #'                                    org_assembly = 'hg19',near = TRUE)
-#'   
+#'
 #' @export
 getGoDag <-
   function(mrnaObject,
@@ -471,10 +472,10 @@ getGoDag <-
 #'     "hg19" and "hg38" for human
 #'
 #' @return Shows kegg diagram marked with an enriched genes in a browser
-#' @examples 
-#' ncRNAPathway<-mirnaPathwayEnricher(gene = brain_mirna, 
+#' @examples
+#' ncRNAPathway<-mirnaPathwayEnricher(gene = brain_mirna,
 #'                                    org_assembly = 'hg19',near = TRUE)
-#'                                    
+#'
 #' getKeggDiagram(mrnaObject = ncRNAPathway, org_assembly ='hg19',
 #'                pathway = ncRNAPathway@ID[1])
 #' @export
@@ -531,11 +532,11 @@ getKeggDiagram <-
 #'      'png', 'svg'
 #'
 #' @return Shows reactome diagram marked with an enriched genes in a browser
-#' 
-#' @examples 
-#' 
+#'
+#' @examples
+#'
 #' br_enr<-reactomeEnrichment(genes = breastmRNA,org_assembly='hg19')
-#' 
+#'
 #' getReactomeDiagram(mrnaObject = br_enr,pathway = br_enr@ID[1],
 #'                    imageFormat = 'png')
 #'
