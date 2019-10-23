@@ -84,7 +84,7 @@ mirnaGOEnricher <-
            label1 = '',
            label2 = '',
            isUnionCorGene = FALSE,
-          databaseFile = '') {
+           databaseFile = '') {
     if (missing(gene)) {
       message("Gene is missing.")
     }
@@ -137,15 +137,28 @@ mirnaGOEnricher <-
       ifelse(
         pkg.env$searchRegion == 'all',
         miNearGene_temp <-
-          getUCSC(geneLoc, pkg.env$upstream, pkg.env$downstream, org_assembly),
+          getUCSC(
+            geneLoc,
+            pkg.env$upstream,
+            pkg.env$downstream,
+            org_assembly
+          ),
         ifelse(
           pkg.env$searchRegion == 'exon',
           miNearGene_temp <-
-            getNearToExon(geneLoc, pkg.env$upstream, 
-                          pkg.env$downstream, org_assembly),
+            getNearToExon(
+              geneLoc,
+              pkg.env$upstream,
+              pkg.env$downstream,
+              org_assembly
+            ),
           miNearGene_temp <-
-            getNearToIntron(geneLoc, pkg.env$upstream, 
-                            pkg.env$downstream, org_assembly)
+            getNearToIntron(
+              geneLoc,
+              pkg.env$upstream,
+              pkg.env$downstream,
+              org_assembly
+            )
         )
       )
       
@@ -204,7 +217,7 @@ mirnaGOEnricher <-
           minAbsCor = pkg.env$minAbsCor,
           databaseFile = databaseFile
         )
-        d <- nearG[which(a$genes %in% nearG$mirna_base),]
+        d <- nearG[which(a$genes %in% nearG$mirna_base), ]
         
         if (!isUnionCorGene)
           miNearGene <- intersect(unlist(miNearGene), d$feature)
@@ -229,7 +242,7 @@ mirnaGOEnricher <-
             unlist(which(
               nearG$firstExp %in% tolower(a$genes[x])
             )))
-        nearG <- nearG[unlist(tt),]
+        nearG <- nearG[unlist(tt), ]
         if (!isUnionCorGene)
           miNearGene <-
           intersect(unlist(miNearGene), nearG$SecondExp)
@@ -261,7 +274,8 @@ mirnaGOEnricher <-
           pAdjust = pkg.env$pAdjust,
           backG = backGenes,
           backGType = backGType,
-          min = pkg.env$min,enrichTest = pkg.env$enrichTest
+          min = pkg.env$min,
+          enrichTest = pkg.env$enrichTest
         )
       if (length(miEnrich@Term)) {
         miEnrich@ncGeneList <-
@@ -346,7 +360,7 @@ mirnaPathwayEnricher <-
                             "dm6",
                             "ce11",
                             "sc3"),
-          near = FALSE,
+           near = FALSE,
            target = FALSE,
            isTADSearch = FALSE,
            TAD = c(tad_hg19, tad_dmel, tad_hg38, tad_mm10),
@@ -413,15 +427,28 @@ mirnaPathwayEnricher <-
       ifelse(
         pkg.env$searchRegion == 'all',
         miNearGene_temp <-
-          getUCSC(geneLoc, pkg.env$upstream, pkg.env$downstream, org_assembly),
+          getUCSC(
+            geneLoc,
+            pkg.env$upstream,
+            pkg.env$downstream,
+            org_assembly
+          ),
         ifelse(
           pkg.env$searchRegion == 'exon',
           miNearGene_temp <-
-            getNearToExon(geneLoc, pkg.env$upstream, 
-                          pkg.env$downstream, org_assembly),
+            getNearToExon(
+              geneLoc,
+              pkg.env$upstream,
+              pkg.env$downstream,
+              org_assembly
+            ),
           miNearGene_temp <-
-            getNearToIntron(geneLoc, pkg.env$upstream, 
-                            pkg.env$downstream, org_assembly)
+            getNearToIntron(
+              geneLoc,
+              pkg.env$upstream,
+              pkg.env$downstream,
+              org_assembly
+            )
         )
       )
       
@@ -480,7 +507,7 @@ mirnaPathwayEnricher <-
           minAbsCor = pkg.env$minAbsCor,
           databaseFile = databaseFile
         )
-        d <- nearG[which(a$genes %in% nearG$mirna_base),]
+        d <- nearG[which(a$genes %in% nearG$mirna_base), ]
         
         if (!isUnionCorGene)
           miNearGene <- intersect(unlist(miNearGene), d$feature)
@@ -505,7 +532,7 @@ mirnaPathwayEnricher <-
             unlist(which(
               nearG$firstExp %in% tolower(a$genes[x])
             )))
-        nearG <- nearG[unlist(tt),]
+        nearG <- nearG[unlist(tt), ]
         if (!isUnionCorGene)
           miNearGene <-
           intersect(unlist(miNearGene), nearG$SecondExp)
@@ -533,26 +560,28 @@ mirnaPathwayEnricher <-
         ifelse(
           pkg.env$pathwayType == 'reactome',
           pth <- 2,
-          ifelse(
-            pkg.env$pathwayType == 'wiki',
-            pth <- 3,
-            pth <- 4
-          )
+          ifelse(pkg.env$pathwayType == 'wiki',
+                 pth <- 3,
+                 pth <- 4)
         )
       )
       
-      funclist<- list(KeggEnrichment, reactomeEnrichment,
-                      WikiEnrichment,pathwayEnrichment)
+      funclist <- list(KeggEnrichment,
+                       reactomeEnrichment,
+                       WikiEnrichment,
+                       pathwayEnrichment)
       
-      miEnrich <- funclist[[pth]](genes = miNearGene,
-                      gmtFile = gmtName,
-                      org_assembly = org_assembly,
-                      pCut = pkg.env$pCut,
-                      pAdjCut = pkg.env$pAdjCut,
-                      pAdjust = pkg.env$pAdjust,
-                      isSymbol = pkg.env$isSymbol,
-                      min = pkg.env$min,
-                      isGeneEnrich = isGeneEnrich)
+      miEnrich <- funclist[[pth]](
+        genes = miNearGene,
+        gmtFile = gmtName,
+        org_assembly = org_assembly,
+        pCut = pkg.env$pCut,
+        pAdjCut = pkg.env$pAdjCut,
+        pAdjust = pkg.env$pAdjust,
+        isSymbol = pkg.env$isSymbol,
+        min = pkg.env$min,
+        isGeneEnrich = isGeneEnrich
+      )
       
       if (length(miEnrich@Term) > 0)
       {
@@ -647,14 +676,14 @@ mirnaRegionGOEnricher <-
            backGType = 'pc-genes',
            isTADSearch = FALSE,
            TAD = c(tad_hg19, tad_dmel, tad_hg38, tad_mm10),
-          express = FALSE,
+           express = FALSE,
            isCustomExp = FALSE,
            cancer,
            exp1,
            exp2,
            label1 = '',
            label2 = '',
-          isUnionCorGene = FALSE,
+           isUnionCorGene = FALSE,
            databaseFile) {
     if (missing(region)) {
       message("Region of interest is missing.")
@@ -695,15 +724,28 @@ mirnaRegionGOEnricher <-
       ifelse(
         pkg.env$searchRegion == 'all',
         miNearGene_temp <-
-          getUCSC(region, pkg.env$upstream, pkg.env$downstream, org_assembly),
+          getUCSC(
+            region,
+            pkg.env$upstream,
+            pkg.env$downstream,
+            org_assembly
+          ),
         ifelse(
           pkg.env$searchRegion == 'exon',
           miNearGene_temp <-
-            getNearToExon(region, pkg.env$upstream, 
-                          pkg.env$downstream, org_assembly),
+            getNearToExon(
+              region,
+              pkg.env$upstream,
+              pkg.env$downstream,
+              org_assembly
+            ),
           miNearGene_temp <-
-            getNearToIntron(region, pkg.env$upstream, 
-                            pkg.env$downstream, org_assembly)
+            getNearToIntron(
+              region,
+              pkg.env$upstream,
+              pkg.env$downstream,
+              org_assembly
+            )
         )
       )
       geneLoc_temp <-
@@ -818,7 +860,8 @@ mirnaRegionGOEnricher <-
           pAdjust = pkg.env$pAdjust,
           backG = backG,
           backGType = backGType,
-          min = pkg.env$min,enrichTest = pkg.env$enrichTest
+          min = pkg.env$min,
+          enrichTest = pkg.env$enrichTest
         )
       
       return(miEnrich)
@@ -894,7 +937,7 @@ mirnaRegionPathwayEnricher <-
                             "dm6",
                             "ce11",
                             "sc3"),
-         near = FALSE,
+           near = FALSE,
            target = FALSE,
            isTADSearch = FALSE,
            TAD = c(tad_hg19, tad_dmel, tad_hg38, tad_mm10),
@@ -905,7 +948,8 @@ mirnaRegionPathwayEnricher <-
            exp1,
            exp2,
            label1 = '',
-           label2 = '', isUnionCorGene = FALSE,
+           label2 = '',
+           isUnionCorGene = FALSE,
            databaseFile,
            isGeneEnrich = FALSE) {
     if (missing(region)) {
@@ -948,15 +992,28 @@ mirnaRegionPathwayEnricher <-
       ifelse(
         pkg.env$searchRegion == 'all',
         miNearGene_temp <-
-          getUCSC(region, pkg.env$upstream, pkg.env$downstream, org_assembly),
+          getUCSC(
+            region,
+            pkg.env$upstream,
+            pkg.env$downstream,
+            org_assembly
+          ),
         ifelse(
           pkg.env$searchRegion == 'exon',
           miNearGene_temp <-
-            getNearToExon(region, pkg.env$upstream, 
-                          pkg.env$downstream, org_assembly),
+            getNearToExon(
+              region,
+              pkg.env$upstream,
+              pkg.env$downstream,
+              org_assembly
+            ),
           miNearGene_temp <-
-            getNearToIntron(region, pkg.env$upstream, 
-                            pkg.env$downstream, org_assembly)
+            getNearToIntron(
+              region,
+              pkg.env$upstream,
+              pkg.env$downstream,
+              org_assembly
+            )
         )
       )
       
@@ -1068,27 +1125,29 @@ mirnaRegionPathwayEnricher <-
         ifelse(
           pkg.env$pathwayType == 'reactome',
           pth <- 2,
-          ifelse(
-            pkg.env$pathwayType == 'wiki',
-            pth <- 3,
-            pth <- 4
-          )
+          ifelse(pkg.env$pathwayType == 'wiki',
+                 pth <- 3,
+                 pth <- 4)
         )
       )
       
-      funclist<- list(KeggEnrichment, reactomeEnrichment,
-                      WikiEnrichment,pathwayEnrichment)
+      funclist <- list(KeggEnrichment,
+                       reactomeEnrichment,
+                       WikiEnrichment,
+                       pathwayEnrichment)
       
-      miEnrich <- funclist[[pth]](genes = miNearGene,
-                      gmtFile = gmtName,
-                      org_assembly = org_assembly,
-                      pCut = pkg.env$pCut,
-                      pAdjCut = pkg.env$pAdjCut,
-                      pAdjust = pkg.env$pAdjust,
-                      isSymbol = pkg.env$isSymbol,
-                      min = pkg.env$min,
-                      isGeneEnrich = isGeneEnrich)
-    
+      miEnrich <- funclist[[pth]](
+        genes = miNearGene,
+        gmtFile = gmtName,
+        org_assembly = org_assembly,
+        pCut = pkg.env$pCut,
+        pAdjCut = pkg.env$pAdjCut,
+        pAdjust = pkg.env$pAdjust,
+        isSymbol = pkg.env$isSymbol,
+        min = pkg.env$min,
+        isGeneEnrich = isGeneEnrich
+      )
+      
       return(miEnrich)
     }
   }
@@ -1178,16 +1237,16 @@ predictmiTargets <- function(gene, type, org_assembly)
   
   ifelse(type == "NCBI",
          where <-
-           targets[which(tolower(targets$X2) %in% gene$genes), ],
+           targets[which(tolower(targets$X2) %in% gene$genes),],
          ifelse (
            type == "mirna",
            where <-
-             targets[which(tolower(targets$X4) %in% tolower(gene$genes)), ],
+             targets[which(tolower(targets$X4) %in% tolower(gene$genes)),],
            ifelse (type == "Ensembl_gene" ,
                    where <-
-                     targets[which(tolower(targets$X1) %in% gene$genes), ],
+                     targets[which(tolower(targets$X1) %in% gene$genes),],
                    where <-
-                     targets[which(tolower(targets$X3) %in% gene$genes), ])
+                     targets[which(tolower(targets$X3) %in% gene$genes),])
          ))
   if (nrow(where) == 0) {
     return(NULL)
@@ -1195,16 +1254,12 @@ predictmiTargets <- function(gene, type, org_assembly)
   else{
     colnames(where) <- c('genesEns', 'genesHugo', 'geneTrans', 'mirna')
     tmp1 <-
-      data.frame(
-        trans = unlist(
-          apply((where[, 3]), 2, strsplit, '[.]'))[2 *
-                                                   (seq_len(nrow(where))) - 1])
+      data.frame(trans = unlist(apply((where[, 3]), 2, strsplit, '[.]'))[2 *
+                                                                           (seq_len(nrow(where))) - 1])
     tmp2 <-
-      data.frame(
-        gene =
-           unlist(
-             apply((where[, 1]), 2, strsplit, '[.]'))[2 *
-                                                  (seq_len(nrow(where))) - 1])
+      data.frame(gene =
+                   unlist(apply((where[, 1]), 2, strsplit, '[.]'))[2 *
+                                                                     (seq_len(nrow(where))) - 1])
     dat <-
       cbind.data.frame(tmp1, where$genesHugo, tmp2, where$mirna)
     return(dat)

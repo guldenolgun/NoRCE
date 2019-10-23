@@ -195,7 +195,7 @@ geneGOEnricher <-
         )
         tt <- lapply(seq_len(length(gene$genes)), function(x)
           unlist(which(nearG$firstExp %in% (gene$genes[x]))))
-        nearG <- nearG[unlist(tt),]
+        nearG <- nearG[unlist(tt), ]
         if (!isUnionCorGene)
           nearGene <-
           intersect(unlist(nearGene), unlist(nearG$SecondExp))
@@ -449,7 +449,7 @@ genePathwayEnricher <-
         )
         tt <- lapply(seq_len(nrow(gene$genes)), function(x)
           unlist(which(nearG$firstExp %in% (gene$genes[x]))))
-        nearG <- nearG[unlist(tt),]
+        nearG <- nearG[unlist(tt), ]
         if (!isUnionCorGene)
           nearGene <- intersect(unlist(nearGene), nearG$SecondExp)
         else

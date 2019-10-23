@@ -51,7 +51,10 @@ KeggEnrichment <-
                        "BY",
                        "fdr",
                        "none"),
-           min = 5, gmtFile ='', isSymbol = '', isGeneEnrich ='') {
+           min = 5,
+           gmtFile = '',
+           isSymbol = '',
+           isGeneEnrich = '') {
     if (missing(genes)) {
       message("Gene is missing.")
     }
@@ -64,17 +67,17 @@ KeggEnrichment <-
     pathTable <- unique(keggPathwayDB(org_assembly))
     genes <- as.data.frame(genes)
     colnames(genes) <- 'g'
-    annot <- pathTable[which(pathTable$symbol %in% genes$g), ]
+    annot <- pathTable[which(pathTable$symbol %in% genes$g),]
     
     
     pathfreq <- as.data.frame(table(annot$pathway))
-    pathfreq <- pathfreq[which(pathfreq$Freq > 0), ]
+    pathfreq <- pathfreq[which(pathfreq$Freq > 0),]
     
     
     geneSize = length(unique(pathTable$symbol))
     
     bckfreq <- as.data.frame(table(pathTable$pathway))
-    notGene <- bckfreq[bckfreq$Var1 %in% pathfreq$Var1, ]
+    notGene <- bckfreq[bckfreq$Var1 %in% pathfreq$Var1,]
     freq <- merge(pathfreq, notGene, by = "Var1")
     found <- freq$Freq.x
     M <- freq$Freq.y
@@ -100,7 +103,7 @@ KeggEnrichment <-
     bgratio <- BgRatio[enrich]
     padj <- pAdjust1[enrich]
     pval <- pvalues[enrich]
-    r <- annot[annot$pathway %in% pathT, ]
+    r <- annot[annot$pathway %in% pathT,]
     enric <- list()
     for (i in seq_along(pathT))
     {
@@ -108,8 +111,7 @@ KeggEnrichment <-
       {
         enric <-
           c(enric,
-            setNames(list(as.character(
-              r[which(pathT[i] == r$pathway), ]$symbol)),
+            setNames(list(as.character(r[which(pathT[i] == r$pathway),]$symbol)),
                      paste(pathT[i])))
       }
     }
@@ -119,7 +121,8 @@ KeggEnrichment <-
     if (nrow(pathways) > 0) {
       tmp <-
         unlist(lapply(seq_len(nrow(pathways)), function(x)
-          tmp[x] <- try(keggGet(pathT[x])[[1]]$NAME)))
+          tmp[x] <- try(keggGet(pathT[x])[[1]]$NAME)
+        ))
     }
     return(
       new(
@@ -187,7 +190,10 @@ reactomeEnrichment <-
                        "BY",
                        "fdr",
                        "none"),
-           min = 5, gmtFile ='', isSymbol = '', isGeneEnrich ='') {
+           min = 5,
+           gmtFile = '',
+           isSymbol = '',
+           isGeneEnrich = '') {
     if (missing(genes)) {
       message("Gene is missing.")
     }
@@ -200,16 +206,16 @@ reactomeEnrichment <-
     pathTable <- unique(reactomePathwayDB(org_assembly))
     genes <- as.data.frame(genes)
     colnames(genes) <- 'g'
-    annot <- pathTable[which(pathTable$symbol %in% genes$g), ]
+    annot <- pathTable[which(pathTable$symbol %in% genes$g),]
     
     
     pathfreq <- as.data.frame(table(annot$pathway))
-    pathfreq <- pathfreq[which(pathfreq$Freq > 0), ]
+    pathfreq <- pathfreq[which(pathfreq$Freq > 0),]
     
     geneSize = length(unique(pathTable$symbol))
     
     bckfreq <- as.data.frame(table(pathTable$pathway))
-    notGene <- bckfreq[bckfreq$Var1 %in% pathfreq$Var1, ]
+    notGene <- bckfreq[bckfreq$Var1 %in% pathfreq$Var1,]
     freq <- merge(pathfreq, notGene, by = "Var1")
     found <- freq$Freq.x
     M <- freq$Freq.y
@@ -234,7 +240,7 @@ reactomeEnrichment <-
     bgratio <- BgRatio[enrich]
     padj <- pAdjust1[enrich]
     pval <- pvalues[enrich]
-    r <- annot[annot$pathway %in% pathT, ]
+    r <- annot[annot$pathway %in% pathT,]
     rt <- unique(r[, (2:3)])
     
     enric <- list()
@@ -244,8 +250,7 @@ reactomeEnrichment <-
       {
         enric <-
           c(enric,
-            setNames(list(as.character(
-              r[which(pathT[i] == r$pathway), ]$symbol)),
+            setNames(list(as.character(r[which(pathT[i] == r$pathway),]$symbol)),
                      paste(pathT[i])))
       }
     }
@@ -253,7 +258,7 @@ reactomeEnrichment <-
       new(
         "NoRCE",
         ID = pathT,
-        Term = as.character(rt[order(match(rt$pathway, pathT)),]$name),
+        Term = as.character(rt[order(match(rt$pathway, pathT)), ]$name),
         geneList = enric,
         pvalue = pval,
         pAdj = padj,
@@ -279,63 +284,65 @@ reactomePathwayDB <- function(org_assembly = c("hg19",
   pn <- data.frame(pathway = rep(names(pn), lapply(pn, length)),
                    name = unlist(pn))
   if (org_assembly == 'hg19' | org_assembly == 'hg38') {
-    
     if (!requireNamespace("org.Hs.eg.db", quietly = TRUE))
       stop("Install package org.Hs.eg.db in order to use this function.")
     
-    ty <- table1[grepl("^R-HSA", table1$pathway), ]
-    pn1 <- pn[grepl("^R-HSA", pn$pathway), ]
+    ty <- table1[grepl("^R-HSA", table1$pathway),]
+    pn1 <- pn[grepl("^R-HSA", pn$pathway),]
     symb <- as.data.frame(org.Hs.eg.db::org.Hs.egSYMBOL)
   }
   if (org_assembly == 'mm10') {
-    
     if (!requireNamespace("org.Mm.eg.db", quietly = TRUE))
       stop("Install package org.Mm.eg.db in order to use this function.")
     
-    ty <- table1[grepl("^R-MMU", table1$pathway), ]
-    pn1 <- pn[grepl("^R-MMU", pn$pathway), ]
+    ty <- table1[grepl("^R-MMU", table1$pathway),]
+    pn1 <- pn[grepl("^R-MMU", pn$pathway),]
     symb <- as.data.frame(org.Mm.eg.db::org.Mm.egSYMBOL)
   }
   if (org_assembly == 'dre10') {
     if (!requireNamespace("org.Dr.eg.db", quietly = TRUE))
       stop("Install package org.Dr.eg.db in order to use this function.")
     
-    ty <- table1[grepl("^R-DRE", table1$pathway), ]
-    pn1 <- pn[grepl("^R-DRE", pn$pathway), ]
+    ty <- table1[grepl("^R-DRE", table1$pathway),]
+    pn1 <- pn[grepl("^R-DRE", pn$pathway),]
     symb <- as.data.frame(org.Dr.eg.db::org.Dr.egSYMBOL)
   }
   if (org_assembly == 'rn6') {
     if (!requireNamespace("org.Rn.eg.db", quietly = TRUE))
       stop("Install package org.Rn.eg.db in order to use this function.")
     
-    ty <- table1[grepl("^R-RNO", table1$pathway), ]
-    pn1 <- pn[grepl("^R-RNO", pn$pathway), ]
+    ty <- table1[grepl("^R-RNO", table1$pathway),]
+    pn1 <- pn[grepl("^R-RNO", pn$pathway),]
     symb <- as.data.frame(org.Rn.eg.db::org.Rn.egSYMBOL)
   }
   if (org_assembly == 'ce11') {
     if (!requireNamespace("org.Ce.eg.db", quietly = TRUE))
       stop("Install package org.Ce.eg.db in order to use this function.")
     
-    ty <- table1[grepl("^R-CEL", table1$pathway), ]
-    pn1 <- pn[grepl("^R-CEL", pn$pathway), ]
+    ty <- table1[grepl("^R-CEL", table1$pathway),]
+    pn1 <- pn[grepl("^R-CEL", pn$pathway),]
     symb <- as.data.frame(org.Ce.eg.db::org.Ce.egSYMBOL)
   }
-  if(org_assembly == 'sc3'){
+  if (org_assembly == 'sc3') {
     if (!requireNamespace("org.Sc.sgd.db", quietly = TRUE))
       stop("Install package org.Sc.sgd.db in order to use this function.")
     
-    ty <- table1[grepl("^R-SCE", table1$pathway), ]
-    pn1 <- pn[grepl("^R-SCE", pn$pathway), ]
-    symb <- AnnotationDbi::select(org.Sc.sgd.db,keys = as.character(ty$gene),
-      columns = c("ENTREZID", "GENENAME"), keytype = 'ENTREZID')
+    ty <- table1[grepl("^R-SCE", table1$pathway),]
+    pn1 <- pn[grepl("^R-SCE", pn$pathway),]
+    symb <-
+      AnnotationDbi::select(
+        org.Sc.sgd.db,
+        keys = as.character(ty$gene),
+        columns = c("ENTREZID", "GENENAME"),
+        keytype = 'ENTREZID'
+      )
   }
   if (org_assembly == 'dm6') {
-    
     if (!requireNamespace("org.Dm.eg.db", quietly = TRUE))
       stop("Install package org.Dm.eg.db in order to use this function.")
     
-    ty <- table1[grepl("^R-DME", table1$pathway), ]
-    pn1 <- pn[grepl("^R-DME", pn$pathway), ]
+    ty <- table1[grepl("^R-DME", table1$pathway),]
+    pn1 <- pn[grepl("^R-DME", pn$pathway),]
     symb <- as.data.frame(org.Dm.eg.db::org.Dm.egSYMBOL)
   }
   colnames(symb) <- c("gene", "symbol")
@@ -451,19 +458,16 @@ WikiPathwayDB <- function(org_assembly = c("hg19",
                                             format = "gmt")
   if (org_assembly == 'dm6')
     wp.gmt <-
-      rWikiPathways::downloadPathwayArchive(
-        organism = "Drosophila melanogaster",
-        format = "gmt")
+      rWikiPathways::downloadPathwayArchive(organism = "Drosophila melanogaster",
+                                            format = "gmt")
   if (org_assembly == 'ce11')
     wp.gmt <-
-      rWikiPathways::downloadPathwayArchive(
-        organism = "Caenorhabditis elegans",
-        format = "gmt")
+      rWikiPathways::downloadPathwayArchive(organism = "Caenorhabditis elegans",
+                                            format = "gmt")
   if (org_assembly == 'sc3')
     wp.gmt <-
-      rWikiPathways::downloadPathwayArchive(
-        organism = "Saccharomyces cerevisiae",
-        format = "gmt")
+      rWikiPathways::downloadPathwayArchive(organism = "Saccharomyces cerevisiae",
+                                            format = "gmt")
   
   gmtFile <- convertGMT(gmtName = wp.gmt)
   tmp <-
@@ -502,7 +506,7 @@ WikiPathwayDB <- function(org_assembly = c("hg19",
 #'      performed
 #'
 #' @return Wiki Pathway Enrichment
-#' 
+#'
 #' @examples
 #' br_enr<-WikiEnrichment(genes = breastmRNA$V1[1:100],org_assembly='hg19')
 #'
@@ -528,8 +532,10 @@ WikiEnrichment <- function(genes,
                                        "BY",
                                        "fdr",
                                        "none"),
-                           min = 5, gmtFile ='', 
-                           isSymbol = '', isGeneEnrich ='') {
+                           min = 5,
+                           gmtFile = '',
+                           isSymbol = '',
+                           isGeneEnrich = '') {
   if (missing(genes)) {
     message("Gene is missing.")
   }
@@ -542,14 +548,14 @@ WikiEnrichment <- function(genes,
   pathTable <- unique(WikiPathwayDB(org_assembly))
   genes <- as.data.frame(genes)
   colnames(genes) <- 'g'
-  annot <- pathTable[which(pathTable$gene %in% genes$g), ]
+  annot <- pathTable[which(pathTable$gene %in% genes$g),]
   
   pathfreq <- as.data.frame(table(annot$pathID))
-  pathfreq <- pathfreq[which(pathfreq$Freq > 0), ]
+  pathfreq <- pathfreq[which(pathfreq$Freq > 0),]
   
   geneSize = length(unique(pathTable$gene))
   bckfreq <- as.data.frame(table(pathTable$pathID))
-  notGene <- bckfreq[bckfreq$Var1 %in% pathfreq$Var1, ]
+  notGene <- bckfreq[bckfreq$Var1 %in% pathfreq$Var1,]
   freq <- merge(pathfreq, notGene, by = "Var1")
   found <- freq$Freq.x
   M <- freq$Freq.y
@@ -575,7 +581,7 @@ WikiEnrichment <- function(genes,
   bgratio <- BgRatio[enrich]
   padj <- pAdjust1[enrich]
   pval <- pvalues[enrich]
-  r <- annot[annot$pathID %in% pathT, ]
+  r <- annot[annot$pathID %in% pathT,]
   enric <- list()
   pathTerms <- as.character(r$pathTerm[match(pathT, r$pathID)])
   for (i in seq_along(pathT))
@@ -583,8 +589,7 @@ WikiEnrichment <- function(genes,
     if (length(which(pathT[i] == r$pathID)) > 0)
     {
       enric <-
-        c(enric, setNames(list(
-          as.character(r[which(pathT[i] == r$pathID), ]$gene)),
+        c(enric, setNames(list(as.character(r[which(pathT[i] == r$pathID),]$gene)),
                           paste(pathT[i])))
     }
   }
@@ -626,14 +631,14 @@ WikiEnrichment <- function(genes,
 #'      performed
 #'
 #' @return Pathway Enrichment
-#' 
-#' @examples 
-#' 
+#'
+#' @examples
+#'
 #' wp.gmt <-rWikiPathways::downloadPathwayArchive(
 #'                          organism = "Homo sapiens",format = "gmt")
-#' a <- pathwayEnrichment(genes = breastmRNA[1:100,], gmtFile = wp.gmt, 
-#'                        org_assembly = 'hg19',isGeneEnrich = FALSE, 
-#'                        isSymbol = FALSE)                   
+#' a <- pathwayEnrichment(genes = breastmRNA[1:100,], gmtFile = wp.gmt,
+#'                        org_assembly = 'hg19',isGeneEnrich = FALSE,
+#'                        isSymbol = FALSE)
 #'
 #' @export
 pathwayEnrichment <- function(genes,
@@ -678,14 +683,15 @@ pathwayEnrichment <- function(genes,
   colnames(genes) <- 'g'
   
   if (!isGeneEnrich) {
-    pathTable <- unique(convertGMT(gmtName = gmtFile, isSymbol = isSymbol))
+    pathTable <-
+      unique(convertGMT(gmtName = gmtFile, isSymbol = isSymbol))
   }
   else{
     pathTable <- geneListEnrich(f = gmtFile, isSymbol = isSymbol)
   }
-  annot <- pathTable[which(pathTable$symbol %in% genes$g), ]
+  annot <- pathTable[which(pathTable$symbol %in% genes$g),]
   pathfreq <- as.data.frame(table(annot$pathTerm))
-  pathfreq <- pathfreq[which(pathfreq$Freq > 0), ]
+  pathfreq <- pathfreq[which(pathfreq$Freq > 0),]
   
   
   if (!isGeneEnrich)
@@ -696,7 +702,7 @@ pathwayEnrichment <- function(genes,
   
   bckfreq <- as.data.frame(table(pathTable$pathTerm))
   
-  notGene <- bckfreq[bckfreq$Var1 %in% pathfreq$Var1, ]
+  notGene <- bckfreq[bckfreq$Var1 %in% pathfreq$Var1,]
   freq <- merge(pathfreq, notGene, by = "Var1")
   found <- freq$Freq.x
   M <- freq$Freq.y
@@ -722,7 +728,7 @@ pathwayEnrichment <- function(genes,
   padj <- pAdjust1[enrich]
   pval <- pvalues[enrich]
   
-  r <- annot[annot$pathTerm %in% pathT, ]
+  r <- annot[annot$pathTerm %in% pathT,]
   enric <- list()
   pathTerms <- as.character(r$pathTerm[match(pathT, r$pathID)])
   
@@ -730,8 +736,7 @@ pathwayEnrichment <- function(genes,
   {
     if (length(which(pathT[i] == r$pathTerm)) > 0)
       enric <-
-        c(enric, setNames(list(as.character(
-          r[which(pathT[i] == r$pathTerm), ]$symbol)),
+        c(enric, setNames(list(as.character(r[which(pathT[i] == r$pathTerm),]$symbol)),
                           paste(pathT[i])))
   }
   return(
@@ -764,7 +769,7 @@ pathwayEnrichment <- function(genes,
 #'
 #'
 convertGMT <- function(gmtName,
-                    isSymbol = FALSE) {
+                       isSymbol = FALSE) {
   x <- scan(gmtName, what = "", sep = "\n")
   x <- strsplit(x, '\t')
   max.col <- max(vapply(x, length, FUN.VALUE = integer(1)))
@@ -778,11 +783,11 @@ convertGMT <- function(gmtName,
       sep = "\t",
       quote = NULL
     )
-  x <- x[, -c(2)]
+  x <- x[,-c(2)]
   f <- melt(x, id = c('V1'))
-  f <- f[, -c(2)]
+  f <- f[,-c(2)]
   if (length(which(f$value %in% '')) > 0)
-    f <- f[-c(which(f$value %in% '')),]
+    f <- f[-c(which(f$value %in% '')), ]
   if (!isSymbol) {
     output <-
       getBM(

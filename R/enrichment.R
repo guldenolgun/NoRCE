@@ -112,7 +112,7 @@ goEnrichment <-
       )
     
     if (nrow(gofreq) > nrow(notGene)) {
-      gofreq <- gofreq[gofreq$Var1 %in% notGene$Var1, ]
+      gofreq <- gofreq[gofreq$Var1 %in% notGene$Var1,]
     }
     
     freq <- merge(gofreq, notGene, by = "Var1")
@@ -195,12 +195,12 @@ goEnrichment <-
       {
         enric <-
           c(enric,
-            setNames(list(as.character(r[which(goT[i] == r$GOID),]$Gene)),
+            setNames(list(as.character(r[which(goT[i] == r$GOID), ]$Gene)),
                      paste(goT[i])))
       }
     }
     goTe <-
-      as.character(annot[match(goT, annot[, 'GOID']), ]$GOTerm)
+      as.character(annot[match(goT, annot[, 'GOID']),]$GOTerm)
     
     return(
       new(
@@ -239,7 +239,7 @@ getBackGenes <-
       
       if (type == 'mirna') {
         a <-
-          as.data.frame(gsub(paste(c("-3p", "-5p"), collapse = "|"), "", 
+          as.data.frame(gsub(paste(c("-3p", "-5p"), collapse = "|"), "",
                              backgroundGene$bg))
         colnames(a) <- 'gene'
         geneTargetLoc <-
@@ -258,7 +258,7 @@ getBackGenes <-
       
       bckfreq <- as.data.frame(table(annot$GOID))
     }
-    bb <- bckfreq[bckfreq$Var1 %in% gofreq$Var1, ]
+    bb <- bckfreq[bckfreq$Var1 %in% gofreq$Var1,]
     
     return(bb)
   }
