@@ -43,7 +43,7 @@ extractBiotype <- function(gtfFile) {
   a <- data.frame()
   for (i in seq_along(r)) {
     tr <- which(r[[i]] == 'TRUE')
-    a[i, 1:2] <- temp[[i]][tr]
+    a[i, seq_len(2)] <- temp[[i]][tr]
   }
   
   #gtf <- gsub("^.* ", "", mat, perl = TRUE)

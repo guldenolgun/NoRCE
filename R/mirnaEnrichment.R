@@ -1255,12 +1255,14 @@ predictmiTargets <- function(gene, type, org_assembly)
   else{
     colnames(where) <- c('genesEns', 'genesHugo', 'geneTrans', 'mirna')
     tmp1 <-
-      data.frame(trans = unlist(apply((where[, 3]), 2, strsplit, '[.]'))[2 *
-                                                                           (seq_len(nrow(where))) - 1])
+      data.frame(
+        trans = unlist(apply((where[, 3]), 2, 
+                             strsplit, '[.]'))[2 *(seq_len(nrow(where))) - 1])
     tmp2 <-
-      data.frame(gene =
-                   unlist(apply((where[, 1]), 2, strsplit, '[.]'))[2 *
-                                                                     (seq_len(nrow(where))) - 1])
+      data.frame(
+        gene =unlist(
+          apply((
+            where[, 1]), 2, strsplit, '[.]'))[2 *(seq_len(nrow(where))) - 1])
     dat <-
       cbind.data.frame(tmp1, where$genesHugo, tmp2, where$mirna)
     return(dat)

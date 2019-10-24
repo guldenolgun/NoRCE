@@ -109,7 +109,8 @@ KeggEnrichment <-
       {
         enric <-
           c(enric,
-            setNames(list(as.character(r[which(pathT[i] == r$pathway),]$symbol)),
+            setNames(list(
+              as.character(r[which(pathT[i] == r$pathway),]$symbol)),
                      paste(pathT[i])))
       }
     }
@@ -246,7 +247,8 @@ reactomeEnrichment <-
       {
         enric <-
           c(enric,
-            setNames(list(as.character(r[which(pathT[i] == r$pathway),]$symbol)),
+            setNames(
+              list(as.character(r[which(pathT[i] == r$pathway),]$symbol)),
                      paste(pathT[i])))
       }
     }
@@ -454,16 +456,16 @@ WikiPathwayDB <- function(org_assembly = c("hg19",
                                             format = "gmt")
   if (org_assembly == 'dm6')
     wp.gmt <-
-      rWikiPathways::downloadPathwayArchive(organism = "Drosophila melanogaster",
-                                            format = "gmt")
+      rWikiPathways::downloadPathwayArchive(
+        organism = "Drosophila melanogaster",format = "gmt")
   if (org_assembly == 'ce11')
     wp.gmt <-
-      rWikiPathways::downloadPathwayArchive(organism = "Caenorhabditis elegans",
-                                            format = "gmt")
+      rWikiPathways::downloadPathwayArchive(
+        organism = "Caenorhabditis elegans",format = "gmt")
   if (org_assembly == 'sc3')
     wp.gmt <-
-      rWikiPathways::downloadPathwayArchive(organism = "Saccharomyces cerevisiae",
-                                            format = "gmt")
+      rWikiPathways::downloadPathwayArchive(
+        organism = "Saccharomyces cerevisiae",format = "gmt")
   
   gmtFile <- convertGMT(gmtName = wp.gmt)
   tmp <-
@@ -584,7 +586,8 @@ WikiEnrichment <- function(genes,
     if (length(which(pathT[i] == r$pathID)) > 0)
     {
       enric <-
-        c(enric, setNames(list(as.character(r[which(pathT[i] == r$pathID),]$gene)),
+        c(enric, setNames(
+          list(as.character(r[which(pathT[i] == r$pathID),]$gene)),
                           paste(pathT[i])))
     }
   }
@@ -732,7 +735,8 @@ pathwayEnrichment <- function(genes,
   {
     if (length(which(pathT[i] == r$pathTerm)) > 0)
       enric <-
-        c(enric, setNames(list(as.character(r[which(pathT[i] == r$pathTerm),]$symbol)),
+        c(enric, setNames(
+          list(as.character(r[which(pathT[i] == r$pathTerm),]$symbol)),
                           paste(pathT[i])))
   }
   return(

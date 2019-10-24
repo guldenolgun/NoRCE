@@ -2,8 +2,8 @@
 % Please edit documentation in R/geneEnrichment.R
 \name{geneRegionGOEnricher}
 \alias{geneRegionGOEnricher}
-\title{Given gene regions that fall in the given upstream and downstream region of
-mRNAs of interest, GO term enrichment analysis is carried out}
+\title{Given gene regions that fall in the given upstream and downstream region
+of mRNAs of interest, GO term enrichment analysis is carried out}
 \usage{
 geneRegionGOEnricher(region, org_assembly = c("hg19", "hg38", "mm10",
   "dre10", "rn6", "dm6", "ce11", "sc3"), near = TRUE, backG = "",
@@ -76,8 +76,8 @@ considered}
 GO term enrichment object for the given input
 }
 \description{
-Given gene regions that fall in the given upstream and downstream region of
-mRNAs of interest, GO term enrichment analysis is carried out
+Given gene regions that fall in the given upstream and downstream region
+of mRNAs of interest, GO term enrichment analysis is carried out
 }
 \examples{
 

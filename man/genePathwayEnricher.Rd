@@ -2,8 +2,8 @@
 % Please edit documentation in R/geneEnrichment.R
 \name{genePathwayEnricher}
 \alias{genePathwayEnricher}
-\title{Given genes that fall in the given upstream and downstream region of mRNAs
-of interest, pathway enrichment analysis is carried out}
+\title{Given genes that fall in the given upstream and downstream region of 
+mRNAs of interest, pathway enrichment analysis is carried out}
 \usage{
 genePathwayEnricher(gene, org_assembly = c("hg19", "hg38", "mm10",
   "dre10", "rn6", "dm6", "ce11", "sc3"), genetype = c("Entrez", "mirna",
@@ -81,8 +81,8 @@ performed}
 Pathway enrichment object for the given input
 }
 \description{
-Given genes that fall in the given upstream and downstream region of mRNAs
-of interest, pathway enrichment analysis is carried out
+Given genes that fall in the given upstream and downstream region of 
+mRNAs of interest, pathway enrichment analysis is carried out
 }
 \examples{
 #Pathway enrichment based on the gen sets that falls into the TAD regions
