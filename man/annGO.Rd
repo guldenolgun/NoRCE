@@ -2,7 +2,7 @@
 % Please edit documentation in R/annotate.R
 \name{annGO}
 \alias{annGO}
-\title{Annotate the set of genes with the GO terms for a given species and 
+\title{Annotate the set of genes with the GO terms for a given species and
 assembly}
 \usage{
 annGO(genes, GOtype = c("BP", "CC", "MF"), org_assembly = c("hg19",
@@ -22,6 +22,6 @@ fly, 'ce11' for worm, 'hg19' and 'hg38' for human}
 data frame of the GO term annotation of the genes
 }
 \description{
-Annotate the set of genes with the GO terms for a given species and 
+Annotate the set of genes with the GO terms for a given species and
 assembly
 }

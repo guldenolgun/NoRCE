@@ -12,14 +12,8 @@
 #' @param databaseFile Path of the miRcancer.db file
 #'
 #' @return Data frame of the miRNA-mRNA correlation result
-#'
-#'
-#'
-#' @importFrom DBI dbConnect
-#' @importFrom RSQLite SQLite
-#' @importFrom dplyr select tbl filter mutate collect arrange count
-#' @import tidyr
-#' @importFrom cRegulome get_mir
+#' 
+#' @import dbplyr
 #'
 #' @export
 corrbased <- function(mirnagene,
@@ -27,6 +21,8 @@ corrbased <- function(mirnagene,
                       minAbsCor,
                       databaseFile) {
   colnames(mirnagene) <- c('g')
+  
+  conn <- DBI::dbConnect(RSQLite::SQLite(), databaseFile)
   
   a <-
     as.data.frame(gsub(paste(c("-3p", "-5p"), collapse = "|"), "",
@@ -36,7 +32,7 @@ corrbased <- function(mirnagene,
   a <- unique(rbind(a, mirnagene$g))
   
   dat <-
-    get_mir(
+    cRegulome::get_mir(
       conn = conn,
       mir = as.character(a$genes),
       study = cancer,
@@ -44,7 +40,6 @@ corrbased <- function(mirnagene,
     )
   colnames(dat) <- c("mirna_base", "feature", "cor", "cancer")
   
-  # conn <- dbConnect(SQLite(), databaseFile)
   #
   # dat <- conn %>%
   #   dplyr::tbl('cor_mir') %>%
@@ -72,29 +67,25 @@ corrbased <- function(mirnagene,
 #' @param databaseFile Path of miRcancer.db file
 #'
 #' @return Data frame of the miRNA-mRNA correlation result
-#'
-#'
-#' @importFrom DBI dbConnect
-#' @importFrom RSQLite SQLite
-#' @importFrom dplyr select tbl filter mutate collect
-#' @importFrom tidyr gather
+#' 
+#' @importFrom dplyr %>%
 #'
 #' @export
 corrbasedMrna <-
   function(mRNAgene, cancer, minAbsCor, databaseFile) {
     colnames(mRNAgene) <- c('g')
     
-    conn <- dbConnect(SQLite(), databaseFile)
+    conn <- DBI::dbConnect(RSQLite::SQLite(), databaseFile)
     
     dat <- conn %>%
       dplyr::tbl('cor_mir') %>%
       dplyr::select(mirna_base, feature, cancer) %>%
       dplyr::filter(feature %in% !!mRNAgene$g) %>%
-      collect() %>%
+      dplyr::collect() %>%
       tidyr::gather(cancer, cor,-mirna_base,-feature) %>%
-      mutate(cor = cor / 100) %>%
+      dplyr::mutate(cor = cor / 100) %>%
       dplyr::filter(abs(cor) > minAbsCor) %>%
-      arrange(dplyr::desc(abs(cor))) %>% na.omit()
+      dplyr::arrange(dplyr::desc(abs(cor))) %>% na.omit()
     
     return(dat)
   }
@@ -109,16 +100,11 @@ corrbasedMrna <-
 #' @return Data frame of the raw read count of the given miRNA genes
 #'       for different patients
 #'
-#'
-#' @importFrom DBI dbConnect
-#' @importFrom RSQLite SQLite
-#' @importFrom dplyr select filter collect
-#'
 #' @export
 getmiRNACount <- function(mirnagene, cancer, databaseFile) {
   colnames(mirnagene) <- c('g')
   
-  conn <- dbConnect(SQLite(), databaseFile)
+  conn <- DBI::dbConnect(RSQLite::SQLite(), databaseFile)
   
   dat <-
     conn %>%
@@ -126,7 +112,7 @@ getmiRNACount <- function(mirnagene, cancer, databaseFile) {
     dplyr::select(study, mirna_base, count) %>%
     dplyr::filter(mirna_base %in% !!mirnagene$g) %>%
     dplyr::filter(study %in% cancer) %>%
-    collect() %>% na.omit()
+    dplyr::collect() %>% na.omit()
   
   return(dat)
 }
@@ -158,8 +144,6 @@ getmiRNACount <- function(mirnagene, cancer, databaseFile) {
 #' @return Pairwise relations between gene-gene with corresponding correlation
 #'       value and pvalue
 #'
-#' @importFrom psych corr.test
-#'
 #' @examples
 #'
 #' #Assume that mirnanorce and mrnanorce are custom patient by gene data
@@ -178,11 +162,11 @@ calculateCorr <-
            alternate = 'greater',
            conf = 0.95) {
     if (class(exp1)[[1]] == "RangedSummarizedExperiment") {
-      tmp1 <- assay(exp1)
+      tmp1 <- SummarizedExperiment::assay(exp1)
       exp1 <- t(tmp1)
     }
     if (class(exp2)[[1]] == "RangedSummarizedExperiment") {
-      tmp2 <- assay(exp2)
+      tmp2 <- SummarizedExperiment::assay(exp2)
       exp2 <- t(tmp2)
     }
     
@@ -219,7 +203,7 @@ calculateCorr <-
       corpValue <- data.frame(do.call(rbind, out))
       index <- which(abs(corpValue$cor) > corCutoff &
                        corpValue$V2 < pcut)
-      if (!isEmpty(index)) {
+      if (!IRanges::isEmpty(index)) {
         extractData <-
           rbind(extractData, data.frame(label1[index,],
                                         label2[i,], corpValue[index, ]))

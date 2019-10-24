@@ -53,7 +53,7 @@ annGO <- function(genes,
   
   z <- paste0("org.", types[index, 2])
   if (!requireNamespace(z, quietly = TRUE))
-    stop("Install package ", td, " in order to use this function.")
+    stop("Install package ", z, " in order to use this function.")
   else
     lapply(z, require, character.only = TRUE)
   

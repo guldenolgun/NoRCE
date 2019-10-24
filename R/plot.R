@@ -7,8 +7,8 @@
 #'      least number of top p-value
 #'
 #' @return Dot plot of the top n enrichment results
-#' @importFrom ggplot2 ggplot
 #' @importFrom AnnotationDbi Term
+#' @importFrom ggplot2 aes element_text geom_point ggplot labs theme theme_bw
 #'
 #' @export
 drawDotPlot <- function(mrnaObject, type = "pAdjust", n) {
@@ -81,8 +81,6 @@ drawDotPlot <- function(mrnaObject, type = "pAdjust", n) {
 #'
 #' @return Text file of the enrichment results in a tabular format
 #'
-#' @importFrom utils browseURL read.table write.table
-#'
 #'
 #' @export
 writeEnrichment <-
@@ -119,7 +117,8 @@ writeEnrichment <-
 #'     least number of top p-value
 #'
 #' @return Give top n enrichment results
-#'
+#' 
+#' @importFrom dplyr %>%
 #'
 #' @export
 topEnrichment <- function(mrnaObject, type, n) {
@@ -234,12 +233,9 @@ topEnrichment <- function(mrnaObject, type, n) {
 #'
 #'
 #' @return Network
-#'
+#' 
 #' @importFrom igraph cluster_optimal degree graph_from_data_frame layout_with_fr norm_coords V E V<- E<-
-#' @importFrom grDevices adjustcolor colorRampPalette
-#' @importFrom graphics plot
 #' @importFrom ggplot2 aes element_text geom_point ggplot labs theme theme_bw
-#'
 #'
 #' @export
 createNetwork <-
@@ -319,12 +315,12 @@ createNetwork <-
     E(g)$arrow.mode <- 0
     E(g)$width <- E(g)$weight * 2
     E(g)$edge.color <- "grey20"
-    plot(g, vertex.label.color = "black")
+    graphics::plot(g, vertex.label.color = "black")
     
     clp <- cluster_optimal(g)
     V(g)$community <- clp$membership
     colrs <-
-      adjustcolor(
+      grDevices::adjustcolor(
         c(
           "gray50",
           "tomato",
@@ -335,7 +331,7 @@ createNetwork <-
           "blue",
           "green"
         ),
-        alpha = .6
+        alpha.f = .6
       )
     l <-  layout_with_fr(g)
     l <-  norm_coords(
@@ -346,7 +342,7 @@ createNetwork <-
       xmax = 1
     )
     p <-
-      plot(
+      graphics::plot(
         g,
         vertex.color = colrs[V(g)$community],
         vertex.label.color = "black",
@@ -371,9 +367,6 @@ createNetwork <-
 #'
 #' @return Saves image file in a given format
 #'
-#' @importFrom RCurl postForm
-#' @importFrom png readPNG writePNG
-#' @importFrom RCurl postForm
 #'
 #' @examples
 #' ncRNAPathway<-mirnaPathwayEnricher(gene = brain_mirna,
@@ -414,7 +407,7 @@ getGoDag <-
                         n = n)
     
     node_color <-
-      colorRampPalette(c("lightgoldenrodyellow", "orangered"),
+      grDevices::colorRampPalette(c("lightgoldenrodyellow", "orangered"),
                        bias = 0.5)(length(p_range))
     
     color <- seq_len(2)
@@ -443,7 +436,7 @@ getGoDag <-
       paste0("{", substr(gojson, 1, nchar(gojson) - 1), "}")
     
     goGraph <-
-      postForm(
+      RCurl::postForm(
         "http://amigo.geneontology.org/visualize",
         term_data = gojson1,
         inline = "false",
@@ -453,7 +446,7 @@ getGoDag <-
       )
     
     if (imageFormat == 'png') {
-      writePNG(readPNG(goGraph), filename)
+      png::writePNG(png::readPNG(goGraph), filename)
     }
     else{
       writeLines(goGraph, filename)
@@ -472,6 +465,9 @@ getGoDag <-
 #'     "hg19" and "hg38" for human
 #'
 #' @return Shows kegg diagram marked with an enriched genes in a browser
+#' 
+#' @importFrom utils browseURL read.table write.table
+#' 
 #' @examples
 #' ncRNAPathway<-mirnaPathwayEnricher(gene = brain_mirna,
 #'                                    org_assembly = 'hg19',near = TRUE)
@@ -511,6 +507,7 @@ getKeggDiagram <-
       )
     )
     n <- paste(ns$entrezgene_id, collapse = '/')
+    if(identical(interactive(), TRUE)){
     browseURL(
       paste0(
         "http://www.kegg.jp/kegg-bin/show_pathway?",
@@ -520,6 +517,7 @@ getKeggDiagram <-
         collapse = ''
       )
     )
+    }
   }
 
 #' Display the enriched Reactome diagram of the given Reactome pathway id.
@@ -562,5 +560,6 @@ getReactomeDiagram <- function(mrnaObject, pathway, imageFormat) {
       "?flg=",
       n
     )
-  browseURL(a)
+  if(identical(interactive(), TRUE))
+   browseURL(a)
 }

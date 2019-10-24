@@ -250,6 +250,7 @@ assembly <- function(org_assembly = c("hg19",
 #' @importFrom GenomicRanges split start strand width
 #'
 #' @importFrom GenomicRanges GRanges
+#' @importFrom IRanges subsetByOverlaps
 #'
 #' @examples
 #'
@@ -292,11 +293,15 @@ getUCSC <-
     
     big_islands <-
       resize(bedfile, width = downstream + width(bedfile), fix = "end")
-    rt1 <- subsetByOverlaps(pkg.env$ucsc, unstrand(big_islands))
+    rt1 <-
+      IRanges::subsetByOverlaps(pkg.env$ucsc, 
+                                BiocGenerics::unstrand(big_islands))
     
     big_islands <-
       resize(bedfile, width = upstream + width(bedfile), fix = "start")
-    rt2 <- subsetByOverlaps(pkg.env$ucsc, unstrand(big_islands))
+    rt2 <-
+      IRanges::subsetByOverlaps(pkg.env$ucsc, 
+                                BiocGenerics::unstrand(big_islands))
     results2 <- rt2$symbol
     results1 <- rt1$symbol
     result <- data.frame(unique(results1, results2))
@@ -353,12 +358,12 @@ getNearToExon <-
     
     big_islands <-
       resize(bedfile, width = downstream + width(bedfile), fix = "end")
-    exons = subsetByOverlaps(exons(pkg.env$genomee), big_islands)
-    region1 <- subsetByOverlaps(pkg.env$ucsc, exons)
+    exons = IRanges::subsetByOverlaps(exons(pkg.env$genomee), big_islands)
+    region1 <- IRanges::subsetByOverlaps(pkg.env$ucsc, exons)
     big_islands <-
       resize(bedfile, width = upstream + width(bedfile), fix = "start")
-    exons = subsetByOverlaps(exons(pkg.env$genomee), big_islands)
-    region2 <- subsetByOverlaps(pkg.env$ucsc, exons)
+    exons = IRanges::subsetByOverlaps(exons(pkg.env$genomee), big_islands)
+    region2 <- IRanges::subsetByOverlaps(pkg.env$ucsc, exons)
     results2 <- region2$symbol
     results1 <- region1$symbol
     result <- data.frame(unique(results1, results2))
@@ -419,14 +424,15 @@ getNearToIntron <-
     }
     big_islands <-
       resize(bedfile, width = downstream + width(bedfile), fix = "end")
-    intron = subsetByOverlaps(intronsByTranscript(pkg.env$genomee),
-                              big_islands)
+    intron = IRanges::subsetByOverlaps(intronsByTranscript(pkg.env$genomee),
+                                       big_islands)
     
-    region1 <- subsetByOverlaps(pkg.env$ucsc, intron)
+    region1 <- IRanges::subsetByOverlaps(pkg.env$ucsc, intron)
     big_islands <-
       resize(bedfile, width = upstream + width(bedfile), fix = "start")
-    intron = subsetByOverlaps(intronsByTranscript(pkg.env$genomee), bedfile)
-    region2 <- subsetByOverlaps(pkg.env$ucsc, intron)
+    intron = IRanges::subsetByOverlaps(intronsByTranscript(pkg.env$genomee),
+                                       bedfile)
+    region2 <- IRanges::subsetByOverlaps(pkg.env$ucsc, intron)
     results2 <- region2$symbol
     results1 <- region1$symbol
     result <- data.frame(unique(results1, results2))
@@ -497,31 +503,31 @@ getTADOverlap <-
     
     if (cellline != 'all') {
       temp <- which(tad$celline == cellline)
-      tad <-  tad[temp, ]
+      tad <-  tad[temp,]
     }
     
     if (near) {
       treg <-
-        Reduce(subsetByOverlaps, list(
+        Reduce(IRanges::subsetByOverlaps, list(
           tad,
           bedfile,
           resize(bedfile, width = downstream + width(bedfile), fix = "end")
         ))
-      region2 <- subsetByOverlaps(pkg.env$ucsc, treg)
+      region2 <- IRanges::subsetByOverlaps(pkg.env$ucsc, treg)
       treg1 <-
-        Reduce(subsetByOverlaps, list(
+        Reduce(IRanges::subsetByOverlaps, list(
           tad,
           bedfile,
           resize(bedfile, width = upstream + width(bedfile), fix = "start")
         ))
-      region1 <- subsetByOverlaps(pkg.env$ucsc, treg1)
+      region1 <- IRanges::subsetByOverlaps(pkg.env$ucsc, treg1)
       region <-
         data.frame(symbol = unique(region1$symbol, region2$symbol))
     }
     else
     {
-      tadRegion = subsetByOverlaps(bedfile, tad)
-      region <- subsetByOverlaps(pkg.env$ucsc, tadRegion)
+      tadRegion = IRanges::subsetByOverlaps(bedfile, tad)
+      region <- IRanges::subsetByOverlaps(pkg.env$ucsc, tadRegion)
     }
     
     return(unique(as.data.frame(region$symbol)))

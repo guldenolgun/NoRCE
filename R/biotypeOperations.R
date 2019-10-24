@@ -78,7 +78,8 @@ filterBiotype <- function(gtfFile, biotypes) {
     all <- rbind(all, as.data.frame(gtf[index[, 1], 1]))
   }
   all <-
-    as.data.frame(unlist(apply(unique(all), 2, strsplit, '[.]'))[c(TRUE, FALSE)])
+    as.data.frame(
+      unlist(apply(unique(all), 2, strsplit, '[.]'))[c(TRUE, FALSE)])
   colnames(all) <- 'gene'
   return(all)
 }

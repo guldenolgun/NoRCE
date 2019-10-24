@@ -17,15 +17,15 @@ commonGene <- function(mrnaobject,
   big_islands <-
     resize(a1, width = upstream + width(a1), fix = "start")
   hits <- findOverlaps(big_islands, aa, ignore.strand = TRUE)
-  tmp <- big_islands[queryHits(hits), ]
-  tmp1 <- aa[subjectHits(hits), ]
+  tmp <- big_islands[S4Vectors::queryHits(hits), ]
+  tmp1 <- aa[S4Vectors::subjectHits(hits), ]
   pairss <- data.frame(tmp$gene, tmp1$gene)
   
   big_islands <-
     resize(a1, width = downstream + width(a1), fix = "end")
   hits <- findOverlaps(big_islands, aa, ignore.strand = TRUE)
-  tmp <- big_islands[queryHits(hits), ]
-  tmp1 <- aa[subjectHits(hits), ]
+  tmp <- big_islands[S4Vectors::queryHits(hits), ]
+  tmp1 <- aa[S4Vectors::subjectHits(hits), ]
   
   pairss <- rbind(pairss, data.frame(tmp$gene, tmp1$gene))
   
@@ -37,7 +37,7 @@ commonGene <- function(mrnaobject,
   
   ab <- lapply(seq_along(mrnaobject@Term), getNoncode)
   
-  ab[isEmpty(ab)] <- 'NA'
+  ab[IRanges::isEmpty(ab)] <- 'NA'
   if (length(mrnaobject@geneList) == 1)
     ab <- list(ab)
   return(ab)
