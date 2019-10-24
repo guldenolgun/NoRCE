@@ -606,8 +606,8 @@ WikiEnrichment <- function(genes,
   )
 }
 
-#' For a given gmt file of a specific pathway database, pathway enrichment can
-#' be performed. Function supports Entrez ID and symbol based gmt file.
+#' For a given gmt file of a specific pathway database, pathway enrichment
+#' can be performed. Function supports Entrez ID and symbol based gmt file.
 #'
 #' @param genes Input genes
 #' @param gmtFile File path of the gmt file

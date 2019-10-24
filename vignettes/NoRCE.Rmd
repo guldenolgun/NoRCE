@@ -32,8 +32,7 @@ knitr::opts_knit$set(width = 80)
 
 # Noncoding RNA Set Cis Annotation and Enrichment
 
-[NoRCE](https://github.com/guldenolgun) package systematically performs annotation and enrichment analysis for a set of regulatory non-coding RNA genes. NoRCE analyses are based on spatially proximal mRNAs at a certain distance for a set of non-coding RNA genes or regions of interest. Moreover, specific analyses such as biotype selection, miRNA-mRNA co-expression, miRNA-mRNA target prediction can be performed for filtering. Besides, it allows to curate the gene set according to the topologically associating domain (TAD) regions. Work flow of the package can be seen below:
-<center> ![image](workchart.png){width=800px} </center>
+[NoRCE](https://github.com/guldenolgun) package systematically performs annotation and enrichment analysis for a set of regulatory non-coding RNA genes. NoRCE analyses are based on spatially proximal mRNAs at a certain distance for a set of non-coding RNA genes or regions of interest. Moreover, specific analyses such as biotype selection, miRNA-mRNA co-expression, miRNA-mRNA target prediction can be performed for filtering. Besides, it allows to curate the gene set according to the topologically associating domain (TAD) regions.
 
 ## Supported Assemblies and Organisms
 + *Homo Sapiens (hg19 and hg38)*
