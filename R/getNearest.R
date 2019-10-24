@@ -252,6 +252,7 @@ assembly <- function(org_assembly = c("hg19",
 #'
 #' @importFrom GenomicRanges GRanges
 #' @importFrom IRanges subsetByOverlaps
+#' @import zlibbioc
 #'
 #' @examples
 #'
@@ -440,8 +441,8 @@ getNearToIntron <-
     return(result)
   }
 
-#' For given region of interest, overlapped genes in the TAD regions are found.
-#' Results can be filtered according to the available cell lines.
+#' For given region of interest, overlapped genes in the TAD regions are
+#' found. Results can be filtered according to the available cell lines.
 #'
 #' @param bedfile Region of interest
 #' @param tad TAD genomic regions for the species. Predefined TAD regions or

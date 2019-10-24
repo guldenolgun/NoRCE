@@ -2,8 +2,8 @@
 % Please edit documentation in R/mirnaEnrichment.R
 \name{mirnaGOEnricher}
 \alias{mirnaGOEnricher}
-\title{GO term enrichments of the microRNA genes with mRNAs that fall in the given
-upstream/downstream regions of the microRNA genes}
+\title{GO term enrichments of the microRNA genes with mRNAs that fall in the
+given upstream/downstream regions of the microRNA genes}
 \usage{
 mirnaGOEnricher(gene, org_assembly = c("hg19", "hg38", "mm10", "dre10",
   "rn6", "dm6", "ce11", "sc3"), near = FALSE, target = FALSE,
@@ -79,8 +79,8 @@ considered}
 MiRNA GO term enrichment object for the given input
 }
 \description{
-GO term enrichments of the microRNA genes with mRNAs that fall in the given
-upstream/downstream regions of the microRNA genes
+GO term enrichments of the microRNA genes with mRNAs that fall in the
+given upstream/downstream regions of the microRNA genes
 }
 \examples{
 subsetGene <- brain_mirna[1:30,]

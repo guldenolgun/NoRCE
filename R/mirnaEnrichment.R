@@ -1,8 +1,8 @@
 op <- options(warn = (-1))
 options(readr.num_columns = 0)
 
-#' GO term enrichments of the microRNA genes with mRNAs that fall in the given
-#' upstream/downstream regions of the microRNA genes
+#' GO term enrichments of the microRNA genes with mRNAs that fall in the
+#' given upstream/downstream regions of the microRNA genes
 #'
 #' @param gene Input microRNA gene. It supports both pre-miRNA and mature
 #'     miRNA, however, when target prediction is performed (target= TRUE),
@@ -291,8 +291,8 @@ mirnaGOEnricher <-
     }
   }
 
-#' Pathway enrichments of the microRNA genes with mRNAs that fall in the given
-#' upstream/downstream regions of the microRNA genes
+#' Pathway enrichments of the microRNA genes with mRNAs that fall in the
+#' given upstream/downstream regions of the microRNA genes
 #'
 #' @param gene Input microRNA gene. It supports both pre-miRNA and mature miRNA,
 #'     however, when target prediction is performed(target= TRUE), miRNA genes
