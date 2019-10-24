@@ -203,7 +203,7 @@ goEnrichment <-
       as.character(annot[match(goT, annot[, 'GOID']),]$GOTerm)
     
     return(
-      new(
+      methods::new(
         "NoRCE",
         ID = goT,
         Term = goTe,

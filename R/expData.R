@@ -111,3 +111,7 @@
 #' @examples
 #' data(mrna)
 "mrna"
+
+conn <- mirna_base <- feature<- count <- . <- NULL
+Pvalue <- EnrichGeneNumber <- PAdjust <- geneLoc <- study <- NULL
+globalVariables(c("tad_hg19", "tad_hg38", "tad_mm10", "tad_dmel"))

@@ -51,7 +51,7 @@ options(readr.num_columns = 0)
 #'     considered
 #'
 #' @return MiRNA GO term enrichment object for the given input
-#'
+#' 
 #' @examples
 #' subsetGene <- brain_mirna[1:30,]
 #'
@@ -167,7 +167,7 @@ mirnaGOEnricher <-
                       genelist = miNearGene_temp,
                       org_assembly = org_assembly)
       if (target) {
-        geneL <- findOverlapPairs(geneLoc_temp, geneTargetLoc)
+        geneL <- IRanges::findOverlapPairs(geneLoc_temp, geneTargetLoc)
         geneLo <- pintersect(geneL, ignore.strand = TRUE)
         miNearGene <-
           getUCSC(
@@ -252,13 +252,12 @@ mirnaGOEnricher <-
     }
     if (length(miNearGene) == 0) {
       message("No common gene is found")
-      new(
+      methods::new(
         "NoRCE",
         ID = '',
         Term = '',
         geneList = list(),
         pvalue = 0,
-        pAdj = 0,
         GeneRatio = '',
         BckRatio = ''
       )
@@ -266,7 +265,7 @@ mirnaGOEnricher <-
     else{
       miEnrich <-
         goEnrichment(
-          gene = miNearGene,
+          genes = miNearGene,
           GOtype = pkg.env$GOtype,
           org_assembly = org_assembly,
           pCut = pkg.env$pCut,
@@ -457,7 +456,7 @@ mirnaPathwayEnricher <-
                       genelist = miNearGene_temp,
                       org_assembly = org_assembly)
       if (target) {
-        geneL <- findOverlapPairs(geneLoc_temp, geneTargetLoc)
+        geneL <- IRanges::findOverlapPairs(geneLoc_temp, geneTargetLoc)
         geneLo <- pintersect(geneL, ignore.strand = TRUE)
         miNearGene <-
           getUCSC(
@@ -542,7 +541,7 @@ mirnaPathwayEnricher <-
     }
     if (length(miNearGene) == 0) {
       message("No common gene is found")
-      new(
+      methods::new(
         "NoRCE",
         ID = '',
         Term = '',
@@ -650,6 +649,7 @@ mirnaPathwayEnricher <-
 #'      considered
 #'
 #' @return MiRNA GO enrichment object for the given input
+#' 
 #'
 #'@examples
 #' regions<-system.file("extdata", "ncRegion.txt", package = "NoRCE")
@@ -754,7 +754,7 @@ mirnaRegionGOEnricher <-
                       org_assembly = org_assembly)
       
       if (target) {
-        geneL <- findOverlapPairs(geneLoc_temp, geneTargetLoc)
+        geneL <- IRanges::findOverlapPairs(geneLoc_temp, geneTargetLoc)
         geneLo <- pintersect(geneL, ignore.strand = TRUE)
         miNearGene <-
           getUCSC(
@@ -838,7 +838,7 @@ mirnaRegionGOEnricher <-
     }
     if (length(miNearGene) == 0) {
       message("No common gene is found")
-      new(
+      methods::new(
         "NoRCE",
         ID = '',
         Term = '',
@@ -852,7 +852,7 @@ mirnaRegionGOEnricher <-
     else{
       miEnrich <-
         goEnrichment(
-          gene = miNearGene,
+          genes = miNearGene,
           GOtype = pkg.env$GOtype,
           org_assembly = org_assembly,
           pCut = pkg.env$pCut,
@@ -917,6 +917,7 @@ mirnaRegionGOEnricher <-
 #'      performed
 #'
 #' @return miRNA pathway enrichment object for the given input
+#' 
 #'
 #' @examples
 #'
@@ -1024,7 +1025,7 @@ mirnaRegionPathwayEnricher <-
                       org_assembly = org_assembly)
       
       if (target) {
-        geneL <- findOverlapPairs(geneLoc_temp, geneTargetLoc)
+        geneL <- IRanges::findOverlapPairs(geneLoc_temp, geneTargetLoc)
         geneLo <- pintersect(geneL, ignore.strand = TRUE)
         miNearGene <-
           getUCSC(
@@ -1107,7 +1108,7 @@ mirnaRegionPathwayEnricher <-
     }
     if (length(miNearGene) == 0) {
       message("No common gene is found")
-      new(
+      methods::new(
         "NoRCE",
         ID = '',
         Term = '',

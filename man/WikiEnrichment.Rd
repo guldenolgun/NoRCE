@@ -47,4 +47,5 @@ WikiPathways Enrichment
 \examples{
 br_enr<-WikiEnrichment(genes = breastmRNA$V1[1:100],org_assembly='hg19')
 
+
 }

@@ -2,15 +2,15 @@
 % Please edit documentation in R/biotypeOperations.R
 \name{extractBiotype}
 \alias{extractBiotype}
-\title{Get the biotype of the non-coding genes. It is suitable for the 
+\title{Get the biotype of the non-coding genes. It is suitable for the
 GENCODE gtf files}
 \usage{
 extractBiotype(gtfFile)
 }
 \arguments{
-\item{gtfFile}{Path of the input gtf file which contains biotype 
-information. The gtf file must be provided from the Ensembl 
-or Gencode site. For space efficiency, gft files should be 
+\item{gtfFile}{Path of the input gtf file which contains biotype
+information. The gtf file must be provided from the Ensembl
+or Gencode site. For space efficiency, gft files should be
 in a zip format.}
 }
 \value{
@@ -18,7 +18,7 @@ Tabular form of the gtf file with the required features
   such as gene id and biotypes
 }
 \description{
-Get the biotype of the non-coding genes. It is suitable for the 
+Get the biotype of the non-coding genes. It is suitable for the
 GENCODE gtf files
 }
 \examples{

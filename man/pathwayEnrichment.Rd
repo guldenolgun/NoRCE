@@ -50,8 +50,8 @@ be performed. Function supports Entrez ID and symbol based gmt file.
 
 wp.gmt <-rWikiPathways::downloadPathwayArchive(
                          organism = "Homo sapiens",format = "gmt")
-a <- pathwayEnrichment(genes = breastmRNA[1:100,], gmtFile = wp.gmt, 
-                       org_assembly = 'hg19',isGeneEnrich = FALSE, 
-                       isSymbol = FALSE)                   
+a <- pathwayEnrichment(genes = breastmRNA[1:100,], gmtFile = wp.gmt,
+                       org_assembly = 'hg19',isGeneEnrich = FALSE,
+                       isSymbol = FALSE)
 
 }

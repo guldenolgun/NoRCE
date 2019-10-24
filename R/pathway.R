@@ -21,8 +21,6 @@
 #'
 #' @return KEGG pathway enrichment results
 #'
-#' @importFrom KEGGREST keggGet
-#'
 #' @examples
 #' subsetGene <- breastmRNA[1:30,]
 #'
@@ -121,11 +119,11 @@ KeggEnrichment <-
     if (nrow(pathways) > 0) {
       tmp <-
         unlist(lapply(seq_len(nrow(pathways)), function(x)
-          tmp[x] <- try(keggGet(pathT[x])[[1]]$NAME)
+          tmp[x] <- try(KEGGREST::keggGet(pathT[x])[[1]]$NAME)
         ))
     }
     return(
-      new(
+      methods::new(
         "NoRCE",
         ID = pathT,
         Term = tmp,
@@ -163,8 +161,6 @@ KeggEnrichment <-
 #'
 #' @return Reactome pathway enrichment results
 #'
-#'
-#' @importFrom reactome.db reactomePATHID2EXTID reactomePATHID2NAME
 #'
 #' @examples
 #' br_enr<-reactomeEnrichment(genes = breastmRNA,org_assembly='hg19')
@@ -255,7 +251,7 @@ reactomeEnrichment <-
       }
     }
     return(
-      new(
+      methods::new(
         "NoRCE",
         ID = pathT,
         Term = as.character(rt[order(match(rt$pathway, pathT)), ]$name),
@@ -277,10 +273,10 @@ reactomePathwayDB <- function(org_assembly = c("hg19",
                                                "dm6",
                                                "ce11",
                                                "sc3")) {
-  xx <- as.list(reactomePATHID2EXTID)
+  xx <- as.list(reactome.db::reactomePATHID2EXTID)
   table1 <- data.frame(pathway = rep(names(xx), lapply(xx, length)),
                        gene = unlist(xx))
-  pn <- as.list(reactomePATHID2NAME)
+  pn <- as.list(reactome.db::reactomePATHID2NAME)
   pn <- data.frame(pathway = rep(names(pn), lapply(pn, length)),
                    name = unlist(pn))
   if (org_assembly == 'hg19' | org_assembly == 'hg38') {
@@ -331,7 +327,7 @@ reactomePathwayDB <- function(org_assembly = c("hg19",
     pn1 <- pn[grepl("^R-SCE", pn$pathway),]
     symb <-
       AnnotationDbi::select(
-        org.Sc.sgd.db,
+        org.Sc.sgd.db::org.Sc.sgd.db,
         keys = as.character(ty$gene),
         columns = c("ENTREZID", "GENENAME"),
         keytype = 'ENTREZID'
@@ -510,7 +506,6 @@ WikiPathwayDB <- function(org_assembly = c("hg19",
 #' @examples
 #' br_enr<-WikiEnrichment(genes = breastmRNA$V1[1:100],org_assembly='hg19')
 #'
-#' @importFrom rWikiPathways downloadPathwayArchive
 #'
 #' @export
 WikiEnrichment <- function(genes,
@@ -595,7 +590,7 @@ WikiEnrichment <- function(genes,
   }
   
   return(
-    new(
+    methods::new(
       "NoRCE",
       ID = pathT,
       Term = pathTerms,
@@ -631,6 +626,7 @@ WikiEnrichment <- function(genes,
 #'      performed
 #'
 #' @return Pathway Enrichment
+#' 
 #'
 #' @examples
 #'
@@ -740,7 +736,7 @@ pathwayEnrichment <- function(genes,
                           paste(pathT[i])))
   }
   return(
-    new(
+    methods::new(
       "NoRCE",
       ID = pathT,
       Term = pathTerms,

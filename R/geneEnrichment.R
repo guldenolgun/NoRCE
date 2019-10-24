@@ -206,7 +206,7 @@ geneGOEnricher <-
     }
     if (length(nearGene) == 0) {
       message("No common gene is found")
-      new(
+      methods::new(
         "NoRCE",
         ID = '',
         Term = '',
@@ -298,6 +298,7 @@ geneGOEnricher <-
 #'      performed
 #'
 #' @return Pathway enrichment object for the given input
+#' 
 #'
 #' @examples
 #' #Pathway enrichment based on the gen sets that falls into the TAD regions
@@ -458,7 +459,7 @@ genePathwayEnricher <-
     }
     if (length(nearGene) == 0) {
       message("No common gene is found")
-      new(
+      methods::new(
         "NoRCE",
         ID = '',
         Term = '',
@@ -576,6 +577,7 @@ genePathwayEnricher <-
 #'
 #'
 #' @return GO term enrichment object for the given input
+#' 
 #'
 #' @examples
 #'
@@ -710,7 +712,7 @@ geneRegionGOEnricher <-
     }
     if (length(nearGene) == 0) {
       message("No common gene is found")
-      new(
+      methods::new(
         "NoRCE",
         ID = '',
         Term = '',
@@ -925,7 +927,7 @@ geneRegionPathwayEnricher <-
     }
     if (length(nearGene) == 0) {
       message("No common gene is found")
-      new(
+      methods::new(
         "NoRCE",
         ID = '',
         Term = '',
