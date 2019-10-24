@@ -2,8 +2,8 @@
 % Please edit documentation in R/geneEnrichment.R
 \name{geneRegionPathwayEnricher}
 \alias{geneRegionPathwayEnricher}
-\title{Given gene regions that fall in the given upstream and downstream region of
-mRNAs of interest, pathway enrichment analysis is carried out}
+\title{Given gene regions that fall in the given upstream and downstream region
+of mRNAs of interest, pathway enrichment analysis is carried out}
 \usage{
 geneRegionPathwayEnricher(region, org_assembly = c("hg19", "hg38",
   "mm10", "dre10", "rn6", "dm6", "ce11", "sc3"), near = FALSE,
@@ -76,8 +76,8 @@ performed}
 Pathway enrichment object of the given input
 }
 \description{
-Given gene regions that fall in the given upstream and downstream region of
-mRNAs of interest, pathway enrichment analysis is carried out
+Given gene regions that fall in the given upstream and downstream region
+of mRNAs of interest, pathway enrichment analysis is carried out
 }
 \examples{
 

@@ -2,8 +2,8 @@
 % Please edit documentation in R/geneEnrichment.R
 \name{geneGOEnricher}
 \alias{geneGOEnricher}
-\title{Given genes that fall in a given upstream and downstream region of mRNAs of
-interest, GO term enrichment analysis is carried out}
+\title{Given genes that fall in a given upstream and downstream region of 
+mRNAs of interest, GO term enrichment analysis is carried out}
 \usage{
 geneGOEnricher(gene, org_assembly = c("hg19", "hg38", "mm10", "dre10",
   "rn6", "dm6", "ce11", "sc3"), genetype = c("Entrez", "mirna",
@@ -71,8 +71,9 @@ provided, column name of the exp1 data will be taken.}
 \item{label2}{Gene names of the custom exp2 expression data. If it is not
 provided, column name of the exp2 data will be taken.}
 
-\item{isUnionCorGene}{Boolean value that shows whether union of the output of
-the co-expression analysis and the other analysis should be considered}
+\item{isUnionCorGene}{Boolean value that shows whether union of the output
+of the co-expression analysis and the other analysis should be 
+considered}
 
 \item{databaseFile}{Path of miRcancer.db file}
 }
@@ -80,8 +81,8 @@ the co-expression analysis and the other analysis should be considered}
 GO term enrichment object for the given input
 }
 \description{
-Given genes that fall in a given upstream and downstream region of mRNAs of
-interest, GO term enrichment analysis is carried out
+Given genes that fall in a given upstream and downstream region of 
+mRNAs of interest, GO term enrichment analysis is carried out
 }
 \examples{
 ncGO<-geneGOEnricher(gene = brain_disorder_ncRNA, org_assembly='hg19',

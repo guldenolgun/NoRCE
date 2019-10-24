@@ -44,6 +44,7 @@ pkg.env$isSymbol = FALSE
 #' @importFrom biomaRt getBM useEnsembl useMart
 #' @importFrom rtracklayer browserSession genome getTable ucscTableQuery
 #' @importFrom rtracklayer genome<-
+#' @importFrom IRanges IRanges
 #'
 #' @examples
 #'
@@ -193,7 +194,7 @@ assembly <- function(org_assembly = c("hg19",
   }
   colnames(data) <- c('chr', 'strand', 'start', 'end', 'symbol')
   ucsc <-
-    with(data, GRanges(chr, IRanges(start, end), strand, symbol))
+    with(data, GRanges(chr, IRanges::IRanges(start, end), strand, symbol))
   pkg.env$ucsc <- ucsc
   td <-
     paste0("TxDb.", types[index, 1], ".UCSC.", types[index, 2], ".",
@@ -548,6 +549,7 @@ getTADOverlap <-
 #' @return GRange object of the given input
 #'
 #' @importFrom biomaRt getBM
+#' @importFrom IRanges IRanges
 #'
 #' @examples
 #'
@@ -669,7 +671,7 @@ convertGeneID <-
     file1 <-
       with(output, GRanges(
         paste0("chr", chromosome_name),
-        IRanges(start_position, end_position),
+        IRanges::IRanges(start_position, end_position),
         '*',
         gene
       ))

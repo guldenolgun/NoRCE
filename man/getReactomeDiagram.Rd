@@ -3,8 +3,8 @@
 \name{getReactomeDiagram}
 \alias{getReactomeDiagram}
 \title{Display the enriched Reactome diagram of the given Reactome pathway id.
-This function is specific to only one pathway id and identifies the enriched
- genes in the diagram.}
+This function is specific to only one pathway id and identifies the 
+enriched genes in the diagram.}
 \usage{
 getReactomeDiagram(mrnaObject, pathway, imageFormat)
 }
@@ -21,8 +21,8 @@ Shows reactome diagram marked with an enriched genes in a browser
 }
 \description{
 Display the enriched Reactome diagram of the given Reactome pathway id.
-This function is specific to only one pathway id and identifies the enriched
- genes in the diagram.
+This function is specific to only one pathway id and identifies the 
+enriched genes in the diagram.
 }
 \examples{
 

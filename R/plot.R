@@ -234,7 +234,8 @@ topEnrichment <- function(mrnaObject, type, n) {
 #'
 #' @return Network
 #' 
-#' @importFrom igraph cluster_optimal degree graph_from_data_frame layout_with_fr norm_coords V E V<- E<-
+#' @importFrom igraph cluster_optimal degree graph_from_data_frame 
+#' @importFrom igraph layout_with_fr norm_coords V E V<- E<-
 #' @importFrom ggplot2 aes element_text geom_point ggplot labs theme theme_bw
 #'
 #' @export
@@ -353,8 +354,8 @@ createNetwork <-
     return(p)
     }
 
-#' Plot and save the GO term DAG of the top n enrichments in terms of p-values
-#' or adjusted p-values with an user provided format
+#' Plot and save the GO term DAG of the top n enrichments in terms of 
+#' p-values or adjusted p-values with an user provided format
 #'
 #' @param mrnaObject Output of enrichment results
 #' @param type Sort in terms of p-values or FDR. possible values "pvalue",
@@ -521,8 +522,8 @@ getKeggDiagram <-
   }
 
 #' Display the enriched Reactome diagram of the given Reactome pathway id.
-#' This function is specific to only one pathway id and identifies the enriched
-#'  genes in the diagram.
+#' This function is specific to only one pathway id and identifies the 
+#' enriched genes in the diagram.
 #'
 #' @param mrnaObject Output of enrichment results
 #' @param pathway Reactome pathway term

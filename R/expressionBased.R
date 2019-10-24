@@ -53,8 +53,8 @@ corrbased <- function(mirnagene,
   return(dat)
 }
 
-#' Pearson correlation coefficient value of the mRNA genes between miRNA:mRNA
-#' for a given correlation cut-off and cancer.
+#' Pearson correlation coefficient value of the mRNA genes between 
+#' miRNA:mRNA for a given correlation cut-off and cancer.
 #'
 #' @param mRNAgene Data frame of the mRNA genes
 #' @param cancer Name of the TCGA project code such as 'BRCA' that is analyzed

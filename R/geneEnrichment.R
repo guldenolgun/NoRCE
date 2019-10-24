@@ -1,5 +1,5 @@
-#' Given genes that fall in a given upstream and downstream region of mRNAs of
-#' interest, GO term enrichment analysis is carried out
+#' Given genes that fall in a given upstream and downstream region of 
+#' mRNAs of interest, GO term enrichment analysis is carried out
 #'
 #' @param gene Input genes other than miRNA
 #' @param org_assembly Genome assembly of interest for the analysis. Possible
@@ -44,8 +44,9 @@
 #' @param label2 Gene names of the custom exp2 expression data. If it is not
 #'      provided, column name of the exp2 data will be taken.
 #' @param databaseFile Path of miRcancer.db file
-#' @param isUnionCorGene Boolean value that shows whether union of the output of
-#'       the co-expression analysis and the other analysis should be considered
+#' @param isUnionCorGene Boolean value that shows whether union of the output
+#'      of the co-expression analysis and the other analysis should be 
+#'      considered
 #'
 #' @return GO term enrichment object for the given input
 #'
@@ -247,8 +248,8 @@ geneGOEnricher <-
     }
   }
 
-#' Given genes that fall in the given upstream and downstream region of mRNAs
-#' of interest, pathway enrichment analysis is carried out
+#' Given genes that fall in the given upstream and downstream region of 
+#' mRNAs of interest, pathway enrichment analysis is carried out
 #'
 #' @param gene Input noncoding genes other than miRNA
 #' @param org_assembly Genome assembly of interest for the analysis. Possible
@@ -528,8 +529,8 @@ genePathwayEnricher <-
     }
   }
 
-#' Given gene regions that fall in the given upstream and downstream region of
-#' mRNAs of interest, GO term enrichment analysis is carried out
+#' Given gene regions that fall in the given upstream and downstream region
+#' of mRNAs of interest, GO term enrichment analysis is carried out
 #'
 #' @param region Bed format of the input gene regions other than miRNA
 #' @param org_assembly Genome assembly of interest for the analysis. Possible
@@ -743,8 +744,8 @@ geneRegionGOEnricher <-
     }
   }
 
-#' Given gene regions that fall in the given upstream and downstream region of
-#' mRNAs of interest, pathway enrichment analysis is carried out
+#' Given gene regions that fall in the given upstream and downstream region
+#' of mRNAs of interest, pathway enrichment analysis is carried out
 #'
 #' @param region Bed format of input gene regions other than miRNA. Input must
 #'      be Granges object.
