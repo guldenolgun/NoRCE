@@ -579,11 +579,11 @@ genePathwayEnricher <-
 #'
 #' @return GO term enrichment object for the given input
 #' 
-#'
+#' @importFrom rtracklayer import
 #' @examples
 #'
 #' regions<-system.file("extdata", "ncRegion.txt", package = "NoRCE")
-#' regionNC <- import(regions, format = "BED")
+#' regionNC <- rtracklayer::import(regions, format = "BED")
 #' regionGO<-geneRegionGOEnricher(region = regionNC, org_assembly= 'hg19',
 #'                                near = TRUE)
 #'
@@ -796,7 +796,7 @@ geneRegionGOEnricher <-
 #' @examples
 #'
 #' regions<-system.file("extdata", "ncRegion.txt", package = "NoRCE")
-#' regionNC <- import(regions, format = "BED")
+#' regionNC <- rtracklayer::import(regions, format = "BED")
 #' ncPath<-geneRegionPathwayEnricher(region = regionNC,
 #'                                   org_assembly = 'hg19',
 #'                                   near = TRUE)

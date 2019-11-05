@@ -82,7 +82,7 @@ of mRNAs of interest, GO term enrichment analysis is carried out
 \examples{
 
 regions<-system.file("extdata", "ncRegion.txt", package = "NoRCE")
-regionNC <- import(regions, format = "BED")
+regionNC <- rtracklayer::import(regions, format = "BED")
 regionGO<-geneRegionGOEnricher(region = regionNC, org_assembly= 'hg19',
                                near = TRUE)
 

@@ -2,8 +2,8 @@
 % Please edit documentation in R/mirnaEnrichment.R
 \name{mirnaPathwayEnricher}
 \alias{mirnaPathwayEnricher}
-\title{Pathway enrichments of the microRNA genes with mRNAs that fall in the given
-upstream/downstream regions of the microRNA genes}
+\title{Pathway enrichments of the microRNA genes with mRNAs that fall in the
+given upstream/downstream regions of the microRNA genes}
 \usage{
 mirnaPathwayEnricher(gene, org_assembly = c("hg19", "hg38", "mm10",
   "dre10", "rn6", "dm6", "ce11", "sc3"), near = FALSE, target = FALSE,
@@ -80,8 +80,8 @@ performed}
 MiRNA pathway enrichment object for the given input
 }
 \description{
-Pathway enrichments of the microRNA genes with mRNAs that fall in the given
-upstream/downstream regions of the microRNA genes
+Pathway enrichments of the microRNA genes with mRNAs that fall in the
+given upstream/downstream regions of the microRNA genes
 }
 \examples{
 miPath <- mirnaPathwayEnricher(gene = brain_mirna,

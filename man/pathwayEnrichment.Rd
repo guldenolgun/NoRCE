@@ -2,8 +2,8 @@
 % Please edit documentation in R/pathway.R
 \name{pathwayEnrichment}
 \alias{pathwayEnrichment}
-\title{For a given gmt file of a specific pathway database, pathway enrichment can
-be performed. Function supports Entrez ID and symbol based gmt file.}
+\title{For a given gmt file of a specific pathway database, pathway enrichment
+can be performed. Function supports Entrez ID and symbol based gmt file.}
 \usage{
 pathwayEnrichment(genes, gmtFile, org_assembly = c("hg19", "hg38",
   "mm10", "dre10", "rn6", "dm6", "ce11", "sc3"), pCut = 0.05,
@@ -43,8 +43,8 @@ performed}
 Pathway Enrichment
 }
 \description{
-For a given gmt file of a specific pathway database, pathway enrichment can
-be performed. Function supports Entrez ID and symbol based gmt file.
+For a given gmt file of a specific pathway database, pathway enrichment
+can be performed. Function supports Entrez ID and symbol based gmt file.
 }
 \examples{
 

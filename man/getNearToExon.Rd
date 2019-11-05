@@ -28,7 +28,7 @@ Get only those neighbouring genes that fall within exon region
 \examples{
 
 regions <- system.file("extdata", "ncRegion.txt", package = "NoRCE")
-regionNC <- import(regions, format = "BED")
+regionNC <- rtracklayer::import(regions, format = "BED")
 
 r<-getNearToExon(bedfile = regionNC,
                  upstream = 1000,
