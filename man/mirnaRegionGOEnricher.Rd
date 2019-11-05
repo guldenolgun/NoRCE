@@ -83,7 +83,7 @@ upstream/downstream regions of the microRNA genes
 }
 \examples{
 regions<-system.file("extdata", "ncRegion.txt", package = "NoRCE")
-regionNC <- import(regions, format = "BED")
+regionNC <- rtracklayer::import(regions, format = "BED")
 
 a<- mirnaRegionGOEnricher(region = regionNC,
                           org_assembly = 'hg19',

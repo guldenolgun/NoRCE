@@ -257,7 +257,7 @@ assembly <- function(org_assembly = c("hg19",
 #' @examples
 #'
 #' regions<-system.file("extdata", "ncRegion.txt", package = "NoRCE")
-#' regionNC <- import(regions, format = "BED")
+#' regionNC <- rtracklayer::import(regions, format = "BED")
 #'
 #' neighbour <- getUCSC(bedfile = regionNC,
 #'                      upstream = 1000,
@@ -325,7 +325,7 @@ getUCSC <-
 #' @examples
 #'
 #' regions <- system.file("extdata", "ncRegion.txt", package = "NoRCE")
-#' regionNC <- import(regions, format = "BED")
+#' regionNC <- rtracklayer::import(regions, format = "BED")
 #'
 #' r<-getNearToExon(bedfile = regionNC,
 #'                  upstream = 1000,
@@ -387,7 +387,7 @@ getNearToExon <-
 #' @examples
 #'
 #' regions<-system.file("extdata", "ncRegion.txt", package = "NoRCE")
-#' regionNC <- import(regions, format = "BED")
+#' regionNC <- rtracklayer::import(regions, format = "BED")
 #'
 #' r<-getNearToExon(bedfile = regionNC,
 #'                  upstream = 1000,
@@ -467,7 +467,7 @@ getNearToIntron <-
 #' @examples
 #'
 #' regions<-system.file("extdata", "ncRegion.txt", package = "NoRCE")
-#' regionNC <- import(regions, format = "BED")
+#' regionNC <- rtracklayer::import(regions, format = "BED")
 #'
 #' r<-getTADOverlap(bedfile = regionNC,
 #'                  tad = tad_hg19,

@@ -82,7 +82,7 @@ of mRNAs of interest, pathway enrichment analysis is carried out
 \examples{
 
 regions<-system.file("extdata", "ncRegion.txt", package = "NoRCE")
-regionNC <- import(regions, format = "BED")
+regionNC <- rtracklayer::import(regions, format = "BED")
 ncPath<-geneRegionPathwayEnricher(region = regionNC,
                                   org_assembly = 'hg19',
                                   near = TRUE)

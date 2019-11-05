@@ -31,7 +31,7 @@ to HUGO genes
 \examples{
 
 regions<-system.file("extdata", "ncRegion.txt", package = "NoRCE")
-regionNC <- import(regions, format = "BED")
+regionNC <- rtracklayer::import(regions, format = "BED")
 
 neighbour <- getUCSC(bedfile = regionNC,
                      upstream = 1000,
