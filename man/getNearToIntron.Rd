@@ -4,8 +4,12 @@
 \alias{getNearToIntron}
 \title{Get only those neighbouring genes that fall within intron region}
 \usage{
-getNearToIntron(bedfile, upstream, downstream, org_assembly = c("hg19",
-  "hg38", "mm10", "dre10", "rn6", "dm6", "ce11", "sc3"))
+getNearToIntron(
+  bedfile,
+  upstream,
+  downstream,
+  org_assembly = c("hg19", "hg38", "mm10", "dre10", "rn6", "dm6", "ce11", "sc3")
+)
 }
 \arguments{
 \item{bedfile}{Bed file}

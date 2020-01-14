@@ -1,30 +1,9 @@
-#' TargetScan database for the fly
-#' @format Not Available
-#' @source \url{http://www.targetscan.org}
-#' @examples
-#' data(targets_fly)
-"targets_fly"
-
-#' TargetScan database for the human
-#' @format Not Available
-#' @source \url{http://www.targetscan.org}
-#' @examples
-#' data(targets_human)
-"targets_human"
-
 #' Differentially expressed human brain data
 #' @format Not Available
 #' @source \url{http://resource.psychencode.org/}
 #' @examples
 #' data(brain_mirna)
 "brain_mirna"
-
-#' TargetScan database for the mouse
-#' @format Not Available
-#' @source \url{http://www.targetscan.org}
-#' @examples
-#' data(targets_mouse)
-"targets_mouse"
 
 #' Protein coding genes that are differentially expressed in TCGA
 #' breast cancer RNAseq data.
@@ -76,27 +55,6 @@
 #' @examples
 #' data(tad_mm10)
 "tad_mm10"
-
-#' mirmap database for rat
-#' @format Not Available
-#' @source \url{https://mirmap.ezlab.org/}
-#' @examples
-#' data(targets_rat)
-"targets_rat"
-
-#' TargetScan database for worm
-#' @format Not Available
-#' @source \url{http://www.targetscan.org}
-#' @examples
-#' data(targets_worm)
-"targets_worm"
-
-#' TargetScan database for zebra fish
-#' @format Not Available
-#' @source \url{http://www.targetscan.org}
-#' @examples
-#' data(targets_zebra)
-"targets_zebra"
 
 #' Brain miRNA expression retrieved from the TCGA
 #' @format Not Available

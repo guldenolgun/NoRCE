@@ -4,8 +4,12 @@
 \alias{getNearToExon}
 \title{Get only those neighbouring genes that fall within exon region}
 \usage{
-getNearToExon(bedfile, upstream, downstream, org_assembly = c("hg19",
-  "hg38", "mm10", "dre10", "rn6", "dm6", "ce11", "sc3"))
+getNearToExon(
+  bedfile,
+  upstream,
+  downstream,
+  org_assembly = c("hg19", "hg38", "mm10", "dre10", "rn6", "dm6", "ce11", "sc3")
+)
 }
 \arguments{
 \item{bedfile}{Input bed formated file}

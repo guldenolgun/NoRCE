@@ -130,7 +130,7 @@ getmiRNACount <- function(mirnagene, cancer, databaseFile) {
 #'      not provided, column name of the exp2 data will be taken.
 #' @param corrMethod Correlation coeffient method that will be used for
 #'      evaluation. Possible values are "pearson", "kendall", "spearman"
-#' @param varCutoff Variance cutt off that genes have less variance than
+#' @param varCutoff Variance cut off that genes have less variance than
 #'      this value will be trimmed
 #' @param corCutoff Correlation cut off values for the given correlation
 #'      method

@@ -5,8 +5,14 @@
 \title{Plot and save the GO term DAG of the top n enrichments in terms of 
 p-values or adjusted p-values with an user provided format}
 \usage{
-getGoDag(mrnaObject, type, n, filename, imageFormat, p_range = seq(0,
-  0.05, by = 0.001))
+getGoDag(
+  mrnaObject,
+  type,
+  n,
+  filename,
+  imageFormat,
+  p_range = seq(0, 0.05, by = 0.001)
+)
 }
 \arguments{
 \item{mrnaObject}{Output of enrichment results}

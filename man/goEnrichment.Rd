@@ -4,12 +4,18 @@
 \alias{goEnrichment}
 \title{Perform enrichment analysis of the given genes}
 \usage{
-goEnrichment(genes, org_assembly = c("hg19", "hg38", "mm10", "dre10",
-  "rn6", "dm6", "ce11", "sc3"), GOtype = c("BP", "CC", "MF"),
-  pCut = 0.05, pAdjCut = 0.05, pAdjust = c("holm", "hochberg",
-  "hommel", "bonferroni", "BH", "BY", "fdr", "none"), min = 5,
-  backG = "", backGType = "pc_gene", enrichTest = c("hyper", "binom",
-  "fisher", "chi"))
+goEnrichment(
+  genes,
+  org_assembly = c("hg19", "hg38", "mm10", "dre10", "rn6", "dm6", "ce11", "sc3"),
+  GOtype = c("BP", "CC", "MF"),
+  pCut = 0.05,
+  pAdjCut = 0.05,
+  pAdjust = c("holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none"),
+  min = 5,
+  backG = "",
+  backGType = "pc_gene",
+  enrichTest = c("hyper", "binom", "fisher", "chi")
+)
 }
 \arguments{
 \item{genes}{Set of input genes. Supported format HUGO.}

@@ -5,10 +5,15 @@
 \title{Convert gmt formatted pathway file to the Pathway ID, Entrez, symbol
  formatted data frame}
 \usage{
-convertGMT(gmtName, isSymbol = FALSE)
+convertGMT(gmtName, org_assembly, isSymbol = FALSE)
 }
 \arguments{
 \item{gmtName}{Custom pathway gmt file}
+
+\item{org_assembly}{Genome assembly of interest for the analysis. Possible
+assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat,
+"dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and
+"hg38" for human}
 
 \item{isSymbol}{Boolean variable that hold the gene format of the gmt file.
 If it is set as TRUE, gene format of the gmt file should be symbol.

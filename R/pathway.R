@@ -467,14 +467,14 @@ WikiPathwayDB <- function(org_assembly = c("hg19",
       rWikiPathways::downloadPathwayArchive(
         organism = "Saccharomyces cerevisiae",format = "gmt")
   
-  gmtFile <- convertGMT(gmtName = wp.gmt)
+  gmtFile <- convertGMT(gmtName = wp.gmt,org_assembly = org_assembly,isSymbol = FALSE)
   tmp <-
     do.call(rbind, strsplit(as.character(gmtFile$pathTerm), '%'))
   gmtFile <-
     unique(
       data.frame(
         Entrez = gmtFile$Entrez,
-        gene = gmtFile$symbol,
+        gene = gmtFile[,3],
         pathID = tmp[, 3],
         pathTerm = tmp[, 1]
       )
@@ -504,12 +504,12 @@ WikiPathwayDB <- function(org_assembly = c("hg19",
 #'      performed
 #'
 #' @return Wiki Pathway Enrichment
-#'
-#' @examples
-#' br_enr<-WikiEnrichment(genes = breastmRNA$V1[1:100],org_assembly='hg19')
-#'
-#'
+#' 
 #' @export
+#' 
+#' @examples
+#' a <- WikiEnrichment(genes = breastmRNA,org_assembly = "hg19")
+#' 
 WikiEnrichment <- function(genes,
                            org_assembly = c("hg19",
                                             "hg38",
@@ -538,9 +538,6 @@ WikiEnrichment <- function(genes,
   }
   if (missing(org_assembly)) {
     message("Assembly version is missing. ")
-  }
-  if (class(pkg.env$mart)[1] != "Mart") {
-    assembly(org_assembly)
   }
   pathTable <- unique(WikiPathwayDB(org_assembly))
   genes <- as.data.frame(genes)
@@ -630,16 +627,6 @@ WikiEnrichment <- function(genes,
 #'
 #' @return Pathway Enrichment
 #' 
-#'
-#' @examples
-#'
-#' wp.gmt <-rWikiPathways::downloadPathwayArchive(
-#'                          organism = "Homo sapiens",format = "gmt")
-#' a <- pathwayEnrichment(genes = breastmRNA[1:100,], gmtFile = wp.gmt,
-#'                        org_assembly = 'hg19',isGeneEnrich = FALSE,
-#'                        isSymbol = FALSE)
-#'
-#' @export
 pathwayEnrichment <- function(genes,
                               gmtFile,
                               org_assembly = c("hg19",
@@ -683,7 +670,8 @@ pathwayEnrichment <- function(genes,
   
   if (!isGeneEnrich) {
     pathTable <-
-      unique(convertGMT(gmtName = gmtFile, isSymbol = isSymbol))
+      unique(convertGMT(gmtName = gmtFile, isSymbol = isSymbol,
+                        org_assembly =org_assembly))
   }
   else{
     pathTable <- geneListEnrich(f = gmtFile, isSymbol = isSymbol)
@@ -760,16 +748,38 @@ pathwayEnrichment <- function(genes,
 #' @param isSymbol Boolean variable that hold the gene format of the gmt file.
 #'     If it is set as TRUE, gene format of the gmt file should be symbol.
 #'     Otherwise, gene format should be ENTREZ ID. By default, it is FALSE.
+#' @param org_assembly Genome assembly of interest for the analysis. Possible
+#'      assemblies are "mm10" for mouse, "dre10" for zebrafish, "rn6" for rat,
+#'      "dm6" for fruit fly, "ce11" for worm, "sc3" for yeast, "hg19" and
+#'      "hg38" for human
 #'
 #' @return return data frame
 #'
 #'
 #' @importFrom biomaRt getBM
 #' @importFrom reshape2 melt
-#'
-#'
-convertGMT <- function(gmtName,
+#' 
+convertGMT <- function(gmtName, org_assembly,
                        isSymbol = FALSE) {
+  types <-
+    rbind(
+      c("hg19","Hs.eg.db"),
+      c("hg38", "Hs.eg.db"),
+      c( "mm10", "Mm.eg.db"),
+      c("dre10","Dr.eg.db"),
+      c("rn6", "Rn.eg.db" ),
+      c( "sc3", "Sc.sgd.db"),
+      c("dm6","Dm.eg.db"),
+      c("ce11", "Ce.eg.db")
+    )
+  index = which(org_assembly == types[, 1])
+  yy <- as.name(paste0("org.", types[index, 2]))
+  
+  if (!requireNamespace(yy, quietly = TRUE))
+    stop("Install package ", yy, " in order to use this function.")
+  else
+    lapply(deparse(substitute(yy)), require, character.only = TRUE)
+  
   x <- scan(gmtName, what = "", sep = "\n")
   x <- strsplit(x, '\t')
   max.col <- max(vapply(x, length, FUN.VALUE = integer(1)))
@@ -789,27 +799,36 @@ convertGMT <- function(gmtName,
   if (length(which(f$value %in% '')) > 0)
     f <- f[-c(which(f$value %in% '')), ]
   if (!isSymbol) {
-    output <-
-      getBM(
-        attributes = c('entrezgene_id', 'hgnc_symbol'),
-        filters = "entrezgene_id",
-        values = f$value,
-        mart = pkg.env$mart
-      )
-    f[, 3] <- output[match(f$value, output$entrezgene_id), 2]
+    # output <-
+    #   getBM(
+    #     attributes = c('entrezgene_id', 'hgnc_symbol'),
+    #     filters = "entrezgene_id",
+    #     values = f$value,
+    #     mart = pkg.env$mart
+    #   )
+   output<- AnnotationDbi::select(eval(yy), keys =as.character(f$value),
+                                  columns=c("ENTREZID", "SYMBOL"),
+                                  keytype="ENTREZID")
+   # f[, 3] <- output[match((f$value), output$entrezgene_id), 2]
+    f[, 3] <- output[match((f$value), output$ENTREZID), 2]
     colnames(f) <- c('pathTerm', 'Entrez', 'symbol')
   }
   else{
-    output <-
-      getBM(
-        attributes = c('entrezgene_id', 'hgnc_symbol'),
-        filters = "hgnc_symbol",
-        values = f$value,
-        mart = pkg.env$mart
-      )
-    f[, 3] <- output[match(f$value, output$hgnc_symbol), 1]
+     # output <-
+     #   getBM(
+     #     attributes = c('entrezgene_id', 'hgnc_symbol'),
+     #     filters = "hgnc_symbol",
+     #     values = f$value,
+     #     mart = pkg.env$mart
+     #   )
+    output<- AnnotationDbi::select(eval(yy), keys =as.character(f$value),
+                                  columns=c("ENTREZID", "SYMBOL"),
+                                 keytype="SYMBOL")
+    #f[, 3] <- output[match((f$value), output$hgnc_symbol), 1]
+    f[, 3] <- output[match((f$value), output$SYMBOL), 2]
     colnames(f) <- c('pathTerm', 'symbol', 'Entrez')
   }
+  f <- na.omit(f)
   return(f)
 }
 

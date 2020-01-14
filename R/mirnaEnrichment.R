@@ -1206,31 +1206,58 @@ predictmiTargets <- function(gene, type, org_assembly)
     # else{
     #   targets <- NoRCE::targets_human
     # }
+    markk <- 0
     ifelse(
       org_assembly == 'mm10',
-      targets <- NoRCE::targets_mouse,
+      targets <- read.table(paste0("https://raw.githubusercontent.com/",
+              "guldenolgun/NoRCE-data/master/target/target_mouse.txt")),
       ifelse(
         org_assembly == 'dre10',
-        targets <- NoRCE::targets_zebra
-        ,
+        markk <- 2,
         ifelse (
           org_assembly == 'ce11',
-          targets <- NoRCE::targets_worm,
+          targets <- read.table(paste0("https://raw.githubusercontent.com/",
+                "guldenolgun/NoRCE-data/master/target/target_worm.txt")),
           ifelse (
             org_assembly == 'rn6',
-            targets <- NoRCE::targets_rat
-            ,
+            markk <- 1,
             ifelse (
               org_assembly == 'dm6',
-              targets <-
-                NoRCE::targets_fly,
-              targets <-
-                NoRCE::targets_human
+              targets <- read.table(paste0(
+                "https://raw.githubusercontent.com/",
+                    "guldenolgun/NoRCE-data/master/target/target_fly.txt"),
+                      skip = 1),
+            targets <- read.table(paste0("https://raw.githubusercontent.com/",
+                    "guldenolgun/NoRCE-data/master/target/target_human.txt"))
             )
           )
         )
       )
     )
+    colnames(targets) <- c("ens","sym","trans","mir")
+  }
+  
+  if(markk == 1){
+    tmp1 <- read.table(paste0("https://raw.githubusercontent.com/",
+                "guldenolgun/NoRCE-data/master/target/target_rat.txt"))
+    tmp2 <- read.table(paste0("https://raw.githubusercontent.com/",
+                "guldenolgun/NoRCE-data/master/target/target_rat1.txt"))
+    tmp3 <- read.table(paste0("https://raw.githubusercontent.com/",
+                "guldenolgun/NoRCE-data/master/target/target_rat2.txt"))
+    tmp4 <- read.table(paste0("https://raw.githubusercontent.com/",
+                "guldenolgun/NoRCE-data/master/target/target_rat3.txt"))
+    target <- rbind(tmp1,tmp2,tmp3)
+    targets <- merge(target,tmp4, by = 'V1')
+    colnames(targets) <- c("ens","mir","sym","trans")
+  }
+  
+  if(markk  == 2){
+    tmp1 <- read.table(paste0("https://raw.githubusercontent.com/",
+                "guldenolgun/NoRCE-data/master/target/target_zebra.txt"))
+    tmp2 <- read.table(paste0("https://raw.githubusercontent.com/",
+                "guldenolgun/NoRCE-data/master/target/target_zebra1.txt"))
+    targets <- cbind(rbind(tmp1,tmp2),"")
+    colnames(target) <- c("ens","sym","mir","trans")
   }
   
   gene <- as.data.frame(gene)
@@ -1238,16 +1265,16 @@ predictmiTargets <- function(gene, type, org_assembly)
   
   ifelse(type == "NCBI",
          where <-
-           targets[which(tolower(targets$X2) %in% gene$genes),],
+           targets[which(tolower(targets$sym) %in% gene$genes),],
          ifelse (
            type == "mirna",
            where <-
-             targets[which(tolower(targets$X4) %in% tolower(gene$genes)),],
+             targets[which(tolower(targets$mir) %in% tolower(gene$genes)),],
            ifelse (type == "Ensembl_gene" ,
                    where <-
-                     targets[which(tolower(targets$X1) %in% gene$genes),],
+                     targets[which(tolower(targets$ens) %in% gene$genes),],
                    where <-
-                     targets[which(tolower(targets$X3) %in% gene$genes),])
+                     targets[which(tolower(targets$trans) %in% gene$genes),])
          ))
   if (nrow(where) == 0) {
     return(NULL)
@@ -1256,12 +1283,12 @@ predictmiTargets <- function(gene, type, org_assembly)
     colnames(where) <- c('genesEns', 'genesHugo', 'geneTrans', 'mirna')
     tmp1 <-
       data.frame(
-        trans = unlist(apply((where[, 3]), 2, 
+        trans = unlist(apply(data.frame(where[, 3]), 2, 
                              strsplit, '[.]'))[2 *(seq_len(nrow(where))) - 1])
     tmp2 <-
       data.frame(
         gene =unlist(
-          apply((
+          apply(data.frame(
             where[, 1]), 2, strsplit, '[.]'))[2 *(seq_len(nrow(where))) - 1])
     dat <-
       cbind.data.frame(tmp1, where$genesHugo, tmp2, where$mirna)

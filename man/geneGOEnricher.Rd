@@ -5,13 +5,25 @@
 \title{Given genes that fall in a given upstream and downstream region of 
 mRNAs of interest, GO term enrichment analysis is carried out}
 \usage{
-geneGOEnricher(gene, org_assembly = c("hg19", "hg38", "mm10", "dre10",
-  "rn6", "dm6", "ce11", "sc3"), genetype = c("Entrez", "mirna",
-  "Ensembl_gene", "Ensembl_trans", "NCBI"), backG = "",
-  backGType = "pc_gene", near = FALSE, isTADSearch = FALSE,
-  TAD = c(tad_hg19, tad_dmel, tad_hg38, tad_mm10), express = FALSE,
-  isCustomExp = FALSE, cancer, exp1, exp2, label1 = "", label2 = "",
-  isUnionCorGene = FALSE, databaseFile)
+geneGOEnricher(
+  gene,
+  org_assembly = c("hg19", "hg38", "mm10", "dre10", "rn6", "dm6", "ce11", "sc3"),
+  genetype = c("Entrez", "mirna", "Ensembl_gene", "Ensembl_trans", "NCBI"),
+  backG = "",
+  backGType = "pc_gene",
+  near = FALSE,
+  isTADSearch = FALSE,
+  TAD = c(tad_hg19, tad_dmel, tad_hg38, tad_mm10),
+  express = FALSE,
+  isCustomExp = FALSE,
+  cancer,
+  exp1,
+  exp2,
+  label1 = "",
+  label2 = "",
+  isUnionCorGene = FALSE,
+  databaseFile
+)
 }
 \arguments{
 \item{gene}{Input genes other than miRNA}

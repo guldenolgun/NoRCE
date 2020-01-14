@@ -5,12 +5,25 @@
 \title{Pathway enrichments of the microRNA regions with mRNAs that fall in the
 given upstream/downstream regions of the microRNA genes}
 \usage{
-mirnaRegionPathwayEnricher(region, org_assembly = c("hg19", "hg38",
-  "mm10", "dre10", "rn6", "dm6", "ce11", "sc3"), near = FALSE,
-  target = FALSE, isTADSearch = FALSE, TAD = c(tad_hg19, tad_dmel,
-  tad_hg38, tad_mm10), gmtName = "", express = FALSE,
-  isCustomExp = FALSE, cancer, exp1, exp2, label1 = "", label2 = "",
-  isUnionCorGene = FALSE, databaseFile, isGeneEnrich = FALSE)
+mirnaRegionPathwayEnricher(
+  region,
+  org_assembly = c("hg19", "hg38", "mm10", "dre10", "rn6", "dm6", "ce11", "sc3"),
+  near = FALSE,
+  target = FALSE,
+  isTADSearch = FALSE,
+  TAD = c(tad_hg19, tad_dmel, tad_hg38, tad_mm10),
+  gmtName = "",
+  express = FALSE,
+  isCustomExp = FALSE,
+  cancer,
+  exp1,
+  exp2,
+  label1 = "",
+  label2 = "",
+  isUnionCorGene = FALSE,
+  databaseFile,
+  isGeneEnrich = FALSE
+)
 }
 \arguments{
 \item{region}{MiRNA region in a bed format}

@@ -5,10 +5,15 @@
 \title{For given region of interest, overlapped genes in the TAD regions are
 found. Results can be filtered according to the available cell lines.}
 \usage{
-getTADOverlap(bedfile, org_assembly = c("hg19", "hg38", "mm10", "dre10",
-  "rn6", "dm6", "ce11", "sc3"), tad = c(tad_hg19, tad_dmel, tad_hg38,
-  tad_mm10), near = FALSE, upstream = 10000, downstream = 10000,
-  cellline = "all")
+getTADOverlap(
+  bedfile,
+  org_assembly = c("hg19", "hg38", "mm10", "dre10", "rn6", "dm6", "ce11", "sc3"),
+  tad = c(tad_hg19, tad_dmel, tad_hg38, tad_mm10),
+  near = FALSE,
+  upstream = 10000,
+  downstream = 10000,
+  cellline = "all"
+)
 }
 \arguments{
 \item{bedfile}{Region of interest}
