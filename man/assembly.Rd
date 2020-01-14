@@ -4,8 +4,9 @@
 \alias{assembly}
 \title{Get the required information for the given assembly}
 \usage{
-assembly(org_assembly = c("hg19", "hg38", "mm10", "dre10", "rn6", "dm6",
-  "ce11", "sc3"))
+assembly(
+  org_assembly = c("hg19", "hg38", "mm10", "dre10", "rn6", "dm6", "ce11", "sc3")
+)
 }
 \arguments{
 \item{org_assembly}{Genome assembly of interest for the analysis. Possible

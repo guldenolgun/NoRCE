@@ -6,8 +6,11 @@
 specific to only one KEGG pathway id and identifies the enriched genes
 in the diagram.}
 \usage{
-getKeggDiagram(mrnaObject, pathway, org_assembly = c("hg19", "hg38",
-  "mm10", "dre10", "rn6", "dm6", "ce11", "sc3"))
+getKeggDiagram(
+  mrnaObject,
+  pathway,
+  org_assembly = c("hg19", "hg38", "mm10", "dre10", "rn6", "dm6", "ce11", "sc3")
+)
 }
 \arguments{
 \item{mrnaObject}{Output of enrichment results}

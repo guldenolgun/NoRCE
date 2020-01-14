@@ -5,11 +5,17 @@
 \title{For a given gmt file of a specific pathway database, pathway enrichment
 can be performed. Function supports Entrez ID and symbol based gmt file.}
 \usage{
-pathwayEnrichment(genes, gmtFile, org_assembly = c("hg19", "hg38",
-  "mm10", "dre10", "rn6", "dm6", "ce11", "sc3"), pCut = 0.05,
-  pAdjCut = 0.05, pAdjust = c("holm", "hochberg", "hommel",
-  "bonferroni", "BH", "BY", "fdr", "none"), isSymbol, min = 5,
-  isGeneEnrich = FALSE)
+pathwayEnrichment(
+  genes,
+  gmtFile,
+  org_assembly = c("hg19", "hg38", "mm10", "dre10", "rn6", "dm6", "ce11", "sc3"),
+  pCut = 0.05,
+  pAdjCut = 0.05,
+  pAdjust = c("holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none"),
+  isSymbol,
+  min = 5,
+  isGeneEnrich = FALSE
+)
 }
 \arguments{
 \item{genes}{Input genes}
@@ -45,13 +51,4 @@ Pathway Enrichment
 \description{
 For a given gmt file of a specific pathway database, pathway enrichment
 can be performed. Function supports Entrez ID and symbol based gmt file.
-}
-\examples{
-
-wp.gmt <-rWikiPathways::downloadPathwayArchive(
-                         organism = "Homo sapiens",format = "gmt")
-a <- pathwayEnrichment(genes = breastmRNA[1:100,], gmtFile = wp.gmt,
-                       org_assembly = 'hg19',isGeneEnrich = FALSE,
-                       isSymbol = FALSE)
-
 }

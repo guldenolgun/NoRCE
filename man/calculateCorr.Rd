@@ -5,9 +5,18 @@
 \title{Calculates the correlation coefficient values between two custom
 expression data.}
 \usage{
-calculateCorr(exp1, exp2, label1 = "", label2 = "",
-  corrMethod = "pearson", varCutoff = 0.0025, corCutoff = 0.3,
-  pcut = 0.05, alternate = "greater", conf = 0.95)
+calculateCorr(
+  exp1,
+  exp2,
+  label1 = "",
+  label2 = "",
+  corrMethod = "pearson",
+  varCutoff = 0.0025,
+  corCutoff = 0.3,
+  pcut = 0.05,
+  alternate = "greater",
+  conf = 0.95
+)
 }
 \arguments{
 \item{exp1}{Custom expression data matrix or SummarizedExperiment data.
@@ -25,7 +34,7 @@ not provided, column name of the exp2 data will be taken.}
 \item{corrMethod}{Correlation coeffient method that will be used for
 evaluation. Possible values are "pearson", "kendall", "spearman"}
 
-\item{varCutoff}{Variance cutt off that genes have less variance than
+\item{varCutoff}{Variance cut off that genes have less variance than
 this value will be trimmed}
 
 \item{corCutoff}{Correlation cut off values for the given correlation

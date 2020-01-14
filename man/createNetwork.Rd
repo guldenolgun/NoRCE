@@ -2,13 +2,18 @@
 % Please edit documentation in R/plot.R
 \name{createNetwork}
 \alias{createNetwork}
-\title{Create interaction network for top n enriched GO term:mRNA interaction.
-Nodes are GO term and mRNA, edges are interactions between them. Each
+\title{Create interaction network for top n enriched GO term:coding RNA or GO-term:noncoding RNA interaction.
+Nodes are GO term and RNA, edges are interactions between them. Each
 GO-term is annotated and enriched with the mRNAs provided from the input
 list.}
 \usage{
-createNetwork(mrnaObject, type = "pvalue", n, isNonCode = FALSE,
-  takeID = FALSE)
+createNetwork(
+  mrnaObject,
+  type = "pvalue",
+  n,
+  isNonCode = FALSE,
+  takeID = FALSE
+)
 }
 \arguments{
 \item{mrnaObject}{Output of enrichment results}
@@ -34,8 +39,8 @@ missing for the custom enrichment database.}
 Network
 }
 \description{
-Create interaction network for top n enriched GO term:mRNA interaction.
-Nodes are GO term and mRNA, edges are interactions between them. Each
+Create interaction network for top n enriched GO term:coding RNA or GO-term:noncoding RNA interaction.
+Nodes are GO term and RNA, edges are interactions between them. Each
 GO-term is annotated and enriched with the mRNAs provided from the input
 list.
 }

@@ -5,13 +5,25 @@
 \title{Given genes that fall in the given upstream and downstream region of 
 mRNAs of interest, pathway enrichment analysis is carried out}
 \usage{
-genePathwayEnricher(gene, org_assembly = c("hg19", "hg38", "mm10",
-  "dre10", "rn6", "dm6", "ce11", "sc3"), genetype = c("Entrez", "mirna",
-  "Ensembl_gene", "Ensembl_trans", "NCBI"), near = TRUE,
-  isTADSearch = FALSE, TAD = tad_hg19, gmtName = "",
-  express = FALSE, isCustomExp = FALSE, cancer, exp1, exp2,
-  label1 = "", label2 = "", isUnionCorGene = FALSE, databaseFile,
-  isGeneEnrich = FALSE)
+genePathwayEnricher(
+  gene,
+  org_assembly = c("hg19", "hg38", "mm10", "dre10", "rn6", "dm6", "ce11", "sc3"),
+  genetype = c("Entrez", "mirna", "Ensembl_gene", "Ensembl_trans", "NCBI"),
+  near = TRUE,
+  isTADSearch = FALSE,
+  TAD = tad_hg19,
+  gmtName = "",
+  express = FALSE,
+  isCustomExp = FALSE,
+  cancer,
+  exp1,
+  exp2,
+  label1 = "",
+  label2 = "",
+  isUnionCorGene = FALSE,
+  databaseFile,
+  isGeneEnrich = FALSE
+)
 }
 \arguments{
 \item{gene}{Input noncoding genes other than miRNA}

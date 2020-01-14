@@ -1,7 +1,7 @@
 Package: NoRCE
 Type: Package
 Title: NoRCE: Noncoding RNA Sets Cis Annotation and Enrichment
-Version: 0.99.24
+Version: 0.99.25
 Authors@R: c(person("Gulden", "Olgun", 
            email = "gulden@cs.bilkent.edu.tr", 
 		   role = c("aut", "cre")))
@@ -23,14 +23,14 @@ Description: While some non-coding RNAs (ncRNAs) have been found to
   format or viewed as graphs. NoRCE is currently available for the following
   species: human, mouse, rat, zebrafish, fruit fly, worm and yeast. 
 License: MIT + file LICENSE
-Depends: R (>= 3.6) 
+Depends: R (>= 4.0) 
 Imports:
   KEGGREST,png,cRegulome,dplyr,graphics,RSQLite,DBI,tidyr,grDevices,
   S4Vectors,SummarizedExperiment,reactome.db,rWikiPathways,RCurl,
   dbplyr,utils,ggplot2,igraph,stats,reshape2,readr, GO.db,zlibbioc,
   biomaRt,rtracklayer,IRanges,GenomicRanges,GenomicFeatures,AnnotationDbi
 Encoding: UTF-8
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 Suggests: 
     knitr, TxDb.Hsapiens.UCSC.hg38.knownGene,TxDb.Drerio.UCSC.danRer10.refGene,
     TxDb.Mmusculus.UCSC.mm10.knownGene,TxDb.Dmelanogaster.UCSC.dm6.ensGene,
@@ -39,6 +39,7 @@ Suggests:
 	org.Mm.eg.db, org.Rn.eg.db,org.Hs.eg.db,org.Dr.eg.db,BiocGenerics,
 	org.Sc.sgd.db, org.Ce.eg.db,org.Dm.eg.db, methods,
 VignetteBuilder: knitr
-biocViews: Genome, CancerData, SequencingData, ExpressionData, OrganismData
+biocViews: BiologicalQuestion, DifferentialExpression, GenomeAnnotation, 
+    GeneSetEnrichment, GeneTarget, GenomeAssembly, GO
 LazyData: true
 BugReports: https://github.com/guldenolgun/NoRCE/issues

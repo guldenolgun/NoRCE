@@ -4,8 +4,12 @@
 \alias{getUCSC}
 \title{Get nearest genes for the window of the upstream/downstream region.}
 \usage{
-getUCSC(bedfile, upstream, downstream, org_assembly = c("hg19", "hg38",
-  "mm10", "dre10", "rn6", "dm6", "ce11", "sc3"))
+getUCSC(
+  bedfile,
+  upstream,
+  downstream,
+  org_assembly = c("hg19", "hg38", "mm10", "dre10", "rn6", "dm6", "ce11", "sc3")
+)
 }
 \arguments{
 \item{bedfile}{Bed formated input gene regions}

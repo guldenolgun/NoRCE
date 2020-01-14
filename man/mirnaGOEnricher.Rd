@@ -5,12 +5,25 @@
 \title{GO term enrichments of the microRNA genes with mRNAs that fall in the
 given upstream/downstream regions of the microRNA genes}
 \usage{
-mirnaGOEnricher(gene, org_assembly = c("hg19", "hg38", "mm10", "dre10",
-  "rn6", "dm6", "ce11", "sc3"), near = FALSE, target = FALSE,
-  backGenes = "", backGType = "pc_gene", isTADSearch = FALSE,
-  TAD = c(tad_hg19, tad_dmel, tad_hg38, tad_mm10), express = FALSE,
-  isCustomExp = FALSE, cancer, exp1, exp2, label1 = "", label2 = "",
-  isUnionCorGene = FALSE, databaseFile = "")
+mirnaGOEnricher(
+  gene,
+  org_assembly = c("hg19", "hg38", "mm10", "dre10", "rn6", "dm6", "ce11", "sc3"),
+  near = FALSE,
+  target = FALSE,
+  backGenes = "",
+  backGType = "pc_gene",
+  isTADSearch = FALSE,
+  TAD = c(tad_hg19, tad_dmel, tad_hg38, tad_mm10),
+  express = FALSE,
+  isCustomExp = FALSE,
+  cancer,
+  exp1,
+  exp2,
+  label1 = "",
+  label2 = "",
+  isUnionCorGene = FALSE,
+  databaseFile = ""
+)
 }
 \arguments{
 \item{gene}{Input microRNA gene. It supports both pre-miRNA and mature

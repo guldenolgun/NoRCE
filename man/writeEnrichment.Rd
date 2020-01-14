@@ -4,8 +4,7 @@
 \alias{writeEnrichment}
 \title{Write the tabular form of the pathway or GO term enrichment results}
 \usage{
-writeEnrichment(mrnaObject, fileName, sept = "\\t", type = "pAdjust",
-  n)
+writeEnrichment(mrnaObject, fileName, sept = "\\t", type = "pAdjust", n)
 }
 \arguments{
 \item{mrnaObject}{Object of the enrichment result}
@@ -25,4 +24,11 @@ Text file of the enrichment results in a tabular format
 }
 \description{
 Write the tabular form of the pathway or GO term enrichment results
+}
+\examples{
+ncGO<-geneGOEnricher(gene = brain_disorder_ncRNA, org_assembly='hg19',
+   near=TRUE, genetype = 'Ensembl_gene')
+   
+writeEnrichment(mrnaObject = ncGO,fileName = "a.txt",sept = '\t')
+
 }

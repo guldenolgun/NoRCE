@@ -5,12 +5,24 @@
 \title{Given gene regions that fall in the given upstream and downstream region
 of mRNAs of interest, GO term enrichment analysis is carried out}
 \usage{
-geneRegionGOEnricher(region, org_assembly = c("hg19", "hg38", "mm10",
-  "dre10", "rn6", "dm6", "ce11", "sc3"), near = TRUE, backG = "",
-  backGType = "pc_gene", isTADSearch = FALSE, TAD = c(tad_hg19,
-  tad_dmel, tad_hg38, tad_mm10), express = FALSE, isCustomExp = FALSE,
-  cancer, exp1, exp2, label1 = "", label2 = "",
-  isUnionCorGene = FALSE, databaseFile)
+geneRegionGOEnricher(
+  region,
+  org_assembly = c("hg19", "hg38", "mm10", "dre10", "rn6", "dm6", "ce11", "sc3"),
+  near = TRUE,
+  backG = "",
+  backGType = "pc_gene",
+  isTADSearch = FALSE,
+  TAD = c(tad_hg19, tad_dmel, tad_hg38, tad_mm10),
+  express = FALSE,
+  isCustomExp = FALSE,
+  cancer,
+  exp1,
+  exp2,
+  label1 = "",
+  label2 = "",
+  isUnionCorGene = FALSE,
+  databaseFile
+)
 }
 \arguments{
 \item{region}{Bed format of the input gene regions other than miRNA}

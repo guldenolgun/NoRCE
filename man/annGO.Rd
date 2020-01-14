@@ -5,8 +5,11 @@
 \title{Annotate the set of genes with the GO terms for a given species and
 assembly}
 \usage{
-annGO(genes, GOtype = c("BP", "CC", "MF"), org_assembly = c("hg19",
-  "hg38", "mm10", "dre10", "rn6", "dm6", "ce11", "sc3"))
+annGO(
+  genes,
+  GOtype = c("BP", "CC", "MF"),
+  org_assembly = c("hg19", "hg38", "mm10", "dre10", "rn6", "dm6", "ce11", "sc3")
+)
 }
 \arguments{
 \item{genes}{List of mRNA genes. Supported format for genes is Hugo.}

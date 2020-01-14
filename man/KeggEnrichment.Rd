@@ -4,11 +4,17 @@
 \alias{KeggEnrichment}
 \title{KEGG pathway enrichment}
 \usage{
-KeggEnrichment(genes, org_assembly = c("hg19", "hg38", "mm10", "dre10",
-  "rn6", "dm6", "ce11", "sc3"), pCut = 0.05, pAdjCut = 0.05,
-  pAdjust = c("holm", "hochberg", "hommel", "bonferroni", "BH", "BY",
-  "fdr", "none"), min = 5, gmtFile = "", isSymbol = "",
-  isGeneEnrich = "")
+KeggEnrichment(
+  genes,
+  org_assembly = c("hg19", "hg38", "mm10", "dre10", "rn6", "dm6", "ce11", "sc3"),
+  pCut = 0.05,
+  pAdjCut = 0.05,
+  pAdjust = c("holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none"),
+  min = 5,
+  gmtFile = "",
+  isSymbol = "",
+  isGeneEnrich = ""
+)
 }
 \arguments{
 \item{genes}{Input genes}

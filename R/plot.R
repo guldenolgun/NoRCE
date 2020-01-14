@@ -80,7 +80,12 @@ drawDotPlot <- function(mrnaObject, type = "pAdjust", n) {
 #'      number of top p-value
 #'
 #' @return Text file of the enrichment results in a tabular format
-#'
+#' 
+#' @examples 
+#' ncGO<-geneGOEnricher(gene = brain_disorder_ncRNA, org_assembly='hg19',
+#'    near=TRUE, genetype = 'Ensembl_gene')
+#'    
+#' writeEnrichment(mrnaObject = ncGO,fileName = "a.txt",sept = '\t')
 #'
 #' @export
 writeEnrichment <-
@@ -211,8 +216,8 @@ topEnrichment <- function(mrnaObject, type, n) {
   return(dd[seq_len(n), ])
 }
 
-#' Create interaction network for top n enriched GO term:mRNA interaction.
-#' Nodes are GO term and mRNA, edges are interactions between them. Each
+#' Create interaction network for top n enriched GO term:coding RNA or GO-term:noncoding RNA interaction.
+#' Nodes are GO term and RNA, edges are interactions between them. Each
 #' GO-term is annotated and enriched with the mRNAs provided from the input
 #' list.
 #'
