@@ -31,25 +31,25 @@ corrbased <- function(mirnagene,
   colnames(a) <- 'genes'
   a <- unique(rbind(a, mirnagene$g))
   
-  dat <-
-    cRegulome::get_mir(
-      conn = conn,
-      mir = as.character(a$genes),
-      study = cancer,
-      min_abs_cor = minAbsCor
-    )
-  colnames(dat) <- c("mirna_base", "feature", "cor", "cancer")
+  # dat <-
+  #   cRegulome::get_mir(
+  #     conn = conn,
+  #     mir = as.character(a$genes),
+  #     study = cancer,
+  #     min_abs_cor = minAbsCor
+  #   )
+  # colnames(dat) <- c("mirna_base", "feature", "cor", "cancer")
+
   
-  #
-  # dat <- conn %>%
-  #   dplyr::tbl('cor_mir') %>%
-  #   dplyr::select(mirna_base, feature, cancer) %>%
-  #   dplyr::filter(mirna_base %in% mirnagene$g) %>%
-  #   collect() %>%
-  #   tidyr::gather(cancer, cor, -mirna_base, -feature) %>%
-  #   mutate(cor = cor / 100) %>% dplyr::filter(abs(cor) > minAbsCor) %>%
-  #   arrange(dplyr::desc(abs(cor))) %>% na.omit()
-  
+  dat <- conn %>%
+    dplyr::tbl('cor_mir') %>%
+    dplyr::select(mirna_base, feature, cancer) %>%
+    dplyr::filter(mirna_base %in% mirnagene$g) %>%
+    dplyr::collect() %>%
+    tidyr::gather(cancer, cor, -mirna_base, -feature) %>%
+    dplyr::mutate(cor = cor / 100) %>% dplyr::filter(abs(cor) > minAbsCor) %>%
+    dplyr::arrange(dplyr::desc(abs(cor))) %>% na.omit()
+
   return(dat)
 }
 

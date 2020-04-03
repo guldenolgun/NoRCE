@@ -1,0 +1,15 @@
+citHeader("To cite NoRCE in publications use:")
+
+citEntry(entry  ="ARTICLE",
+	title= "NoRCE: Non-coding RNA sets cis enrichment tool",
+	author = personList(
+             as.person("Gulden Olgun"),
+             as.person("Afshan Nabi"),
+             as.person("Oznur Tastan")
+             ),
+	journal="bioRxiv",
+	pages="663765",
+	year="2019",
+	publisher="Cold Spring Harbor Laboratory",
+	textVersion = paste("Olgun, Gulden, Afshan Nabi, and Oznur Tastan. NoRCE: Non-coding rna sets cis enrichment tool, bioRxiv (2019): 663765")
+	)

@@ -416,7 +416,7 @@ getGoDag <-
       grDevices::colorRampPalette(c("lightgoldenrodyellow", "orangered"),
                        bias = 0.5)(length(p_range))
     
-    color <- seq_len(2)
+    color <- seq_along(dt$Pvalue)#seq_len(2)
     if (type == 'pvalue') {
       for (i in seq_along(dt$Pvalue)) {
         for (j in seq_along(p_range)) {
