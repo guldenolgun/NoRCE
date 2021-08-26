@@ -5,7 +5,9 @@
 \alias{breastmRNA}
 \title{Protein coding genes that are differentially expressed in TCGA
 breast cancer RNAseq data.}
-\format{Not Available}
+\format{
+Not Available
+}
 \source{
 \url{https://portal.gdc.cancer.gov/}
 }

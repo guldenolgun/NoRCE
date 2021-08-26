@@ -4,7 +4,9 @@
 \name{brain_disorder_ncRNA}
 \alias{brain_disorder_ncRNA}
 \title{Differentially expressed non-coding gene}
-\format{Not Available}
+\format{
+Not Available
+}
 \source{
 \url{http://resource.psychencode.org/}
 }

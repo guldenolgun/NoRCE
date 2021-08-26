@@ -4,7 +4,9 @@
 \name{tad_mm10}
 \alias{tad_mm10}
 \title{TAD regions for mouse}
-\format{Not Available}
+\format{
+Not Available
+}
 \source{
 \url{http://promoter.bx.psu.edu/hi-c/publications.html}
 }

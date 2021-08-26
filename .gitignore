@@ -7,3 +7,5 @@ doc
 packrat/lib*/
 packrat/src/
 .httr-oauth
+/doc/
+/Meta/

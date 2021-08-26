@@ -4,7 +4,9 @@
 \name{tad_dmel}
 \alias{tad_dmel}
 \title{TAD regions for the fly}
-\format{Not Available}
+\format{
+Not Available
+}
 \source{
 \url{http://chorogenome.ie-freiburg.
 mpg.de/data_sources.html#hi-c_datasets }

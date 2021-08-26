@@ -4,7 +4,9 @@
 \name{tad_hg19}
 \alias{tad_hg19}
 \title{TAD regions for human hg19 assembly}
-\format{Not Available}
+\format{
+Not Available
+}
 \source{
 \url{http://promoter.bx.psu.edu/hi-c/publications.html}
 }

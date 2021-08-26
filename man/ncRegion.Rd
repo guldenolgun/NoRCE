@@ -4,7 +4,9 @@
 \name{ncRegion}
 \alias{ncRegion}
 \title{Differentially expressed non-coding gene regions}
-\format{Not Available}
+\format{
+Not Available
+}
 \source{
 \url{http://resource.psychencode.org/}
 }
