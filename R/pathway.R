@@ -759,6 +759,8 @@ pathwayEnrichment <- function(genes,
 #' @importFrom biomaRt getBM
 #' @importFrom reshape2 melt
 #' 
+#' @export
+#' 
 convertGMT <- function(gmtName, org_assembly,
                        isSymbol = FALSE) {
   types <-

@@ -204,7 +204,7 @@ assembly <- function(org_assembly = c("hg19",
   
   if (!requireNamespace(td, quietly = TRUE) |
       !requireNamespace(yy, quietly = TRUE))
-    stop("Install package ", td, " in order to use this function.")
+    stop("Install package ", td, " or ", yy, " in order to use this function.")
   else
     lapply(x, require, character.only = TRUE)
   

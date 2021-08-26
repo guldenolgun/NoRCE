@@ -19,39 +19,17 @@
 #'
 extractBiotype <- function(gtfFile) {
   mydata <- read_table(gtfFile, comment = '#', col_names = FALSE)
-  temp <- strsplit(as.character(mydata$X1), "[;\t]+")
-  
-  #r<-lapply(temp,function(x) grepl("type|transcript_id|gene_id",x))
-  r <- lapply(temp, function(x)
+  r <- sapply(mydata, function(x)
     grepl("gene_type|gene_id", x))
-  r <- lapply(r, as.logical)
+  r <- apply(r,1, any)
+  a <- mydata[which(r == TRUE), c(10,14)]
   
-  # a <- list()
-  # for (i in seq_along(r)) {
-  #   tr <- which(r[[i]] == 'TRUE')
-  #   a[[i]] <- temp[[i]][tr]
-  # }
-  #
-  # mat <- t(lapply(a,
-  #                 function(x, m)
-  #                   c(x, rep(NA, m - length(
-  #                     x
-  #                   ))),
-  #                 max(rapply(a, length))))
-  # mat<-matrix(unlist(lapply(mat, `[[`, 1)))
-  
-  a <- data.frame()
-  for (i in seq_along(r)) {
-    tr <- which(r[[i]] == 'TRUE')
-    a[i, seq_len(2)] <- temp[[i]][tr]
-  }
-  
-  #gtf <- gsub("^.* ", "", mat, perl = TRUE)
   gtf <- apply(a, 2, function(x)
     (gsub("^.* ", "", x)))
   
   gtf <- as.data.frame(gsub("\"", "", gtf))
-  return(gtf)
+  
+  return(unique(data.frame(gene = gsub("\\..*", "", gtf$X10) ,bio = gsub("\\;.*", "", gtf$X14))))
 }
 
 #' Extract the genes that have user provided biotypes. This method is useful
@@ -77,9 +55,9 @@ filterBiotype <- function(gtfFile, biotypes) {
     index <- which(gtf == biotypes[i], arr.ind = TRUE)
     all <- rbind(all, as.data.frame(gtf[index[, 1], 1]))
   }
-  all <-
-    as.data.frame(
-      unlist(apply(unique(all), 2, strsplit, '[.]'))[c(TRUE, FALSE)])
+  # all <-
+  #    as.data.frame(
+  #     unlist(apply(unique(all), 2, strsplit, '[.]'))[c(TRUE, FALSE)])
   colnames(all) <- 'gene'
   return(all)
 }
