@@ -7,9 +7,9 @@ citEntry(entry  ="ARTICLE",
              as.person("Afshan Nabi"),
              as.person("Oznur Tastan")
              ),
-	journal="bioRxiv",
-	pages="663765",
-	year="2019",
-	publisher="Cold Spring Harbor Laboratory",
-	textVersion = paste("Olgun, Gulden, Afshan Nabi, and Oznur Tastan. NoRCE: Non-coding rna sets cis enrichment tool, bioRxiv (2019): 663765")
+	journal="BMC bioinformatics",
+	pages="1-17",
+	year="2021",
+	publisher="BioMed Central",
+	textVersion = paste("Olgun, Gulden, Afshan Nabi, and Oznur Tastan. NoRCE: Non-coding rna sets cis enrichment tool, BMC bioinformatics 22 (1), 1-17")
 	)

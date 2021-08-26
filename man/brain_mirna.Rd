@@ -4,7 +4,9 @@
 \name{brain_mirna}
 \alias{brain_mirna}
 \title{Differentially expressed human brain data}
-\format{Not Available}
+\format{
+Not Available
+}
 \source{
 \url{http://resource.psychencode.org/}
 }

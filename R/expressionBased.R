@@ -44,7 +44,7 @@ corrbased <- function(mirnagene,
   dat <- conn %>%
     dplyr::tbl('cor_mir') %>%
     dplyr::select(mirna_base, feature, cancer) %>%
-    dplyr::filter(mirna_base %in% mirnagene$g) %>%
+    dplyr::filter(mirna_base %in% local(mirnagene$g)) %>%
     dplyr::collect() %>%
     tidyr::gather(cancer, cor, -mirna_base, -feature) %>%
     dplyr::mutate(cor = cor / 100) %>% dplyr::filter(abs(cor) > minAbsCor) %>%
