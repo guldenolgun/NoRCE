@@ -507,8 +507,6 @@ WikiPathwayDB <- function(org_assembly = c("hg19",
 #' 
 #' @export
 #' 
-#' @examples
-#' a <- WikiEnrichment(genes = breastmRNA,org_assembly = "hg19")
 #' 
 WikiEnrichment <- function(genes,
                            org_assembly = c("hg19",
