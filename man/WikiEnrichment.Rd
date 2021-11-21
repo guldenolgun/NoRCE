@@ -50,7 +50,3 @@ Wiki Pathway Enrichment
 \description{
 WikiPathways Enrichment
 }
-\examples{
-a <- WikiEnrichment(genes = breastmRNA,org_assembly = "hg19")
-
-}
