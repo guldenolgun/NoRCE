@@ -277,9 +277,7 @@ getUCSC <-
                             "dm6",
                             "ce11",
                             "sc3")) {
-    if (class(pkg.env$mart)[1] != "Mart") {
-      assembly(org_assembly)
-    }
+    
     if (missing(bedfile)) {
       message("Bed file is missing?")
     }
@@ -292,6 +290,8 @@ getUCSC <-
     if (missing(org_assembly)) {
       message("genomee assembly version is missing.")
     }
+    
+    assembly(org_assembly)
     
     big_islands <-
       resize(bedfile, width = downstream + width(bedfile), fix = "end")
@@ -345,11 +345,11 @@ getNearToExon <-
                             "dm6",
                             "ce11",
                             "sc3")) {
-    if (class(pkg.env$mart)[1] != "Mart") {
-      assembly(org_assembly)
-    }
     if (missing(bedfile)) {
       message("Bed file is missing?")
+    }
+    if (missing(org_assembly)) {
+      message("Assembly is missing?")
     }
     if (missing(upstream)) {
       message("Upstream information is missing?")
@@ -357,6 +357,7 @@ getNearToExon <-
     if (missing(downstream)) {
       message("Downstream information is missing?")
     }
+    assembly(org_assembly)
     
     big_islands <-
       resize(bedfile, width = downstream + width(bedfile), fix = "end")
@@ -412,9 +413,8 @@ getNearToIntron <-
     if (missing(org_assembly)) {
       message("Assembly is missing?")
     }
-    if (class(pkg.env$mart)[1] != "Mart") {
-      assembly(org_assembly)
-    }
+    assembly(org_assembly)
+    
     if (missing(bedfile)) {
       message("Bed file is missing?")
     }
@@ -496,9 +496,9 @@ getTADOverlap <-
     if (missing(org_assembly)) {
       message("Assembly is missing?")
     }
-    if (class(pkg.env$mart)[1] != "Mart") {
-      assembly(org_assembly)
-    }
+    
+    assembly(org_assembly)
+    
     if (missing(bedfile)) {
       message("Bed file is missing?")
     }
@@ -576,7 +576,7 @@ convertGeneID <-
                             "ce11",
                             "sc3")) {
     if (missing(org_assembly)) {
-      message("genomee assembly version is missing.")
+      message("Genome assembly version is missing.")
     }
     if (missing(genetype)) {
       message("Format of the gene is missing.")
@@ -584,9 +584,9 @@ convertGeneID <-
     if (missing(genelist)) {
       message("List of gene is missing.")
     }
-    if (class(pkg.env$mart)[1] != "Mart") {
-      assembly(org_assembly)
-    }
+    
+    assembly(org_assembly)
+    
     attributes <-
       c("chromosome_name",
         "start_position",
@@ -630,31 +630,30 @@ convertGeneID <-
                 mart = pkg.env$mart
               ),
             ifelse(
-              genetype == "NCBI",
+              (genetype == "NCBI" & (org_assembly == 'hg19' | org_assembly == 'hg38')),
               output <-
                 getBM(
                   attributes = c("hgnc_symbol", attributes),
                   filters = "hgnc_symbol",
                   values = genelist,
-                  mart = pkg.env$mart,
-                  ifelse(
-                    genetype == "mgi_symbol",
-                    output <-
-                      getBM(
-                        attributes = c("mgi_symbol", attributes),
-                        filters = "mgi_symbol",
-                        values = genelist,
-                        mart = pkg.env$mart
-                      ),
-                    output <-
-                      getBM(
-                        attributes = c("external_gene_name", attributes),
-                        filters = "external_gene_name",
-                        values = genelist,
-                        mart = pkg.env$mart
-                      )
+                  mart = pkg.env$mart),
+              ifelse(
+                (genetype == "NCBI" & org_assembly == 'mm10'),
+                output <-
+                  getBM(
+                    attributes = c("mgi_symbol", attributes),
+                    filters = "mgi_symbol",
+                    values = genelist,
+                    mart = pkg.env$mart
+                  ),
+                output <-
+                  getBM(
+                    attributes = c("external_gene_name", attributes),
+                    filters = "external_gene_name",
+                    values = genelist,
+                    mart = pkg.env$mart
                   )
-                )
+              )
             )
           )
         )

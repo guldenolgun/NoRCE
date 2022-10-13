@@ -89,18 +89,22 @@ goEnrichment <-
            enrichTest = c("hyper", "binom", "fisher", "chi")) {
     if (missing(org_assembly)) {
       message("Genome assembly version is missing.")
-      assembly(org_assembly)
     }
     if (missing(genes)) {
       message("Genes are missing. Expected input: FOXP2 SOX4 HOXC6")
     }
+    assembly(org_assembly)
     #  annot <- unique(annGO(genes, GOtype, org_assembly))
     goData <- annGO(genes, GOtype, org_assembly)
     annot <- goData[[2]]
     uniqueGO <- annot$GOID[!duplicated(annot$GOID)]
     
-    
-    gofreq <- as.data.frame(table(annot$GOID))
+    if(is.null(dim(backG)[1])){
+      gofreq <- as.data.frame(table(annot$GOID))
+    }else{
+      
+    }
+   
     notGene <-
       getBackGenes(
         backgroundGene = backG,
@@ -118,45 +122,25 @@ goEnrichment <-
     freq <- merge(gofreq, notGene, by = "Var1")
     found <- freq$Freq.x
     
-    ifelse(backG == '',
+    ifelse(is.null(dim(backG)[1]),
            geneSize <- length(unique(goData[[1]]$Gene)),
-           geneSize <- length(unique(backG)))
-    
+           geneSize <- dim(unique(backG))[1])
     
     M <- freq$Freq.y
     n <- rep(length(unique(annot$Gene)), length(M))
     
-    
-    #  if (enrichTest == "binom") {
-    #    pvalues <- 2 * (1 - pbinom(found, n, pCut))
-    #  }
-    # if (enrichTest == "fisher") {
-    #    pvalues <-
-    #     fisher.test(matrix(c(
-    #      found, (M - found), (n - found), (geneSize - M - n + found)
-    #        ), 2, 2), alternative = 'greater')$p.value
-    #   }
-    #  if (enrichTest == "chi") {
-    #   pvalues <-
-    #    chisq.test(matrix(c(
-    #     found, (M - found), (n - found), (geneSize - M - n + found)
-    #  )))$p.value
-    #    }
-    #   else {
-    #    pvalues <- phyper(found - 1, M, geneSize - M, n, lower.tail = FALSE)
-    # }
     ifelse(
-      enrichTest == "binom",
+      pkg.env$enrichTest == "binom",
       pvalues <-
         2 * (1 - pbinom(found, n, pCut)),
       ifelse(
-        enrichTest == "fisher",
+        pkg.env$enrichTest == "fisher",
         pvalues <-
           fisher.test(matrix(c(
             found, (M - found), (n - found), (geneSize - M - n + found)
           ), 2, 2), alternative = 'greater')$p.value,
         ifelse(
-          enrichTest == "chi",
+          pkg.env$enrichTest == "chi",
           pvalues <-
             chisq.test(matrix(c(
               found, (M - found), (n - found), (geneSize - M - n + found)
@@ -229,12 +213,12 @@ getBackGenes <-
                             "dm6",
                             "ce11",
                             "sc3"),
-           type = 'pc_gene') {
-    if (backgroundGene == '') {
+           type = c('pc_gene', 'mirna')) {
+    backgroundGene = as.data.frame(backgroundGene)
+    if (length(backgroundGene[,1]) == 1) {
       bckfreq <- as.data.frame(table(all$GOID))
     }
     else{
-      backgroundGene = as.data.frame(backgroundGene)
       colnames(backgroundGene) = 'bg'
       
       if (type == 'mirna') {
@@ -252,9 +236,8 @@ getBackGenes <-
           getUCSC(geneTargetLoc, 10000, 10000, org_assembly)
         colnames(backgroundGene) = 'bg'
       }
-      annot <-
-        unique(annGO(backgroundGene$bg, GOtype, org_assembly))
-      uniqueGO <- annot$GOID[!duplicated(annot$GOID)]
+      goData <-annGO(backgroundGene$bg, GOtype, org_assembly)
+      annot <- goData[[2]]
       
       bckfreq <- as.data.frame(table(annot$GOID))
     }

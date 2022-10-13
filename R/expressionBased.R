@@ -14,6 +14,7 @@
 #' @return Data frame of the miRNA-mRNA correlation result
 #' 
 #' @import dbplyr
+#' @import stringr
 #'
 #' @export
 corrbased <- function(mirnagene,
@@ -22,29 +23,20 @@ corrbased <- function(mirnagene,
                       databaseFile) {
   colnames(mirnagene) <- c('g')
   
-  conn <- DBI::dbConnect(RSQLite::SQLite(), databaseFile)
-  
   a <-
     as.data.frame(gsub(paste(c("-3p", "-5p"), collapse = "|"), "",
                        mirnagene$g))
   
-  colnames(a) <- 'genes'
-  a <- unique(rbind(a, mirnagene$g))
+  a <- data.frame(str_replace_all(a[,1], 'miR', 'mir'))
+  colnames(a) <- 'g'
+  a <- unique(rbind(a, mirnagene))
   
-  # dat <-
-  #   cRegulome::get_mir(
-  #     conn = conn,
-  #     mir = as.character(a$genes),
-  #     study = cancer,
-  #     min_abs_cor = minAbsCor
-  #   )
-  # colnames(dat) <- c("mirna_base", "feature", "cor", "cancer")
-
+  conn <- DBI::dbConnect(RSQLite::SQLite(), databaseFile)
   
   dat <- conn %>%
     dplyr::tbl('cor_mir') %>%
     dplyr::select(mirna_base, feature, cancer) %>%
-    dplyr::filter(mirna_base %in% local(mirnagene$g)) %>%
+    dplyr::filter(mirna_base %in% local(a$g)) %>%
     dplyr::collect() %>%
     tidyr::gather(cancer, cor, -mirna_base, -feature) %>%
     dplyr::mutate(cor = cor / 100) %>% dplyr::filter(abs(cor) > minAbsCor) %>%
@@ -93,16 +85,26 @@ corrbasedMrna <-
 #' Get TCGA miRNAseq expression of miRNA genes for the given cancer
 #'
 #' @param mirnagene Data frame of the mature format
-#' @param cancer Name of the TCGA project code such as 'BRCA' that is
-#'      analyzed for miRNA-mRNA correlation
+#' @param cancer Name of the TCGA project code such as 'BRCA'
 #' @param databaseFile Path of miRcancer.db file
 #'
 #' @return Data frame of the raw read count of the given miRNA genes
 #'       for different patients
+#'       
+#' @import dbplyr
+#' @import stringr
 #'
 #' @export
 getmiRNACount <- function(mirnagene, cancer, databaseFile) {
   colnames(mirnagene) <- c('g')
+  
+  a <-
+    as.data.frame(gsub(paste(c("-3p", "-5p"), collapse = "|"), "",
+                       mirnagene$g))
+  
+  a <- data.frame(str_replace_all(a[,1], 'miR', 'mir'))
+  colnames(a) <- 'g'
+  a <- unique(rbind(a, mirnagene))
   
   conn <- DBI::dbConnect(RSQLite::SQLite(), databaseFile)
   
@@ -110,7 +112,7 @@ getmiRNACount <- function(mirnagene, cancer, databaseFile) {
     conn %>%
     dplyr::tbl('profiles') %>%
     dplyr::select(study, mirna_base, count) %>%
-    dplyr::filter(mirna_base %in% !!mirnagene$g) %>%
+    dplyr::filter(mirna_base %in% !!a$g) %>%
     dplyr::filter(study %in% cancer) %>%
     dplyr::collect() %>% na.omit()
   

@@ -24,7 +24,6 @@ drawDotPlot <- function(mrnaObject, type = "pAdjust", n) {
   tmp <- topEnrichment(mrnaObject, type, n)
   if (type == "pvalue") {
     p <-
-      p <-
       ggplot(tmp, aes(x = Pvalue, y = reorder(Term, Pvalue))) +
       geom_point(aes(size = EnrichGeneNumber, color =
                        Pvalue), position = "dodge") + theme_bw() + theme(
@@ -39,7 +38,7 @@ drawDotPlot <- function(mrnaObject, type = "pAdjust", n) {
                        ) + labs(
                          x =
                            "p-value",
-                         y = "GO Terms",
+                         y = "Terms",
                          color = "p-value",
                          size = "Gene Count"
                        )
@@ -60,7 +59,7 @@ drawDotPlot <- function(mrnaObject, type = "pAdjust", n) {
                        ) + labs(
                          x =
                            "pAdjust-value",
-                         y = "GO Terms",
+                         y = "Terms",
                          color = "p-Adj",
                          size = "Gene Count"
                        )
@@ -124,6 +123,12 @@ writeEnrichment <-
 #' @return Give top n enrichment results
 #' 
 #' @importFrom dplyr %>%
+#' 
+#' @examples 
+#' ncGO<-geneGOEnricher(gene = brain_disorder_ncRNA, org_assembly='hg19',
+#'    near=TRUE, genetype = 'Ensembl_gene')
+#'    
+#' result = topEnrichment(mrnaObject = ncGO, type = "pvalue", n = 10)
 #'
 #' @export
 topEnrichment <- function(mrnaObject, type, n) {
@@ -145,11 +150,13 @@ topEnrichment <- function(mrnaObject, type, n) {
   ),
   go = unlist(mrnaObject@geneList))
   
+  tmp <- mrnaObject@ncGeneList
+  is.na(tmp) <- lengths(tmp) == 0
   table1 <- data.frame(gene = rep(
     names(mrnaObject@geneList),
-    lapply(mrnaObject@ncGeneList, length)
+    lapply(tmp, length)
   ),
-  go = unlist(mrnaObject@ncGeneList))
+  go = unlist(tmp))
   
   table <- table[!duplicated(table), ]
   
@@ -357,7 +364,7 @@ createNetwork <-
         layout = l * 1.0
       )
     return(p)
-    }
+  }
 
 #' Plot and save the GO term DAG of the top n enrichments in terms of 
 #' p-values or adjusted p-values with an user provided format
@@ -414,7 +421,7 @@ getGoDag <-
     
     node_color <-
       grDevices::colorRampPalette(c("lightgoldenrodyellow", "orangered"),
-                       bias = 0.5)(length(p_range))
+                                  bias = 0.5)(length(p_range))
     
     color <- seq_along(dt$Pvalue)#seq_len(2)
     if (type == 'pvalue') {
@@ -499,9 +506,7 @@ getKeggDiagram <-
     if (missing(pathway))
       message("Expected pathway ID is missing. Please specify pathway ID")
     
-    if (class(pkg.env$mart)[1] != "Mart") {
-      assembly(org_assembly)
-    }
+    assembly(org_assembly)
     
     path_index <- which(names(mrnaObject@geneList) == pathway)
     ns <- unique(
@@ -514,15 +519,15 @@ getKeggDiagram <-
     )
     n <- paste(ns$entrezgene_id, collapse = '/')
     if(identical(interactive(), TRUE)){
-    browseURL(
-      paste0(
-        "http://www.kegg.jp/kegg-bin/show_pathway?",
-        pathway,
-        '/',
-        n,
-        collapse = ''
+      browseURL(
+        paste0(
+          "http://www.kegg.jp/kegg-bin/show_pathway?",
+          pathway,
+          '/',
+          n,
+          collapse = ''
+        )
       )
-    )
     }
   }
 
@@ -567,5 +572,5 @@ getReactomeDiagram <- function(mrnaObject, pathway, imageFormat) {
       n
     )
   if(identical(interactive(), TRUE))
-   browseURL(a)
+    browseURL(a)
 }

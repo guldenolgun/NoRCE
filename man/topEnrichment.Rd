@@ -23,3 +23,10 @@ Give top n enrichment results
 Number of top enrichment results of the pathway or GO terms for the given
 object and the order type - p-value or adjusted p-value.
 }
+\examples{
+ncGO<-geneGOEnricher(gene = brain_disorder_ncRNA, org_assembly='hg19',
+   near=TRUE, genetype = 'Ensembl_gene')
+   
+result = topEnrichment(mrnaObject = ncGO, type = "pvalue", n = 10)
+
+}

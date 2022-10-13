@@ -96,9 +96,9 @@ mirnaGOEnricher <-
         !is.character(gene) & !is.factor(gene))
       message("Type of the gene should be data.frame or character")
     
-    if (class(pkg.env$mart)[1] != "Mart") {
-      assembly(org_assembly)
-    }
+    
+    assembly(org_assembly)
+    
     
     gene <- as.data.frame(gene)
     colnames(gene) <- c("genes")
@@ -380,9 +380,9 @@ mirnaPathwayEnricher <-
     if (missing(org_assembly)) {
       message("Assembly version is missing.")
     }
-    if (class(pkg.env$mart)[1] != "Mart") {
-      assembly(org_assembly)
-    }
+    
+    assembly(org_assembly)
+    
     
     if (!is.data.frame(gene) &
         !is.character(gene) & !is.factor(gene))
@@ -692,9 +692,9 @@ mirnaRegionGOEnricher <-
     if (missing(org_assembly)) {
       message("Assembly version is missing.")
     }
-    if (class(pkg.env$mart)[1] != "Mart") {
-      assembly(org_assembly)
-    }
+    
+    assembly(org_assembly)
+    
     
     if (target) {
       genes <-
@@ -863,6 +863,16 @@ mirnaRegionGOEnricher <-
           min = pkg.env$min,
           enrichTest = pkg.env$enrichTest
         )
+      if (length(miEnrich@Term) > 0)
+      {
+        miEnrich@ncGeneList <- commonGeneRegion(
+          mrnaobject = miEnrich,
+          org_assembly = org_assembly,
+          downstream = pkg.env$downstream,
+          upstream = pkg.env$upstream,
+          inRegion =  region
+        )
+      }
       
       return(miEnrich)
     }
@@ -961,9 +971,8 @@ mirnaRegionPathwayEnricher <-
       message("Assembly version is missing.")
     }
     
-    if (class(pkg.env$mart)[1] != "Mart") {
-      assembly(org_assembly)
-    }
+    assembly(org_assembly)
+    
     
     if (target) {
       genes <-
@@ -1210,14 +1219,14 @@ predictmiTargets <- function(gene, type, org_assembly)
     ifelse(
       org_assembly == 'mm10',
       targets <- read.table(paste0("https://raw.githubusercontent.com/",
-              "guldenolgun/NoRCE-data/master/target/target_mouse.txt")),
+                                   "guldenolgun/NoRCE-data/master/target/target_mouse.txt")),
       ifelse(
         org_assembly == 'dre10',
         markk <- 2,
         ifelse (
           org_assembly == 'ce11',
           targets <- read.table(paste0("https://raw.githubusercontent.com/",
-                "guldenolgun/NoRCE-data/master/target/target_worm.txt")),
+                                       "guldenolgun/NoRCE-data/master/target/target_worm.txt")),
           ifelse (
             org_assembly == 'rn6',
             markk <- 1,
@@ -1225,10 +1234,10 @@ predictmiTargets <- function(gene, type, org_assembly)
               org_assembly == 'dm6',
               targets <- read.table(paste0(
                 "https://raw.githubusercontent.com/",
-                    "guldenolgun/NoRCE-data/master/target/target_fly.txt"),
-                      skip = 1),
-            targets <- read.table(paste0("https://raw.githubusercontent.com/",
-                    "guldenolgun/NoRCE-data/master/target/target_human.txt"))
+                "guldenolgun/NoRCE-data/master/target/target_fly.txt"),
+                skip = 1),
+              targets <- read.table(paste0("https://raw.githubusercontent.com/",
+                                           "guldenolgun/NoRCE-data/master/target/target_human.txt"))
             )
           )
         )
@@ -1239,13 +1248,13 @@ predictmiTargets <- function(gene, type, org_assembly)
   
   if(markk == 1){
     tmp1 <- read.table(paste0("https://raw.githubusercontent.com/",
-                "guldenolgun/NoRCE-data/master/target/target_rat.txt"))
+                              "guldenolgun/NoRCE-data/master/target/target_rat.txt"))
     tmp2 <- read.table(paste0("https://raw.githubusercontent.com/",
-                "guldenolgun/NoRCE-data/master/target/target_rat1.txt"))
+                              "guldenolgun/NoRCE-data/master/target/target_rat1.txt"))
     tmp3 <- read.table(paste0("https://raw.githubusercontent.com/",
-                "guldenolgun/NoRCE-data/master/target/target_rat2.txt"))
+                              "guldenolgun/NoRCE-data/master/target/target_rat2.txt"))
     tmp4 <- read.table(paste0("https://raw.githubusercontent.com/",
-                "guldenolgun/NoRCE-data/master/target/target_rat3.txt"))
+                              "guldenolgun/NoRCE-data/master/target/target_rat3.txt"))
     target <- rbind(tmp1,tmp2,tmp3)
     targets <- merge(target,tmp4, by = 'V1')
     colnames(targets) <- c("ens","mir","sym","trans")
@@ -1253,9 +1262,9 @@ predictmiTargets <- function(gene, type, org_assembly)
   
   if(markk  == 2){
     tmp1 <- read.table(paste0("https://raw.githubusercontent.com/",
-                "guldenolgun/NoRCE-data/master/target/target_zebra.txt"))
+                              "guldenolgun/NoRCE-data/master/target/target_zebra.txt"))
     tmp2 <- read.table(paste0("https://raw.githubusercontent.com/",
-                "guldenolgun/NoRCE-data/master/target/target_zebra1.txt"))
+                              "guldenolgun/NoRCE-data/master/target/target_zebra1.txt"))
     targets <- cbind(rbind(tmp1,tmp2),"")
     colnames(target) <- c("ens","sym","mir","trans")
   }
@@ -1265,16 +1274,16 @@ predictmiTargets <- function(gene, type, org_assembly)
   
   ifelse(type == "NCBI",
          where <-
-           targets[which(tolower(targets$sym) %in% gene$genes),],
+           targets[which(tolower(targets$sym) %in% tolower(gene$genes)),],
          ifelse (
            type == "mirna",
            where <-
              targets[which(tolower(targets$mir) %in% tolower(gene$genes)),],
            ifelse (type == "Ensembl_gene" ,
                    where <-
-                     targets[which(tolower(targets$ens) %in% gene$genes),],
+                     targets[which(tolower(targets$ens) %in% tolower(gene$genes)),],
                    where <-
-                     targets[which(tolower(targets$trans) %in% gene$genes),])
+                     targets[which(tolower(targets$trans) %in% tolower(gene$genes)),])
          ))
   if (nrow(where) == 0) {
     return(NULL)

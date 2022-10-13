@@ -98,9 +98,8 @@ geneGOEnricher <-
     if (missing(genetype))
       message("Input gene type is missing.")
     
-    if (class(pkg.env$mart)[1] != "Mart") {
-      assembly(org_assembly)
-    }
+    assembly(org_assembly)
+    
     gene <- as.data.frame(gene)
     colnames(gene) <- c("genes")
     geneLoc <-
@@ -350,9 +349,8 @@ genePathwayEnricher <-
     if (missing(org_assembly)) {
       message("Assembly version is missing?")
     }
-    if (class(pkg.env$mart)[1] != "Mart") {
-      assembly(org_assembly)
-    }
+    assembly(org_assembly)
+    
     
     if (missing(genetype))
       message("Input gene type is missing.")
@@ -619,9 +617,7 @@ geneRegionGOEnricher <-
     if (missing(org_assembly)) {
       message("Assembly version is missing?")
     }
-    if (class(pkg.env$mart)[1] != "Mart") {
-      assembly(org_assembly)
-    }
+    assembly(org_assembly)
     if (near) {
       ifelse(
         pkg.env$searchRegion == 'all',
@@ -738,7 +734,16 @@ geneRegionGOEnricher <-
           pAdjust = pkg.env$pAdjust,
           min = pkg.env$min
         )
-      
+      if (length(enrichedGene@Term) > 0)
+      {
+        enrichedGene@ncGeneList <- commonGeneRegion(
+          mrnaobject = enrichedGene,
+          org_assembly = org_assembly,
+          downstream = pkg.env$downstream,
+          upstream = pkg.env$upstream,
+          inRegion =  region
+        )
+      }
       
       return(enrichedGene)
     }
@@ -832,9 +837,9 @@ geneRegionPathwayEnricher <-
     if (missing(org_assembly)) {
       message("Assembly version is missing?")
     }
-    if (class(pkg.env$mart)[1] != "Mart") {
-      assembly(org_assembly)
-    }
+    
+    assembly(org_assembly)
+    
     
     if (near) {
       ifelse(

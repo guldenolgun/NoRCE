@@ -59,9 +59,8 @@ KeggEnrichment <-
     if (missing(org_assembly)) {
       message("Assembly version is missing.")
     }
-    if (class(pkg.env$mart)[1] != "Mart") {
       assembly(org_assembly)
-    }
+    
     pathTable <- unique(keggPathwayDB(org_assembly))
     genes <- as.data.frame(genes)
     colnames(genes) <- 'g'
@@ -197,9 +196,9 @@ reactomeEnrichment <-
     if (missing(org_assembly)) {
       message("Assembly version is missing.")
     }
-    if (class(pkg.env$mart)[1] != "Mart") {
+
       assembly(org_assembly)
-    }
+    
     pathTable <- unique(reactomePathwayDB(org_assembly))
     genes <- as.data.frame(genes)
     colnames(genes) <- 'g'
@@ -659,10 +658,9 @@ pathwayEnrichment <- function(genes,
   
   if (missing(isSymbol))
     message("GMT gene format is missing.")
-  
-  if (class(pkg.env$mart)[1] != "Mart") {
+
     assembly(org_assembly)
-  }
+  
   genes <- as.data.frame(genes)
   colnames(genes) <- 'g'
   

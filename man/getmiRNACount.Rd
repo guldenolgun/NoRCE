@@ -9,8 +9,7 @@ getmiRNACount(mirnagene, cancer, databaseFile)
 \arguments{
 \item{mirnagene}{Data frame of the mature format}
 
-\item{cancer}{Name of the TCGA project code such as 'BRCA' that is
-analyzed for miRNA-mRNA correlation}
+\item{cancer}{Name of the TCGA project code such as 'BRCA'}
 
 \item{databaseFile}{Path of miRcancer.db file}
 }
