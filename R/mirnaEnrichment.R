@@ -53,12 +53,13 @@ options(readr.num_columns = 0)
 #' @return MiRNA GO term enrichment object for the given input
 #' 
 #' @examples
+#' \dontrun{
 #' subsetGene <- brain_mirna[1:30,]
 #'
 #' miGO <-mirnaGOEnricher(gene=subsetGene,
 #'                        org_assembly='hg19',
 #'                        near = TRUE,
-#'                        target = FALSE)
+#'                        target = FALSE) }
 #' @export mirnaGOEnricher
 mirnaGOEnricher <-
   function(gene,

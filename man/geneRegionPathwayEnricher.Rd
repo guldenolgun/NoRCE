@@ -92,10 +92,10 @@ Given gene regions that fall in the given upstream and downstream region
 of mRNAs of interest, pathway enrichment analysis is carried out
 }
 \examples{
-
+\dontrun{
 regions<-system.file("extdata", "ncRegion.txt", package = "NoRCE")
 regionNC <- rtracklayer::import(regions, format = "BED")
 ncPath<-geneRegionPathwayEnricher(region = regionNC,
                                   org_assembly = 'hg19',
-                                  near = TRUE)
+                                  near = TRUE) }
 }

@@ -120,7 +120,7 @@ setParameters("searchRegion", "all")
 
 #Import the gene set regions
 regions<-system.file("extdata", "ncRegion.txt", package = "NoRCE")
-regionNC <- import(regions, format = "BED")
+regionNC <- rtracklayer::import(regions, format = "BED")
 
 #Perform the analysis on the gene regions
 regionGO<-geneRegionGOEnricher(region = regionNC, org_assembly= 'hg19', near = TRUE)
@@ -154,7 +154,7 @@ User-defined TAD regions can be used as an input for the TAD regions and gene en
 ```{r, eval=FALSE}
 # Read the custom TAD boundaries
 cus_TAD<-system.file("extdata", "DER-18_TAD_adultbrain.txt", package = "NoRCE")
-tad_custom <- import(cus_TAD, format = 'bed')
+tad_custom <- rtracklayer::import(cus_TAD, format = 'bed')
 
 # Use custom TAD boundaries for enrichment
 ncGO_tad <- geneGOEnricher(gene = brain_disorder_ncRNA, org_assembly = 'hg19', genetype = 'Ensembl_gene', isTADSearch = TRUE, TAD = tad_custom)

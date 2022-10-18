@@ -92,10 +92,11 @@ Given gene regions that fall in the given upstream and downstream region
 of mRNAs of interest, GO term enrichment analysis is carried out
 }
 \examples{
-
+\dontrun{
 regions<-system.file("extdata", "ncRegion.txt", package = "NoRCE")
 regionNC <- rtracklayer::import(regions, format = "BED")
 regionGO<-geneRegionGOEnricher(region = regionNC, org_assembly= 'hg19',
                                near = TRUE)
+                               }
 
 }

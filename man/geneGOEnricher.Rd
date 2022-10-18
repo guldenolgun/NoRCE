@@ -97,7 +97,9 @@ Given genes that fall in a given upstream and downstream region of
 mRNAs of interest, GO term enrichment analysis is carried out
 }
 \examples{
+\dontrun{
 ncGO<-geneGOEnricher(gene = brain_disorder_ncRNA, org_assembly='hg19',
 near=TRUE, genetype = 'Ensembl_gene')
+}
 
 }

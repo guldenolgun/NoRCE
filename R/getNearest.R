@@ -214,7 +214,7 @@ assembly <- function(org_assembly = c("hg19",
   if (index == 1) {
     mart = useMart(
       biomart = "ENSEMBL_MART_ENSEMBL",
-      host = "grch37.ensembl.org",
+      host = "https://grch37.ensembl.org",
       path = "/biomart/martservice",
       dataset = "hsapiens_gene_ensembl"
     )

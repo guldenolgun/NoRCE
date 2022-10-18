@@ -22,10 +22,12 @@
 #' @return KEGG pathway enrichment results
 #'
 #' @examples
+#' \dontrun{
 #' subsetGene <- breastmRNA[1:30,]
 #'
 #' br_enr<-KeggEnrichment(genes = subsetGene,
 #'                        org_assembly='hg19')
+#'}
 #'
 #' @export
 #'
@@ -163,7 +165,8 @@ KeggEnrichment <-
 #'
 #'
 #' @examples
-#' br_enr<-reactomeEnrichment(genes = breastmRNA,org_assembly='hg19')
+#' \dontrun{
+#' br_enr<-reactomeEnrichment(genes = breastmRNA,org_assembly='hg19') }
 #'
 #' @export
 reactomeEnrichment <-

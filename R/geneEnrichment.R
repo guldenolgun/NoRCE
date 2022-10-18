@@ -52,8 +52,10 @@
 #'
 #'
 #' @examples
+#' \dontrun{
 #' ncGO<-geneGOEnricher(gene = brain_disorder_ncRNA, org_assembly='hg19',
 #' near=TRUE, genetype = 'Ensembl_gene')
+#' }
 #'
 #' @export
 geneGOEnricher <-
@@ -301,12 +303,13 @@ geneGOEnricher <-
 #' 
 #'
 #' @examples
+#' \dontrun{
 #' #Pathway enrichment based on the gen sets that falls into the TAD regions
 #' ncRNAPathway<-genePathwayEnricher(gene = brain_disorder_ncRNA ,
 #'                                   org_assembly='hg19',
 #'                                   isTADSearch = TRUE,
 #'                                   TAD = tad_hg19,
-#'                                   genetype = 'Ensembl_gene')
+#'                                   genetype = 'Ensembl_gene')}
 #'
 #'
 #' @export
@@ -579,11 +582,12 @@ genePathwayEnricher <-
 #' 
 #' @importFrom rtracklayer import
 #' @examples
-#'
+#' \dontrun{
 #' regions<-system.file("extdata", "ncRegion.txt", package = "NoRCE")
 #' regionNC <- rtracklayer::import(regions, format = "BED")
 #' regionGO<-geneRegionGOEnricher(region = regionNC, org_assembly= 'hg19',
 #'                                near = TRUE)
+#'                                }
 #'
 #' @export
 geneRegionGOEnricher <-
@@ -799,12 +803,12 @@ geneRegionGOEnricher <-
 #' @return Pathway enrichment object of the given input
 #'
 #' @examples
-#'
+#' \dontrun{
 #' regions<-system.file("extdata", "ncRegion.txt", package = "NoRCE")
 #' regionNC <- rtracklayer::import(regions, format = "BED")
 #' ncPath<-geneRegionPathwayEnricher(region = regionNC,
 #'                                   org_assembly = 'hg19',
-#'                                   near = TRUE)
+#'                                   near = TRUE) }
 #' @export
 geneRegionPathwayEnricher <-
   function(region,
