@@ -345,10 +345,12 @@ mirnaGOEnricher <-
 #' @return MiRNA pathway enrichment object for the given input
 #'
 #' @examples
+#' \dontrun{
 #' miPath <- mirnaPathwayEnricher(gene = brain_mirna,
 #'                                org_assembly = 'hg19',
 #'                                near = TRUE)
-#'
+#' }
+#' 
 #' @export
 mirnaPathwayEnricher <-
   function(gene,
@@ -653,12 +655,14 @@ mirnaPathwayEnricher <-
 #' 
 #'
 #'@examples
+#' \dontrun{
 #' regions<-system.file("extdata", "ncRegion.txt", package = "NoRCE")
 #' regionNC <- rtracklayer::import(regions, format = "BED")
 #'
 #' a<- mirnaRegionGOEnricher(region = regionNC,
 #'                           org_assembly = 'hg19',
 #'                           near = TRUE)
+#'}
 #'
 #' @export
 mirnaRegionGOEnricher <-
@@ -931,12 +935,13 @@ mirnaRegionGOEnricher <-
 #' 
 #'
 #' @examples
-#'
+#' \dontrun{
 #' regions<-system.file("extdata", "ncRegion.txt", package = "NoRCE")
 #' regionNC <- rtracklayer::import(regions, format = "BED")
 #'
 #' a<- mirnaRegionPathwayEnricher(region = regionNC,
-#'              org_assembly = 'hg19')
+#'              org_assembly = 'hg19') 
+#'              }
 #'
 #' @export
 mirnaRegionPathwayEnricher <-
@@ -1178,10 +1183,11 @@ mirnaRegionPathwayEnricher <-
 #' @return miRNA:mRNA target sets of the given genes
 #'
 #' @examples
-#'
+#' \dontrun{
 #' a<- predictmiTargets(gene = brain_mirna[1:100,],
 #'                      org_assembly = 'hg19',
 #'                      type = "mirna")
+#'                      }
 #'
 #'
 #' @export

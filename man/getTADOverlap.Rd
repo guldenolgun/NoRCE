@@ -48,7 +48,7 @@ For given region of interest, overlapped genes in the TAD regions are
 found. Results can be filtered according to the available cell lines.
 }
 \examples{
-
+\dontrun{
 regions<-system.file("extdata", "ncRegion.txt", package = "NoRCE")
 regionNC <- rtracklayer::import(regions, format = "BED")
 
@@ -56,5 +56,5 @@ r<-getTADOverlap(bedfile = regionNC,
                  tad = tad_hg19,
                  org_assembly = 'hg19',
                  cellline = 'HUVEC')
-
+}
 }

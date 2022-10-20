@@ -37,7 +37,9 @@ Plot and save the GO term DAG of the top n enrichments in terms of
 p-values or adjusted p-values with an user provided format
 }
 \examples{
+\dontrun{
 ncRNAPathway<-mirnaPathwayEnricher(gene = brain_mirna,
                                    org_assembly = 'hg19',near = TRUE)
+                                   }
 
 }

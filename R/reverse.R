@@ -42,6 +42,8 @@ commonGene <- function(mrnaobject,
     ab <- list(ab)
   return(ab)
 }
+
+#' @importFrom GenomeInfoDb seqlevels
 commonGeneRegion <- function(mrnaobject,
                              org_assembly,
                              downstream,

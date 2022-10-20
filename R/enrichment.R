@@ -52,11 +52,13 @@ setClass(
 #' @return GO enrichment results
 #'
 #' @examples
+#' \dontrun{
 #' subsetGene <- breastmRNA[1:30,]
 #' breastEnr <- goEnrichment(genes = subsetGene,
 #'                           org_assembly = 'hg19',
 #'                           GOtype = 'MF',
 #'                           min = 2)
+#'                           }
 #'
 #' @importFrom stats chisq.test cor cor.test fisher.test na.omit p.adjust
 #' @importFrom stats pbinom phyper reorder setNames var

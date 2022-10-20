@@ -95,11 +95,13 @@ GO enrichments of the microRNA regions with mRNAs that fall in the given
 upstream/downstream regions of the microRNA genes
 }
 \examples{
+\dontrun{
 regions<-system.file("extdata", "ncRegion.txt", package = "NoRCE")
 regionNC <- rtracklayer::import(regions, format = "BED")
 
 a<- mirnaRegionGOEnricher(region = regionNC,
                           org_assembly = 'hg19',
                           near = TRUE)
+}
 
 }

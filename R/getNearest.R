@@ -47,8 +47,9 @@ pkg.env$isSymbol = FALSE
 #' @importFrom IRanges IRanges
 #'
 #' @examples
-#'
-#' assembly('hg19')
+#'  \dontrun{
+#' assembly('hg19') 
+#' }
 #'
 #' @export
 assembly <- function(org_assembly = c("hg19",
@@ -255,14 +256,15 @@ assembly <- function(org_assembly = c("hg19",
 #' @import zlibbioc
 #'
 #' @examples
-#'
+#'  \dontrun{
 #' regions<-system.file("extdata", "ncRegion.txt", package = "NoRCE")
 #' regionNC <- rtracklayer::import(regions, format = "BED")
 #'
 #' neighbour <- getUCSC(bedfile = regionNC,
 #'                      upstream = 1000,
 #'                      downstream = 1000,
-#'                      org_assembly = 'hg19')
+#'                      org_assembly = 'hg19') 
+#'                      }
 #'
 #'@export
 getUCSC <-
@@ -323,7 +325,7 @@ getUCSC <-
 #' @return genes
 #'
 #' @examples
-#'
+#' \dontrun{
 #' regions <- system.file("extdata", "ncRegion.txt", package = "NoRCE")
 #' regionNC <- rtracklayer::import(regions, format = "BED")
 #'
@@ -331,7 +333,7 @@ getUCSC <-
 #'                  upstream = 1000,
 #'                  downstream = 2000,
 #'                  org_assembly = 'hg19')
-#'
+#'  }
 #' @export
 getNearToExon <-
   function(bedfile,
@@ -386,7 +388,7 @@ getNearToExon <-
 #' @return genes
 #'
 #' @examples
-#'
+#' \dontrun{
 #' regions<-system.file("extdata", "ncRegion.txt", package = "NoRCE")
 #' regionNC <- rtracklayer::import(regions, format = "BED")
 #'
@@ -394,7 +396,7 @@ getNearToExon <-
 #'                  upstream = 1000,
 #'                  downstream = 2000,
 #'                  org_assembly = 'hg19')
-#'
+#' }
 #' @importFrom GenomicFeatures as.list intronsByTranscript
 #'
 #' @export
@@ -465,7 +467,7 @@ getNearToIntron <-
 #' @return List of protein coding genes that falls into the TAD regions
 #'
 #' @examples
-#'
+#' \dontrun{
 #' regions<-system.file("extdata", "ncRegion.txt", package = "NoRCE")
 #' regionNC <- rtracklayer::import(regions, format = "BED")
 #'
@@ -473,7 +475,7 @@ getNearToIntron <-
 #'                  tad = tad_hg19,
 #'                  org_assembly = 'hg19',
 #'                  cellline = 'HUVEC')
-#'
+#' }
 #' @export
 getTADOverlap <-
   function(bedfile,
@@ -553,11 +555,11 @@ getTADOverlap <-
 #' @importFrom IRanges IRanges
 #'
 #' @examples
-#'
+#' \dontrun{
 #' convGene <-convertGeneID(genetype = "mirna",
 #'                          genelist = brain_mirna[1:30,],
 #'                          org_assembly = 'hg19')
-#'
+#' }
 #'
 #' @export
 convertGeneID <-
@@ -687,9 +689,9 @@ convertGeneID <-
 #' @return cell line of the input tad data
 #'
 #' @examples
-#'
+#' \dontrun{
 #' listTAD(TADName = tad_hg19)
-#'
+#' }
 #'
 #' @export
 #'
@@ -757,13 +759,14 @@ packageCheck <- function(pkg)
 #' @return changed parameters
 #'
 #' @examples
-#'
+#' \dontrun{
 #' type <- c('downstream','upstream')
 #'
 #' value <- c(2000,30000)
 #'
 #' setParameters(type,value)
-#'
+#' }
+#' 
 #' @export
 setParameters <- function(type, value) {
   for (i in seq_along(type)) {

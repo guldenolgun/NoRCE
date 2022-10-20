@@ -54,11 +54,12 @@ isSymbol: Boolean variable that hold the gene format of the gmt file.
      Otherwise, gene format should be ENTREZ ID. By default, it is FALSE.
 }
 \examples{
-
+\dontrun{
 type <- c('downstream','upstream')
 
 value <- c(2000,30000)
 
 setParameters(type,value)
+}
 
 }

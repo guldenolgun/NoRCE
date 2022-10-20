@@ -21,7 +21,8 @@ setting required information
 Get the required information for the given assembly
 }
 \examples{
-
-assembly('hg19')
+ \dontrun{
+assembly('hg19') 
+}
 
 }

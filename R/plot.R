@@ -81,10 +81,12 @@ drawDotPlot <- function(mrnaObject, type = "pAdjust", n) {
 #' @return Text file of the enrichment results in a tabular format
 #' 
 #' @examples 
+#' \dontrun{
 #' ncGO<-geneGOEnricher(gene = brain_disorder_ncRNA, org_assembly='hg19',
 #'    near=TRUE, genetype = 'Ensembl_gene')
 #'    
 #' writeEnrichment(mrnaObject = ncGO,fileName = "a.txt",sept = '\t')
+#' }
 #'
 #' @export
 writeEnrichment <-
@@ -125,10 +127,12 @@ writeEnrichment <-
 #' @importFrom dplyr %>%
 #' 
 #' @examples 
+#' \dontrun{
 #' ncGO<-geneGOEnricher(gene = brain_disorder_ncRNA, org_assembly='hg19',
 #'    near=TRUE, genetype = 'Ensembl_gene')
 #'    
 #' result = topEnrichment(mrnaObject = ncGO, type = "pvalue", n = 10)
+#' }
 #'
 #' @export
 topEnrichment <- function(mrnaObject, type, n) {
@@ -382,8 +386,10 @@ createNetwork <-
 #'
 #'
 #' @examples
+#' \dontrun{
 #' ncRNAPathway<-mirnaPathwayEnricher(gene = brain_mirna,
 #'                                    org_assembly = 'hg19',near = TRUE)
+#'                                    }
 #'
 #' @export
 getGoDag <-
@@ -482,11 +488,13 @@ getGoDag <-
 #' @importFrom utils browseURL read.table write.table
 #' 
 #' @examples
+#' \dontrun{
 #' ncRNAPathway<-mirnaPathwayEnricher(gene = brain_mirna,
 #'                                    org_assembly = 'hg19',near = TRUE)
 #'
 #' getKeggDiagram(mrnaObject = ncRNAPathway, org_assembly ='hg19',
 #'                pathway = ncRNAPathway@ID[1])
+#'                }
 #' @export
 #'
 getKeggDiagram <-
@@ -543,11 +551,12 @@ getKeggDiagram <-
 #' @return Shows reactome diagram marked with an enriched genes in a browser
 #'
 #' @examples
-#'
+#' \dontrun{
 #' br_enr<-reactomeEnrichment(genes = breastmRNA,org_assembly='hg19')
 #'
 #' getReactomeDiagram(mrnaObject = br_enr,pathway = br_enr@ID[1],
 #'                    imageFormat = 'png')
+#'                    }
 #'
 #'@export
 getReactomeDiagram <- function(mrnaObject, pathway, imageFormat) {

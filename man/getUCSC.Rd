@@ -33,13 +33,14 @@ When downstream = 0 / upstream = 0, function converts bed formated regions
 to HUGO genes
 }
 \examples{
-
+ \dontrun{
 regions<-system.file("extdata", "ncRegion.txt", package = "NoRCE")
 regionNC <- rtracklayer::import(regions, format = "BED")
 
 neighbour <- getUCSC(bedfile = regionNC,
                      upstream = 1000,
                      downstream = 1000,
-                     org_assembly = 'hg19')
+                     org_assembly = 'hg19') 
+                     }
 
 }

@@ -31,9 +31,11 @@ specific to only one KEGG pathway id and identifies the enriched genes
 in the diagram.
 }
 \examples{
+\dontrun{
 ncRNAPathway<-mirnaPathwayEnricher(gene = brain_mirna,
                                    org_assembly = 'hg19',near = TRUE)
 
 getKeggDiagram(mrnaObject = ncRNAPathway, org_assembly ='hg19',
                pathway = ncRNAPathway@ID[1])
+               }
 }

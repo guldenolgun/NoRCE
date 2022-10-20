@@ -23,8 +23,10 @@ when input gene list is mixed or when research of the interest is only
 focused on specific group of genes.
 }
 \examples{
+\dontrun{
 biotypes <- c('unprocessed_pseudogene','transcribed_unprocessed_pseudogene')
 fileImport<-system.file("extdata", "temp.gtf", package = "NoRCE")
 extrResult <- filterBiotype(fileImport, biotypes)
+}
 
 }

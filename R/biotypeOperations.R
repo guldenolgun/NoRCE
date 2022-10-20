@@ -12,8 +12,10 @@
 #' @import readr
 #'
 #' @examples
+#' \dontrun{
 #' fileImport<-system.file("extdata", "temp.gtf", package = "NoRCE")
 #' gtf <- extractBiotype(gtfFile = fileImport)
+#' }
 #'
 #' @export
 #'
@@ -43,9 +45,11 @@ extractBiotype <- function(gtfFile) {
 #' @return Table format of genes with a given biotypes
 #'
 #' @examples
+#' \dontrun{
 #' biotypes <- c('unprocessed_pseudogene','transcribed_unprocessed_pseudogene')
 #' fileImport<-system.file("extdata", "temp.gtf", package = "NoRCE")
 #' extrResult <- filterBiotype(fileImport, biotypes)
+#' }
 #'
 #' @export
 filterBiotype <- function(gtfFile, biotypes) {

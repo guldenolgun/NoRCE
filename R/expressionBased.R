@@ -147,9 +147,10 @@ getmiRNACount <- function(mirnagene, cancer, databaseFile) {
 #'       value and pvalue
 #'
 #' @examples
-#'
+#' \dontrun{
 #' #Assume that mirnanorce and mrnanorce are custom patient by gene data
-#' a<-calculateCorr(exp1 = mirna, exp2 = mrna )
+#' a<-calculateCorr(exp1 = mirna, exp2 = mrna ) 
+#' }
 #'
 #' @export
 calculateCorr <-

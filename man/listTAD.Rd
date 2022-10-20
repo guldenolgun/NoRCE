@@ -16,8 +16,8 @@ cell line of the input tad data
 List cell line of the given topological domain regions
 }
 \examples{
-
+\dontrun{
 listTAD(TADName = tad_hg19)
-
+}
 
 }

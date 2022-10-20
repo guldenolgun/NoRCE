@@ -56,10 +56,12 @@ GO enrichment results
 Perform enrichment analysis of the given genes
 }
 \examples{
+\dontrun{
 subsetGene <- breastmRNA[1:30,]
 breastEnr <- goEnrichment(genes = subsetGene,
                           org_assembly = 'hg19',
                           GOtype = 'MF',
                           min = 2)
+                          }
 
 }

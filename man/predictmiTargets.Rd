@@ -27,10 +27,11 @@ Predict the miRNA targets for the miRNA or mRNA genes, which is specified
 with type parameter
 }
 \examples{
-
+\dontrun{
 a<- predictmiTargets(gene = brain_mirna[1:100,],
                      org_assembly = 'hg19',
                      type = "mirna")
+                     }
 
 
 }

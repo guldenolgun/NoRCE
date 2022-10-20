@@ -22,7 +22,9 @@ Get the biotype of the non-coding genes. It is suitable for the
 GENCODE gtf files
 }
 \examples{
+\dontrun{
 fileImport<-system.file("extdata", "temp.gtf", package = "NoRCE")
 gtf <- extractBiotype(gtfFile = fileImport)
+}
 
 }

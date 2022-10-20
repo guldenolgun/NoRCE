@@ -30,10 +30,10 @@ GRange object of the given input
 Convert gene ids according to the gene type
 }
 \examples{
-
+\dontrun{
 convGene <-convertGeneID(genetype = "mirna",
                          genelist = brain_mirna[1:30,],
                          org_assembly = 'hg19')
-
+}
 
 }

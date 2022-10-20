@@ -58,8 +58,9 @@ Calculates the correlation coefficient values between two custom
 expression data.
 }
 \examples{
-
+\dontrun{
 #Assume that mirnanorce and mrnanorce are custom patient by gene data
-a<-calculateCorr(exp1 = mirna, exp2 = mrna )
+a<-calculateCorr(exp1 = mirna, exp2 = mrna ) 
+}
 
 }

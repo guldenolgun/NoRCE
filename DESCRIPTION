@@ -1,7 +1,7 @@
 Package: NoRCE
 Type: Package
 Title: NoRCE: Noncoding RNA Sets Cis Annotation and Enrichment
-Version: 1.8.2
+Version: 1.8.3
 Authors@R: c(person("Gulden", "Olgun", 
            email = "gulden@cs.bilkent.edu.tr", 
 		   role = c("aut", "cre")))
@@ -9,7 +9,7 @@ Description: While some non-coding RNAs (ncRNAs) are assigned  critical regulato
 License: MIT + file LICENSE
 Depends: R (>= 4.2.0) 
 Imports:
-  KEGGREST,png,dplyr,graphics,RSQLite,DBI,tidyr,grDevices,stringr,
+  KEGGREST,png,dplyr,graphics,RSQLite,DBI,tidyr,grDevices,stringr,GenomeInfoDb,
   S4Vectors,SummarizedExperiment,reactome.db,rWikiPathways,RCurl,
   dbplyr,utils,ggplot2,igraph,stats,reshape2,readr, GO.db,zlibbioc,
   biomaRt,rtracklayer,IRanges,GenomicRanges,GenomicFeatures,AnnotationDbi

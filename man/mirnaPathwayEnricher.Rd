@@ -97,8 +97,10 @@ Pathway enrichments of the microRNA genes with mRNAs that fall in the
 given upstream/downstream regions of the microRNA genes
 }
 \examples{
+\dontrun{
 miPath <- mirnaPathwayEnricher(gene = brain_mirna,
                                org_assembly = 'hg19',
                                near = TRUE)
+}
 
 }
